@@ -1,0 +1,22 @@
+--------------------------------------------------
+div_1D
+	 Kernel size 10000
+	 Number of threads per block 256
+	 Number of blocks per grid 40
+--------------------------------------------------
+Benchmarking GPU 
+--------------------------------------------------
+	 Upload time
+	 @ sec(s)  0
+	 @ msec(s) 2
+	 @ usec(s) 2709
+--------------------------------------------------
+	 Kernel time
+	 @ sec(s)  0
+	 @ msec(s) 0
+	 @ usec(s) 70
+--------------------------------------------------
+	 Download time
+	 @ sec(s)  0
+	 @ msec(s) 2
+	 @ usec(s) 2528

@@ -1,0 +1,22 @@
+--------------------------------------------------
+add_2D_GM
+	 Kernel size 16 X 16
+	 Number of threads per block 4 X 4
+	 Number of blocks per grid 4 X 4
+--------------------------------------------------
+Benchmarking GPU 
+--------------------------------------------------
+	 Upload time
+	 @ sec(s)  0
+	 @ msec(s) 0
+	 @ usec(s) 978
+--------------------------------------------------
+	 Kernel time
+	 @ sec(s)  0
+	 @ msec(s) 0
+	 @ usec(s) 129
+--------------------------------------------------
+	 Download time
+	 @ sec(s)  0
+	 @ msec(s) 0
+	 @ usec(s) 230
