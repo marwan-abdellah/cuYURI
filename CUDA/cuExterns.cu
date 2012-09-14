@@ -19,6 +19,7 @@
 #include "cuGlobals.h"
 
 #include "cuCopyArray.cu"
+#include "Math/cuMath.cu"
 #include "FFT/Real/cuFFTShift_2D_Real.cu"
 #include "FFT/Real/cuFFTShift_3D_Real.cu"
 #include "FFT/Complex/cuFFTShift_2D_Complex.cu"
@@ -30,7 +31,27 @@ extern
 void cuCopyArray(dim3 cuBlock, dim3 cuGrid, float* devArrayOutput, float* devArrayInput, int nX)
 {
     copyArray_2D_float_kernel <<< cuGrid, cuBlock>>> ( devArrayOutput, devArrayInput,  nX); 
-} 
+}
+
+
+extern
+void cuAdd(dim3 cuBlock, dim3 cuGrid,
+           const int* devArrayInput_1, const int* devArrayInput_2,
+           int* devArrayOutput,
+           const int arraySize, cudaProfile* cuProfile)
+{
+    cutCreateTimer(&(cuProfile->kernelTime));
+    cutResetTimer(cuProfile->kernelTime);
+    cutStartTimer(cuProfile->kernelTime);
+
+    add_Kernel <<< cuGrid, cuBlock >>> (devArrayInput_1, devArrayInput_2,
+                                        devArrayOutput, arraySize);
+
+    cutStopTimer(cuProfile->kernelTime);
+
+    cuProfile->kernelDuration = cutGetTimerValue(cuProfile->kernelTime);
+    cuProfile->kernelExecErr = cudaPeekAtLastError();
+}
 
 extern 
 void cuFFTShift_2D( dim3 cuBlock, dim3 cuGrid,

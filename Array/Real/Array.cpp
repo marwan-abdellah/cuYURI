@@ -192,6 +192,18 @@ void Array::fillArray_2D_flat_double(double* arr, int size_X, int size_Y, bool S
 		}
 }
 
+void Array::fillArray_1D_int(int* arr, int size_X, bool Seq_Rnd)
+{
+    for (int i = 0; i < size_X; i++)
+    {
+        if (Seq_Rnd)
+            arr[i] = (int) i;
+        else
+            arr[i] = (int) Utils::rand_int_range(-128, 128);
+    }
+
+}
+
 void Array::fillArray_2D_flat_int(int* arr, int size_X, int size_Y, bool Seq_Rnd)
 {
 	for (int i = 0; i < size_X; i++)

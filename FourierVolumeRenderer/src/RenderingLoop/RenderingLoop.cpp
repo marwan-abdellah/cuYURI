@@ -31,6 +31,7 @@ void RenderingLoop::prepareRenderingArray(const int iSliceWidth,
     /* 2D arrays for the wrapping around operations */
     eImage_MAIN = (float**) malloc (iSliceWidth * sizeof(float*));
     eImage_TEMP = (float**) malloc (iSliceWidth * sizeof(float*));
+
     for (int i = 0; i < iSliceWidth; i++)
     {
         eImage_MAIN[i] = (float*) malloc(iSliceHeight * sizeof(float));
@@ -130,7 +131,7 @@ Image* RenderingLoop::run(const float iRot_X,
     Slice::backTransformSlice(eRecImage, eImage_TEMP, eImage_MAIN, iSliceWidth, iSliceHeight,
     eSlice_complex, eRecImageAbsolute);
 
-    Image* eImage = writeImageToDisk(eRecImageAbsolute, iSliceWidth, iSliceHeight, loopCounter);
+    Image* eImage = NULL; // writeImageToDisk(eRecImageAbsolute, iSliceWidth, iSliceHeight, loopCounter);
 
     /* @ Update the rendering context with the new image */
     OpenGL::updateSliceTexture(iImageTexture_ID);

@@ -15,6 +15,45 @@
 #include "cuUtils.h"
 #include "Globals.h"
 
+int cuUtils::upload_1D_int(int* hostArr, int* devArr, int size_X)
+{
+    LOG();
+
+    int devMem = size_X * sizeof(int);
+
+    if(devMem < 1024)
+    {
+        INFO("Memory Required: " + ITS(devMem) + " Bytes");
+    }
+    else
+    {
+        if (devMem < 1024 * 1024)
+        {
+            INFO("Memory Required: " + ITS(devMem/ 1024) + " KBytes");
+        }
+        else
+        {
+            if (devMem < 1024 * 1024 * 1204)
+            {
+                INFO("Memory Required: " + ITS(devMem/ (1024 * 1024)) + " MBytes");
+            }
+            else
+            {
+                INFO("Memory Required: " + ITS(devMem/ (1024 * 1024 * 1024)) + " GBytes");
+            }
+        }
+    }
+
+    if (2 * devMem >= MAX_GPU_MEMORY)
+    {
+        INFO("MEMORY WALL: " + ITS(MAX_GPU_MEMORY));
+    }
+
+    cutilSafeCall(cudaMemcpy(devArr, hostArr, devMem, cudaMemcpyHostToDevice));
+
+    return 0;
+}
+
 int cuUtils::upload_1D_float(float* hostArr, float* devArr, int size_X)
 {
 	LOG();
@@ -130,6 +169,16 @@ int cuUtils::upload_3D_float(float* hostArr, float* devArr, int size_X, int size
 	cutilSafeCall(cudaMemcpy(devArr, hostArr, devMem, cudaMemcpyHostToDevice));
 
 	return 0;
+}
+
+
+int cuUtils::download_1D_int(int* hostArr, int* devArr, int size_X)
+{
+    int devMem = size_X * sizeof(int);
+
+    cutilSafeCall(cudaMemcpy(hostArr, devArr, devMem, cudaMemcpyDeviceToHost));
+
+    return 0;
 }
 
 int cuUtils::download_1D_float(float* hostArr, float* devArr, int size_X)

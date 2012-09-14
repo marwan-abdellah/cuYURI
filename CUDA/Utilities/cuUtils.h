@@ -24,10 +24,12 @@
 
 namespace cuUtils
 {
-	int upload_1D_float(float* hostArr, float* devArr, int size_X);
+    int upload_1D_int(int* hostArr, int* devArr, int size_X);
+    int upload_1D_float(float* hostArr, float* devArr, int size_X);
 	int upload_2D_float(float* hostArr, float* devArr, int size_X, int size_Y);
 	int upload_3D_float(float* hostArr, float* devArr, int size_X, int size_Y, int size_Z);
 
+    int download_1D_int(int* hostArr, int* devArr, int size_X);
 	int download_1D_float(float* hostArr, float* devArr, int size_X);
 	int download_2D_float(float* hostArr, float* devArr, int size_X, int size_Y);
 	int download_3D_float(float* hostArr, float* devArr, int size_X, int size_Y, int size_Z);

@@ -25,8 +25,8 @@ int    eWinWidth;
 int    eWinHeight;
 float  eImageZoom       = 1;
 float  eNormValue       = 1.0;
-int    eGloWinWidth     = 512;
-int    eGloWinHeight    = 512;
+int    eGloWinWidth     = 1024;
+int    eGloWinHeight    = 1024;
 Image* eDumpImage;
 
 void OpenGL::updateSliceTexture(GLuint* iImageTexture_ID)

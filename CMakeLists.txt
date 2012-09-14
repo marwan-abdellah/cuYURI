@@ -90,7 +90,7 @@ INCLUDE(FindImageMagick_Local)
 # DICOM
 INCLUDE(FindDICOM)
 
-SET(BASIC_SOURCES Array/Real/Array.cpp
+SET(SOURCES Array/Real/Array.cpp
             Array/Complex/cuComplex.cpp
             Array/Complex/fftwComplex.cpp
             Timers/BoostTimers.cpp
@@ -123,7 +123,7 @@ SET(CUDA_SOURCES CUDA/cuExterns.cu)
 #CUDA_ADD_EXECUTABLE(cuYuri runEngine.cpp ${CUDA_SOURCES} ${SOURCES})
 
 # Link to a library to be used later 
-ADD_LIBRARY(CORE ${CUDA_SOURCES} ${BASIC_SOURCES})
+ADD_LIBRARY(CORE ${CUDA_SOURCES} ${SOURCES})
 
 # --------------------------------------------------------
 # Test Projects
@@ -136,15 +136,15 @@ ADD_LIBRARY(CORE ${CUDA_SOURCES} ${BASIC_SOURCES})
 #INCLUDE(${CMAKE_SOURCE_DIR}/Tests/Array/Real/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Tests/Timers/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Tests/Templates/CMakeLists.cmake)
-INCLUDE(${CMAKE_SOURCE_DIR}/Tests/CUDA/MaxSubArray/CMakeLists.cmake)
+#INCLUDE(${CMAKE_SOURCE_DIR}/Tests/CUDA/MaxSubArray/CMakeLists.cmake)
+
+INCLUDE(${CMAKE_SOURCE_DIR}/Tests/CUDA/cuMath/CMakeLists.cmake)
 
 # --------------------------------------------------------
 # Benchmarking Projects
 # --------------------------------------------------------
-#INCLUDE(${CMAKE_SOURCE_DIR}/Benchmarking/FFT_Shift/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Benchmarking/cuFFTShift_2D/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Benchmarking/cuFFTShift_3D/CMakeLists.cmake)
-#INCLUDE(${CMAKE_SOURCE_DIR}/Benchmarking/FFT_Shift/2D/Real/CMakeLists.cmake)
 
 # FVR
 INCLUDE(${CMAKE_SOURCE_DIR}/FourierVolumeRenderer/CMakeLists.cmake)

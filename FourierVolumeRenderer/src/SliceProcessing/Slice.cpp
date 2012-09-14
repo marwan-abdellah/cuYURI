@@ -38,6 +38,7 @@ void Slice::getSlice(const float iSliceCenter,
     glViewport(-(eSliceUniSize_Glob / 2),-(eSliceUniSize_Glob / 2),
                (eSliceUniSize_Glob * 2),(eSliceUniSize_Glob * 2));
 
+
     /* Texture corrdinate automatic generation */
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
@@ -257,7 +258,8 @@ void Slice::createSliceTexture(int iSliceWidth, int iSliceHeight, GLuint* iSlice
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     /* @ Uploading the slice texture to the GPU */
-    glTexImage2D(GL_TEXTURE_2D, 0, RG32F, iSliceWidth, iSliceHeight, 0, RG, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, RG32F, iSliceWidth, iSliceHeight,
+                 0, RG, GL_FLOAT, NULL);
 
     /* @ Unbind textures */
     glBindTexture(GL_TEXTURE_2D, 0);

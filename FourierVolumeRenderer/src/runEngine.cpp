@@ -11,7 +11,7 @@
 #include "RenderingLoop/RenderingLoop.h"
 #include "eFourierVolRen.h"
 
-char* eVolPath = "/home/abdellah/Software/DataSets/VHM_SHOULDER_8/VHM_SHOULDER_8";
+char* eVolPath = "/home/abdellah/Software/DataSets/CTData/CTData";
 
 int main(int argc, char** argv)
 { 	

@@ -9,12 +9,12 @@
 
 int Volume::prepareVolumeArrays(volume* iOriginaVol, int iFinalDim)
 {
-   //  originalCubeVol = Volume::allocCubeVolume_char
-      //   (iOriginaVol->sizeX, iOriginaVol->sizeY, iOriginaVol->sizeZ);
+    //  originalCubeVol = Volume::allocCubeVolume_char
+    //   (iOriginaVol->sizeX, iOriginaVol->sizeY, iOriginaVol->sizeZ);
 
     /* @ Allocating the final cube volume "SUB-VOLUME" */
     // finalCubeVol = Volume::allocCubeVolume_char
-       // (256, 256, 256);
+    // (256, 256, 256);
 }
 
 
@@ -249,11 +249,8 @@ volume* Volume::extractFinalVolume(volume* iOriginaVol,
           + STRG( "[" ) + ITS( iOriginaVol->sizeZ ) + STRG( "]" ));
 
     /* @ Allocating cube array for the original volume */
-   char*** originalCubeVol = Volume::allocCubeVolume_char
+    char*** originalCubeVol = Volume::allocCubeVolume_char
            (iOriginaVol->sizeX, iOriginaVol->sizeY, iOriginaVol->sizeZ);
-
-
-
 
     INFO("Packing the FLAT array in the CUBE ");
 
@@ -295,8 +292,6 @@ volume* Volume::extractFinalVolume(volume* iOriginaVol,
               + STRG( "[" ) + ITS( iFinalSubVolume->sizeY ) + STRG( "]" ) + " x "
               + STRG( "[" ) + ITS( iFinalSubVolume->sizeZ ) + STRG( "]" ));
 
-
-
     INFO("Extractng the SUB-VOLUME");
 
     /* @ Extractig the SUB-VOLUME */
@@ -304,11 +299,8 @@ volume* Volume::extractFinalVolume(volume* iOriginaVol,
 
     //extractSubVolume_Flat(iOriginaVol->ptrVol_char, iFinalSubVolume->ptrVol_char, iSubVolDim);
 
-
-
-
     /* @ Dellocating the original cube volume */
-   // FREE_MEM_3D_CHAR(originalCubeVol, iOriginaVol->sizeX, iOriginaVol->sizeY, iOriginaVol->sizeZ);
+    // FREE_MEM_3D_CHAR(originalCubeVol, iOriginaVol->sizeX, iOriginaVol->sizeY, iOriginaVol->sizeZ);
 
     /* @ Packing the final cube volume in the flat array */
     Volume::packFlatVolume(iFinalSubVolume, finalCubeVol);
@@ -334,8 +326,6 @@ volume* Volume::extractFinalVolume(volume* iOriginaVol,
 
     free(finalCubeVol);
     finalCubeVol = NULL;
-
-
 
     //FREE_MEM_3D_CHAR(finalCubeVol, iFinalSubVolume->sizeX, iFinalSubVolume->sizeY, iFinalSubVolume->sizeZ);
 

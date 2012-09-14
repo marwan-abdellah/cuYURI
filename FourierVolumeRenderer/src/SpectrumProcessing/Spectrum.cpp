@@ -35,6 +35,7 @@ fftwf_complex* Spectrum::createSpectrum(volume* iSpectralVolume)
                             eSpectralVolume_complex,
                             FFTW_FORWARD,
                             FFTW_ESTIMATE);
+
     /* @ executing the FFT plan */
     fftwf_execute(eFFTPlan);
 

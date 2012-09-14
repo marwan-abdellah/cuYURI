@@ -23,6 +23,15 @@ void cuCopyArray( dim3 cuBlock, dim3 cuGrid, float* devArrayOutput, float* devAr
 	 			  int nX, cudaProfile* cuProfile);
 
 extern
+void cuAdd (dim3 cuBlock, dim3 cuGrid,
+           const int* devArrayInput_1, const int* devArrayInput_2,
+           int* devArrayOutput,
+           const int arraySize, cudaProfile* cuProfile);
+
+
+
+
+extern
 void cuFFTShift_2D( dim3 cuBlock, dim3 cuGrid, float* devArrayOutput, float* devArrayInput,
 					int nX, cudaProfile* cuProfile);
 
