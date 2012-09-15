@@ -21,7 +21,7 @@ sliceDim eSliceDim_Glob;
 /* @ NOTE: You can ONLY rotate the cube around +/- X, Y, Z by 90 degrees */
 float eXRot_Glob            = 0;
 float eYRot_Glob            = 0;
-float eZRot_Glob            = 45;
+float eZRot_Glob            = 0;
 
 float eZoomLevel_Glob       = 2;
 float eSliceTrans_Glob      = 0;
@@ -29,7 +29,7 @@ float eSliceUniSize_Glob    = 0;
 float eNormValue_Glob       = 256;
 
 /* @ Enabling volume decomposition */
-bool ENABLE_BREAK = 1;
+bool ENABLE_BREAK = 0;
 
 using namespace Magick;
 
@@ -615,13 +615,13 @@ void eFourierVolRen::run(int argc, char** argv, char* iVolPath)
     /* @ Preparing rendering arrays */
     RenderingLoop::prepareRenderingArray(eVol->sizeX, eVol->sizeY);
 
-    /* @ Prepare volume arrays */
-    Volume::prepareVolumeArrays(eVol, eVol->sizeX / 2);
-
-    FFTShift::prepareArrays(eVol->sizeX / 2);
+    FFTShift::prepareArrays(eVol->sizeX);
 
     if (ENABLE_BREAK)
     {
+        /* @ Prepare volume arrays */
+        Volume::prepareVolumeArrays(eVol, eVol->sizeX / 2);
+
         /* Decomposing the volume into 8 bricks */
         for (int eBrickIndex = 0; eBrickIndex < 8; eBrickIndex++)
         {
@@ -646,6 +646,9 @@ void eFourierVolRen::run(int argc, char** argv, char* iVolPath)
     }
     else
     {
+        /* @ Prepare volume arrays */
+        Volume::prepareVolumeArrays(eVol, eVol->sizeX);
+
         /* @ Decompose volume */
         volume* eVolBrick = decomposeVolume(eVol, -1);
 

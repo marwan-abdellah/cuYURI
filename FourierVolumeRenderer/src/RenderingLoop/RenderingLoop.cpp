@@ -21,20 +21,20 @@ void RenderingLoop::prepareRenderingArray(const int iSliceWidth,
                                           const int iSliceHeight)
 {
     /* @ Reading back the FBO after initialization */
-    eFB = (float*) malloc (iSliceWidth * iSliceHeight * sizeof(float));
+    eFB = (float*) malloc (iSliceWidth * iSliceHeight * 2 * sizeof(float));
     eSlice_complex = (fftwf_complex*) fftwf_malloc
             (iSliceWidth * iSliceHeight * sizeof(fftwf_complex));
 
-    eRecImage = (unsigned char*) malloc (iSliceWidth * iSliceHeight * sizeof(char));
-    eRecImageAbsolute = (float*) malloc (iSliceWidth * iSliceHeight * sizeof(float));
+    eRecImage = (unsigned char*) malloc (iSliceWidth * iSliceHeight * 2 * sizeof(char));
+    eRecImageAbsolute = (float*) malloc (iSliceWidth * iSliceHeight * 2 * sizeof(float));
 
     /* 2D arrays for the wrapping around operations */
-    eImage_MAIN = (float**) malloc (iSliceWidth * sizeof(float*));
-    eImage_TEMP = (float**) malloc (iSliceWidth * sizeof(float*));
+    eImage_MAIN = (float**) malloc (iSliceWidth * 2 * sizeof(float*));
+    eImage_TEMP = (float**) malloc (iSliceWidth * 2 * sizeof(float*));
     for (int i = 0; i < iSliceWidth; i++)
     {
-        eImage_MAIN[i] = (float*) malloc(iSliceHeight * sizeof(float));
-        eImage_TEMP[i] = (float*) malloc(iSliceHeight * sizeof(float));
+        eImage_MAIN[i] = (float*) malloc(iSliceHeight * 2 * sizeof(float));
+        eImage_TEMP[i] = (float*) malloc(iSliceHeight * 2 * sizeof(float));
     }
 }
 
