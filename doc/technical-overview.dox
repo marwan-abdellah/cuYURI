@@ -1,0 +1,244 @@
+
+/**
+@page Technical_Overview Technical Overview
+@section TABLE_OF_CONTENTS TABLE OF CONTENTS
+-# @ref Architecture
+-# @ref Building_the_library
+-# @ref Running_a_python_example
+-# @ref Volume_Tools_with_python
+-# @ref Filters_in_Volume_Tools
+-# @ref Extra_Tools
+
+
+@htmlonly
+<hr>
+@endhtmlonly		
+
+@section Architecture Architecture
+
+Volume Tools is a C++ library depending BBP-SDK for reading circuits with meshes and report data ( optional ). 
+
+It is composed of BBP-SDK filters and these filters can be used with python scripting.
+
+@section Building_the_library Building the library
+
+\\> svn co https://bbpteam.epfl.ch/svn/common/VolumeTools
+\n \\> cd VolumeTools
+\n \\> mkdir build
+\n \\> cd build
+\n \\> ccmake ..
+
+The options CMake are:
+
+BBP_SDK_ROOT = This option should be set to BBP-SDK installation directory \n
+VOLUME_TOOLS_PYTHON: This option is for building the python bindings library \n
+VOLUME_TOOLS_EXTRA_TOOLS: Extra tools are for visualizing the individual meshes (mesh2voxels) or circuits (circuit2voxels) through the VTK library \n
+VTK_DEBUGGING: Debugging visualization through the VTK libraries
+
+( Note: For VTK debugging and Extra Tools, the VTK libraries should be installed, for Ubuntu this can be done using the synaptic )
+
+
+@section Running_a_python_example Running a python example
+
+
+When library is build with Python bindings, there is a script "UTest_VolumeToolsPipeline.py" for testing purposes. This script can be found under the NeuronPainter/tests/python directory.
+ 
+This script can be run as ( Then the PYTHONPATH should be set to where VolumeTools.py stands ):
+
+./UTest_VolumeToolsPipeline.py ../configs/rainbow_column_quick_test.cfg
+
+The script uses the BlueConfig file in the VolumeTools/tests/circuit directory
+
+The configuration file "../configs/rainbow_column_quick_test.cfg" is below.
+
+\code
+blueconfig_path = #BLUECONFIG FILE PATH
+target = neurons #User Target
+load_soma = on #Turning on and off the Neuronal processes
+load_axon = off
+load_basal = on
+load_apical = on
+[activity]
+dynamic_range = 0 255 #The voltage values 0..255 are considered
+[pipeline]
+[[segment_voxel_mapper]]
+# center = 275 900 275
+center = 210.070097638 1422.00044257 237.923222313 # center of voxelization
+size = 200 200 200 # size of voxelization
+resolution = 1 # resolution of voxelization
+branch_order = 5 #branch order
+[rendering]
+width  = 1200 #rendering width
+height = 1200 #rendering height
+background = 1 1 1 # background color
+horizontal_tile_count = 1
+vertical_tile_count = 1
+color_map= COLORMAP_FILE # for ex: /tests/circuit/colors_map/rainbow.cfg #colors attached to voltage values
+\endcode
+
+@section Volume_Tools_with_python Volume Tools with python
+
+There are a couple of BBP-SDK filters in the volume library. To use this filters with python, the following import code lines should be added to the script.
+
+Importing the Volume Tool library
+\code
+import bbp
+import VolumeTools
+\endcode
+
+Some of the filters that are in the Volume Tools library can be initialized as:
+
+\code
+# --------------------------------------------------------------------
+# create experiment and load structural data
+# --------------------------------------------------------------------
+
+e = bbpsdk.Experiment(config['microcircuit']['blueconfig_path'])
+ct = e.cell_target(config['microcircuit']['target'])
+flags = bbpsdk.Loading_Flags.NEURONS | bbpsdk.Loading_Flags.MORPHOLOGIES | bbpsdk.Loading_Flags.MESHES
+e.microcircuit().load(ct, flags)
+
+# --------------------------------------------------------------------
+# init the filters
+# --------------------------------------------------------------------
+c_str = config['pipeline']['segment_voxel_mapper']['center']
+c = map(float, c_str.split())
+s_str = config['pipeline']['segment_voxel_mapper']['size']
+s = map(float, s_str.split())
+branch_order = int(config['pipeline']['segment_voxel_mapper']['branch_order'])
+bounding_box = bbpsdk.Box_Micron(c[0], c[1], c[2], s[0], s[1], s[2])
+resolution = float(config['pipeline']['segment_voxel_mapper']['resolution'])
+
+r = e.reports().find('fake_report').value()
+
+bin_report_reader = bbpsdk.Compartment_Report_Stream_Reader(r, 20)
+bin_report_reader.cell_target(ct)
+bin_report_reader.speed(1.0)
+bin_report_reader.time_window(0.0,0.2)
+printer= bbpsdk.Compartment_Report_Printer()
+
+report_link = bbpsdk.Compartment_Voltages_to_Microcircuit()
+microcircuit = bbpsdk.Filter_Data_Microcircuit(e.microcircuit_ptr())
+# Section type
+sec_type = 0
+if config['microcircuit']['load_soma'] == 'on':
+    sec_type = sec_type | bbpsdk.Section_Type.SOMA
+if config['microcircuit']['load_axon'] == 'on':
+    sec_type = sec_type | bbpsdk.Section_Type.AXON
+if config['microcircuit']['load_basal'] == 'on':
+    sec_type = sec_type | bbpsdk.Section_Type.DENDRITE
+if config['microcircuit']['load_apical'] == 'on':
+    sec_type = sec_type | bbpsdk.Section_Type.APICAL_DENDRITE
+sec_type = bbpsdk.Section_Type(sec_type)
+
+if not map_file:
+    voltage_volume_average = voltools.Compartment_Voltage_Voxel_Average(bounding_box,\
+                                                 resolution,\
+                                                      sec_type,
+                                                      branch_order)
+else :
+    voltage_volume_average = voltools.Compartment_Voltage_Voxel_Average(map_file)
+
+    voltage_to_byte=voltools.Volume_Voltage_to_Byte()
+    dr = config['activity']['dynamic_range'].split()
+    voltage_to_byte.dynamic_range(float(dr[0]),float(dr[1]),True,0)
+    volume_to_numpy_array = voltools.Volume_Byte_To_Numpy_Array()
+\endcode
+
+After the initialization, the pipeline can be run as:
+
+\code
+pipeline = bbpsdk.Pipeline()
+pipeline = bin_report_reader\ # Report reader from the BBP-SDK library
+             + printer\ # Report printer
+             + report_link\ # Links Compartment voltages to the microcircuit object
+             + microcircuit\
+             + voltage_volume_average\ # Gets the microcircuit object and converts the mesh voltage information to densities [0..1]
+             + voltage_to_byte\  # Gets the intensity data and converts it to [0..255]
+             + volume_to_numpy_array  # Converts data python numpy array
+pipeline.mode(bbpsdk.Playback_Mode.PROCESS_SINGLE_STEP_TRIGGER)
+pipeline.start()
+pipeline.step()
+pipeline.stop()\
+\endcode
+
+The pipeline runs and outputs the numpy array into the "volume_to_numpy_array" object, where this data can be read as:
+
+\code
+tmp = volume_to_numpy_array.output().get_elements()
+res  = volume_to_numpy_array.output().resolution()
+dims = [res.x(),res.y(),res.z()]
+data = np.reshape(data_tmp, (dims[0],dims[1],dims[2])
+\endcode
+
+Working with higher resolutions data should be segmented for to decrease the memory inflation. The code, "tests/python/voxelize_multiple_targets.py", segments
+the voxelization according to segmentation count in x and y axis.
+
+@section Filters_in_Volume_Tools Filters in Volume Tools
+
+- Compartment Voltage Voxel Average
+
+Maps the report voltages from microcircuit to voxels
+
+C+\+ Header file: [https://bbpteam.epfl.ch/svn/common/trunk/VolumeTools/include/BBP/Filters/Microcircuit/Compartment_Voltage_Voxel_Average.h]
+
+- Segment Voxel Density
+
+Finds the density of segments per voxel.
+
+C+\+ Header file: [https://bbpteam.epfl.ch/svn/common/trunk/VolumeTools/include/BBP/Filters/Microcircuit/Segment_Voxel_Density.h]
+
+- Segment Voxel Mapper
+
+Maps the segments to voxels.
+
+C+\+ Header file: [https://bbpteam.epfl.ch/svn/common/trunk/VolumeTools/include/BBP/Filters/Microcircuit/Segment_Voxel_Mapper.h]
+
+- Volume Voltage to Byte
+
+Converts the fp density values (0..1) to byte (0..255) values.
+
+C+\+ Header file: [https://bbpteam.epfl.ch/svn/common/trunk/VolumeTools/include/BBP/Filters/Volume/Volume_Voltage_to_Byte.h]
+
+- Volume to Numpy Array
+
+Converts the voxel data to numpy data.
+
+C+\+ Header file: [https://bbpteam.epfl.ch/svn/common/trunk/VolumeTools/include/BBP/Filters/Volume/Volume_to_Numpy_Array.h]
+
+@section Extra_Tools Extra Tools
+
+- Mesh2voxels
+
+Reads a single morphology, its mesh and produces a vtk visualization of 3d voxel data. You can run this tool as following in the VolumeTools/tests/circuit/meshes directory:
+
+mesh2voxels ../morphologies/h5/morphology1.h5 morphology1.bin
+
+C+\+ Source file: [https://bbpteam.epfl.ch/svn/common/trunk/VolumeTools/tools/mesh2voxels.cpp]
+
+- Circuit2voxels
+
+Reads a circuit and target and generates voxel data. The configuration is hard coded in the source file.
+
+The configuration in the source file:
+\code
+// ----------------------------------------------------------------------
+// Set parameters
+// ----------------------------------------------------------------------
+
+ std::string                 blueconfig           = "/home/ahmetbilgili/Projects/BBP/VolumeTools/tests/circuit/BlueConfig";
+ std::string                 target_name          = "neurons";
+ Vector3                     center               = Vector3(210.070097638f, 1422.00044257f, 237.923222313f);
+ Sizes                       dims                 = Sizes(200.0f, 200.0f, 200.0f);
+ bbp::Micron                 resolution           = 0.5;
+ bbp::Section_Branch_Order   section_order        = 5;
+ int                         section_type         = bbp::SOMA            |
+                                                    bbp::AXON            |
+                                                    bbp::DENDRITE        |
+                                                    bbp::APICAL_DENDRITE ;
+\endcode
+
+C+\+ Source file: [https://bbpteam.epfl.ch/svn/common/trunk/VolumeTools/tools/circuit2voxels.cpp] 
+
+
+*/

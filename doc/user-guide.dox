@@ -1,0 +1,111 @@
+
+/**
+@page User_Guide User Guide
+
+@section TABLE_OF_CONTENTS TABLE OF CONTENTS
+-# @ref GENERAL_INFORMATION
+    -# @ref Overview
+-# @ref SETUP_AND_DATA_FLOWS
+    -# @ref Setup
+    -# @ref Data_Flows
+-# @ref INSTALLATION_AND_UPGRADE
+    -# @ref Requirements
+    -# @ref Supported_Platforms
+    -# @ref Installation
+    -# @ref Upgrading
+    -# @ref Important_Files
+    -# @ref Tips_And_Tricks
+-# @ref GETTING_STARTED
+    
+@htmlonly
+<hr>
+@endhtmlonly        
+@section GENERAL_INFORMATION GENERAL INFORMATION
+    
+@subsection Overview Overview
+
+VolumeTools (VT) library is a collection of BBP-SDK filters to create 3D volume tensor data ( regular grid ) from the triangular meshes.
+
+It can be accessed through C++ and python scripting languages. The data generated using python scripting can be accessed as a multi-dimensional Numpy array.
+
+@subsection Acronyms_and_Abbreviations Acronyms and Abbreviations
+        
+- VT - Volume Tools
+- BBPSDK - Bluebrain Software Development Kit
+
+@htmlonly
+<hr>
+@endhtmlonly
+
+@section SETUP_AND_DATA_FLOWS SETUP AND DATA FLOWS
+    
+@subsection Setup Setup
+        
+Setup can be done either using the Ubunutu or RPM database
+            
+@subsection Data_Flows Data Flows
+
+VT, uses the "microcircuit" to read the triangular meshes and report data ( optional ) to generate 3d regular grid data. 
+
+@dot
+digraph Data {
+    node [style=filled, fillcolor="#ffffe0", fontsize=10.0]
+    "BlueConfig file"  [shape=note];
+    "Triangular Meshes"  [shape=note];
+    "Report Data"  [shape=note];
+	"Volume Tools" [shape=box, fillcolor="#fd8a88"];
+	"Numpy Volume Data \n ( Python )" [ shape=parallelogram ];
+	"Volume Data \n ( C++ )" [ shape=parallelogram ];
+	"Report Data"-> "Volume Tools"
+	"BlueConfig file" -> "Volume Tools"
+	"Triangular Meshes" -> "Volume Tools"
+	"Volume Tools" -> "Volume Data \n ( C++ )"
+	"Volume Tools" -> "Numpy Volume Data \n ( Python )" 
+}
+@enddot
+                
+
+@htmlonly
+<hr>
+@endhtmlonly
+@section INSTALLATION_AND_UPGRADE INSTALLATION AND UPGRADE
+    
+@subsection Requirements Requirements
+        
+- BBP-SDK
+- Numpy development headers ( for python scripting )
+- VTK ( > 5.2 - optional for quick visualization ) 
+            
+@subsection Supported_Platforms Supported Platforms
+        
+- Ubuntu 11.04
+        
+@subsection Installation Installation
+
+Installation can be done using the BlueBrain DEB and RPM database. 
+                    
+@subsection Upgrading Upgrading
+        
+- N/A
+            
+@subsection Important_Files Important Directories and Files
+
+- libVolumeTools.so // Main C++ library
+- libVolumeToolsPython.so // Main Python library
+- VolumeTools.py // Import header for python
+        
+@subsection  Tips_And_Tricks Tips, Tricks, and Best Practices
+
+The volume data is 3d dimensional, and therefore when dimensions get larger, the memory occupancy of the tool increases rapidly. To overcome this problem,
+current solution is to generate smaller segments of the 3d volume, render these volumes separately into 2D images and merge them. There is currently
+no 3d composition algorithm according to merge the z-depths so the images should always have full z-depth rendered. The sample python script voxelize_multiple_targets.py 
+is included in "tests/python" for segmenting the volumes into pieces.   
+    
+@htmlonly
+<hr>
+@endhtmlonly
+@section GETTING_STARTED GETTING STARTED
+        
+There are c++ and python examples in the test directory. The details using some of these scripts can be seen in the @subpage Technical_Overview.  
+
+*/

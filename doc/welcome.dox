@@ -1,0 +1,27 @@
+/*
+
+        Ecole Polytechnique Federale de Lausanne
+        Brain Mind Institute,
+        Blue Brain Project
+        (c) 2006-2007. All rights reserved.
+
+        Responsible authors:    Ahmet Bilgili
+
+*/
+
+// doxygen documentation ______________________________________________________
+
+/*!
+
+@mainpage Documentation
+
+This document contains a technical introduction to the Volume Tools filter library for generating 3D tensor data for visualization purposes. 
+Later this data can be rendered using the volume renderers such as MayaVi, VTK , etc. 
+
+The document has three sections:
+
+- @subpage User_Guide
+- @subpage Technical_Overview
+- @subpage Release_Notes
+
+*/
