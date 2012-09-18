@@ -38,6 +38,8 @@ namespace Volume
 	void testVolume();
     //char* loadVolume( const char* volFileName, const size_t volFileSize );
 
+    int GetUnifiedDimension(const int iMaxDim);
+
     volume_char_t loadVolume(const char* volName, const char* volPath);
 
     void createVolume_float( const int volSize, char* charVol );

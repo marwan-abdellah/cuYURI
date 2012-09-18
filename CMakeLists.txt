@@ -95,6 +95,7 @@ SET(BASIC_SOURCES Array/Real/Array.cpp
             Array/Complex/fftwComplex.cpp
             Timers/BoostTimers.cpp
             Timers/CUDATimers.cpp
+            Volume/Volume.cpp
             Utilities/Utils.cpp
             Utilities/Logging.cpp
             Utilities/Tracing.cpp
@@ -110,14 +111,23 @@ SET(BASIC_SOURCES Array/Real/Array.cpp
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
 # CUDA kernels directory 
-SET(CUDA_KERNELS_DIR ${CMAKE_SOURCE_DIR}/CUDA/FFT)
+SET(CUDA_KERNELS_DIR ${CMAKE_SOURCE_DIR}/CUDA
+                     ${CMAKE_SOURCE_DIR}/CUDA/FFT
+                     ${CMAKE_SOURCE_DIR}/CUDA/Interfaces
+
+                        )
 INCLUDE_DIRECTORIES(${CUDA_KERNELS_DIR})
 
-# --------------------------------------------------------
-# NOTE: You have to append all the ".cu" files in this file 
-#       to have them compiled
-# -------------------------------------------------------- 
-SET(CUDA_SOURCES CUDA/cuExterns.cu)
+ADD_SUBDIRECTORY(doc)
+INCLUDE(${CMAKE_SOURCE_DIR}/doc)
+
+
+
+# Compiler Flags
+set(CMAKE_C_FLAGS "-fpermissive -fPIC -O3 -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
+
+INCLUDE(${CMAKE_SOURCE_DIR}/CUDA/cu_Kernels.cmake)
     
 # Generate the executable considering CUDA stuff :)
 #CUDA_ADD_EXECUTABLE(cuYuri runEngine.cpp ${CUDA_SOURCES} ${SOURCES})

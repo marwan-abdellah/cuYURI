@@ -18,7 +18,15 @@
 #include "Array/Real/Array.h"
 #include "ex_MaxSubArray.h"
 
-int main(int argc, char** argv)
+
+
+
+int main()
+{
+    ex_MaxSubArray::runSample();
+}
+
+int main_(int argc, char** argv)
 {
 	// Number of numCores for OpenMP implementation
 	int numCores = atoi (argv[1]);

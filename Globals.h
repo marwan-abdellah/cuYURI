@@ -9,7 +9,6 @@
 #define _GLOBALS_H_
 
 #include <fftw3.h>
-#include "stlsoft/stlsoft.h"
 
 /*
  * Gets rid of the annoying warrning

@@ -18,9 +18,33 @@
 
 #include "cuGlobals.h"
 
+
+template <typename T>
 extern
-void cuCopyArray( dim3 cuBlock, dim3 cuGrid, float* devArrayOutput, float* devArrayInput,
-	 			  int nX, cudaProfile* cuProfile);
+void cuFillArray (dim3 cuBlock, dim3 cuGrid, T* devArray, int nX);
+
+extern
+void cuFillArray(dim3 cuBlock, dim3 cuGrid, int *devArray, int nX);
+
+
+
+
+
+
+
+
+
+
+
+
+
+template <typename T>
+extern
+void cuCopyArray(dim3 cuBlock, dim3 cuGrid, T* devArrayOutput, T* devArrayInput, int nX);
+
+
+
+
 
 extern
 void cuFFTShift_2D( dim3 cuBlock, dim3 cuGrid, float* devArrayOutput, float* devArrayInput,

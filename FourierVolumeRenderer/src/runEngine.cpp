@@ -11,12 +11,21 @@
 #include "RenderingLoop/RenderingLoop.h"
 #include "eFourierVolRen.h"
 
+#include "Array/Real/Array.h"
+#include "Utilities/MACROS.h"
+
+
 char* eVolPath = "/home/abdellah/Software/DataSets/CTData/CTData";
+
 
 int main(int argc, char** argv)
 { 	
+
+
+
+
     /*@ Run the rendering engine */
-    eFourierVolRen::run(argc, argv, eVolPath);
+    // eFourierVolRen::run(argc, argv, eVolPath);
 
 	return 0;
 }

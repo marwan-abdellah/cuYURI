@@ -19,6 +19,8 @@
 #include "cuGlobals.h"
 
 #include "cuCopyArray.cu"
+#include "cuFillArray.cu"
+
 #include "FFT/Real/cuFFTShift_2D_Real.cu"
 #include "FFT/Real/cuFFTShift_3D_Real.cu"
 #include "FFT/Complex/cuFFTShift_2D_Complex.cu"
@@ -26,11 +28,38 @@
 #include "Timers/BoostTimers.h"
 
 
-extern 
-void cuCopyArray(dim3 cuBlock, dim3 cuGrid, float* devArrayOutput, float* devArrayInput, int nX)
+
+
+
+template <typename T>
+extern
+void cuFillArray(dim3 cuBlock, dim3 cuGrid, int *devArray, int nX);
+
+template <typename T>
+void cuFillArray(dim3 cuBlock, dim3 cuGrid, T *devArray, int nX)
 {
-    copyArray_2D_float_kernel <<< cuGrid, cuBlock>>> ( devArrayOutput, devArrayInput,  nX); 
-} 
+    FillArray_Kernel <T> <<< cuGrid, cuBlock >>> (devArray, nX);
+
+}
+
+extern
+void cuFillArray(dim3 cuBlock, dim3 cuGrid, int *devArray, int nX)
+{
+    FillArray_Kernel <<< cuGrid, cuBlock >>> (devArray, nX);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 extern 
 void cuFFTShift_2D( dim3 cuBlock, dim3 cuGrid,

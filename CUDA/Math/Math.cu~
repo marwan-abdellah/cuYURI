@@ -6,39 +6,26 @@
  * Department, Faculty of Engineering, Cairo University.
  * Please, don't use or distribute without authors' permission.
 
- * File         : Volume
+ * File         : cuMath.cu
  * Author(s)    : Marwan Abdellah <abdellah.marwan@gmail.com>
  * Created      : April 2011
  * Description  :
  * Note(s)      :
  *********************************************************************/
 
-
+#ifndef CU_MATH_CU_
+#define CU_MATH_CU_
 
 #include <cutil_inline.h>
-#include <cuda_runtime_api.h>
-#include <cuda.h>
-#include <cuda_runtime.h>
+#include <cufft.h>
 
-template <typename T>
 __global__ 
-void copyArray_2D_float_kernel(T* devArrayOutput, T* devArrayInput, int nX)
+void add_Kernel(const int* devArrayInput_1, const int* devArrayInput_2, int* devArrayOutput, const int arraySize)
 {
- 
-    // Thread
-    int xThreadIdx = threadIdx.x;
-    int yThreadIdx = threadIdx.y;
-
-    // Block Width & Height
-    int blockWidth = blockDim.x;
-    int blockHeight = blockDim.y;
-
-    // Thread Index 2D  
-    int xIndex = blockIdx.x * blockWidth + xThreadIdx;
-    int yIndex = blockIdx.y * blockHeight + yThreadIdx;
+    int index = blockDim.x * blockIdx.x + threadIdx.x;
     
-    int index = (yIndex * nX) + xIndex;
-    devArrayOutput[index] =( nX * nX )- index;
+    if (index < arraySize)
+        devArrayOutput[index] = devArrayInput_1[index] + devArrayInput_2[index];
 }
-    
 
+#endif // CU_MATH_CU_

@@ -17,6 +17,7 @@
 #include "Utilities/MACROS.h"
 #include "Utilities/LoggingMACROS.h"
 
+
 void Array::zeroArray_2D_flat_float(float* arr, int size_X, int size_Y)
 {
 	for (int i = 0; i < size_X; i++)
@@ -369,7 +370,7 @@ void Array::cubeArray_3D_double(double* flatArr, double*** sqArr, int size_X, in
 
 
 
-
+/*
 template <typename T>
 void Array::zeroArray_2D_flat (T* arr, int size_X, int size_Y)
 {
@@ -404,11 +405,15 @@ void Array::zeroArray_2D_flat (T* arr, int size_X, int size_Y)
 			}
 		}
 }
+*/
+
+template <typename T>
+T Array::doNothing()
+{
+    T item;
+    item = 10;
+    return item;
+}
 
 
-
-
-
-
-
-
+template int Array::doNothing();

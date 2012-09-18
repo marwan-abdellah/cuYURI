@@ -17,27 +17,26 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#ifndef _CU_GLOBALS_H_
-#define _CU_GLOBALS_H_
+/**
+ * \file cu_Includes.h
+ * Includes all the mandatory interfaces and header files for
+ * CUDA kernels and utility functions from the NVIDIA CUDA Toolkit
+ * and the GPU Computing SDK.
+ *
+ * @author
+ *      Marwan Abdellah <abdellah.marwan@gmail.com>
+ *
+ * @date
+ *      Created: April, 2011.
+ *      Last Update: September, 2012.
+ */
 
-#include <cutil_inline.h>
-#include <cuda_runtime_api.h>
+#ifndef _CU_INCLUDES_H_
+#define _CU_INCLUDES_H_
+
 #include <cuda.h>
 #include <cuda_runtime.h>
+#include <cuda_runtime_api.h>
+#include <cutil_inline.h>
 
-struct profileStruct
-{
-	uint kernelTime;
-	float kernelDuration;
-	int kernelExecErr;
-};
-
-typedef profileStruct cudaProfile;
-
-
-typedef profileStruct cu_Profile;
-
-
-
-
-#endif /* _CU_GLOBALS_H_ */
+#endif // _CU_INCLUDES_H_

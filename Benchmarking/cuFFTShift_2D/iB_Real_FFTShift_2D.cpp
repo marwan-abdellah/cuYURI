@@ -163,7 +163,7 @@ void iB_Real_FFTShift_2D::FFTShift_2D_Float_Seq
 			cuUtils::upload_2D_float(arr_2D_flat_float, in_dev_arr_2D_flat_float, size_X, size_Y);
 
 			// Profile strcutures
-			cuProfile = MEM_ALLOC_1D_GENERIC(cudaProfile, 1);
+            cuProfile = MEM_ALLOC_1D_GENERIC(cudaProfile, 1);
 
 			// FFT shift
 			cuFFTShift_2D(cuBlock, cuGrid, out_dev_arr_2D_flat_float, in_dev_arr_2D_flat_float, size_X, cuProfile);

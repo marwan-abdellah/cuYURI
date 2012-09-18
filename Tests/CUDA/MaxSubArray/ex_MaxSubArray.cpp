@@ -23,6 +23,7 @@
 #include "CUDA/cuGlobals.h"
 #include "CUDA/cuExterns.h"
 #include "cuExternsTest.h"
+#include "CUDA/Interfaces/Fill_1D_Array_RND.h"
 
 using std::cout;
 using std::endl;
@@ -31,11 +32,37 @@ using std::string;
 namespace ex_MaxSubArray
 {
 	/* @ Profilers */
-	cudaProfile* cuProfile;
+    cudaProfile* cuProfile;
+    cu_Profile cuProfile2;
 	durationStruct* cpuProfile;
 
-	cudaProfile* cuTotalProfile;
+    cudaProfile* cuTotalProfile;
 	durationStruct* cpuTotalProfile;
+}
+
+
+void ex_MaxSubArray::runSample()
+
+{
+    int N = 16;
+    int *devArray;
+    int *hostArray;
+    hostArray = (int*) malloc (sizeof(int) * N);
+
+    cudaMalloc((void**)(&devArray), N * sizeof(int));
+
+    dim3 cuBlock(4, 1, 1);
+    dim3 cuGrid(N / cuBlock.x, 1, 1);
+
+
+    cu_Profile profiles;
+
+    cuYURI::cu_Fill_1D_Array_RND <int> (cuBlock, cuGrid, devArray, N, &profiles);
+    // Downloading array
+    cuUtils::download_1D_int(hostArray, devArray, 16);
+
+    for (int i = 0; i < N; i++)
+        INFO(ITS(hostArray[i]));
 }
 
 void ex_MaxSubArray::readFile(char* fileName, int* inputArray, int numRows, int numCols)

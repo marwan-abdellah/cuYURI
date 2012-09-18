@@ -17,27 +17,23 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#ifndef _CU_GLOBALS_H_
-#define _CU_GLOBALS_H_
+#include "cuGlobals.h"
 
-#include <cutil_inline.h>
-#include <cuda_runtime_api.h>
-#include <cuda.h>
-#include <cuda_runtime.h>
-
-struct profileStruct
+template <typename T>
+__global__
+void Copy_1D_Array_Device_Kernel(T* devArray_Src, T* devArray_Dist, int N)
 {
-	uint kernelTime;
-	float kernelDuration;
-	int kernelExecErr;
-};
+    int xThreadIdx = threadIdx.x;
+    int blockWidth = blockDim.x;
 
-typedef profileStruct cudaProfile;
+    int index = blockIdx.x * blockWidth + xThreadIdx;
+
+#ifdef VEC_CHECK
+    if (index < N)
+        devArray_Dist[index] = devArray_Src[index];
+#else
+    devArray_Dist[index] = devArray_Src[index];
+#endif
 
 
-typedef profileStruct cu_Profile;
-
-
-
-
-#endif /* _CU_GLOBALS_H_ */
+}

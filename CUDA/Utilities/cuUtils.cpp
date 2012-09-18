@@ -132,6 +132,17 @@ int cuUtils::upload_3D_float(float* hostArr, float* devArr, int size_X, int size
 	return 0;
 }
 
+int cuUtils::download_1D_int(int* hostArr, int* devArr, int size_X)
+{
+    LOG();
+
+    int devMem = size_X * sizeof(int);
+
+    cutilSafeCall(cudaMemcpy(hostArr, devArr, devMem, cudaMemcpyDeviceToHost));
+
+    return 0;
+}
+
 int cuUtils::download_1D_float(float* hostArr, float* devArr, int size_X)
 {
 	LOG();
