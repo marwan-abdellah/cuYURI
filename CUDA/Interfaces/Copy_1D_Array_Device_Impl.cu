@@ -21,7 +21,7 @@
 #ifndef _COPY_1D_ARRAY_DEVICE_IMPL_CU_
 #define _COPY_1D_ARRAY_DEVICE_IMPL_CU_
 
-#include "cuGlobals.h"
+#include "cu_Globals.h"
 #include "Timers/BoostTimers.h"
 
 #include "Kernels/Copy_1D_Array_Device_Kernel.cu"
@@ -31,7 +31,7 @@ extern
 void cu_Copy_1D_Array_Device_Impl
 (dim3 cuBlock, dim3 cuGrid,
  T *devArray_Src, T* devArray_Dist, int N,
- cu_Profile* profile)
+ cuProfile* profile)
 {
     // Create CUDA timer
     cutCreateTimer(&(profile->kernelTime));
@@ -60,36 +60,36 @@ template
 void cu_Copy_1D_Array_Device_Impl <char>
 (dim3 cuBlock, dim3 cuGrid,
 char *devArray_Src, char* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device_Impl <unsigned char>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned char *devArray_Src, unsigned char* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device_Impl <int>
 (dim3 cuBlock, dim3 cuGrid,
 int *devArray_Src, int* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device_Impl <unsigned int>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned int *devArray_Src, unsigned int* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device_Impl <float>
 (dim3 cuBlock, dim3 cuGrid,
 float *devArray_Src, float* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device_Impl <double>
 (dim3 cuBlock, dim3 cuGrid,
 double *devArray_Src, double* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 #endif // _COPY_1D_ARRAY_DEVICE_IMPL_CU_

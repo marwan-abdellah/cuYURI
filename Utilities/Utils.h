@@ -32,11 +32,106 @@
 
 namespace Utils
 {
-	int stringToInt(string_t string);
+    template <typename T>
+    extern
+    T StringToNum(string_t string);
+
+    template
+    char StringToNum <char> (string_t string);
+
+    template
+    unsigned char StringToNum <unsigned char> (string_t string);
+
+    template
+    int StringToNum <int> (string_t string);
+
+    template
+    unsigned int StringToNum <unsigned int> (string_t string);
+
+    template
+    float StringToNum <float> (string_t string);
+
+    template
+    double StringToNum <double> (string_t string);
+
+    template <typename T>
+    extern
+    string_t NumToString(T value);
+
+    template
+    string_t NumToString <char> (char value);
+
+    template
+    string_t NumToString <unsigned char> (unsigned char value);
+
+    template
+    string_t NumToString <int> (int value);
+
+    template
+    string_t NumToString <unsigned int> (unsigned int value);
+
+    template
+    string_t NumToString <float> (float value);
+
+    template
+    string_t NumToString <double> (double value);
+
+    template <typename T>
+    extern
+    T GenRandomNumber();
+
+    template
+    char GenRandomNumber <char> ();
+
+    template
+    unsigned char GenRandomNumber <unsigned char> ();
+
+    template
+    int GenRandomNumber <int> ();
+
+    template
+    unsigned int GenRandomNumber <unsigned int> ();
+
+    template
+    float GenRandomNumber <float> ();
+
+    template
+    double GenRandomNumber <double> ();
+
+    template <typename T>
+    extern
+    T GenRandomNumberInRange(int minValue, int maxValue);
+
+    template
+    char GenRandomNumberInRange <char>
+    (int minValue, int maxValue);
+
+    template
+    unsigned char GenRandomNumberInRange <unsigned char>
+    (int minValue, int maxValue);
+
+    template
+    int GenRandomNumberInRange <int>
+    (int minValue, int maxValue);
+
+    template
+    unsigned int GenRandomNumberInRange <unsigned int>
+    (int minValue, int maxValue);
+
+    template
+    float GenRandomNumberInRange <float>
+    (int minValue, int maxValue);
+
+    template
+    double GenRandomNumberInRange <double>
+    (int minValue, int maxValue);
+
+
+    int stringToInt(string_t string);
     int stringToInt_const(const string_t string);
     float stringToFloat(string_t string);
     float stringToFloat_const(const string_t string);
-	double stringToDouble(string_t string);
+    double stringToDouble(string_t string);
     double stringToDouble_const(const string_t string);
 
 	string_t intToString(int intVal);

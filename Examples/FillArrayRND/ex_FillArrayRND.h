@@ -16,22 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  ********************************************************************/
+#ifndef _EX_FILL_ARRAY_RND_H_
+#define _EX_FILL_ARRAY_RND_H_
 
-template <typename T>
-__global__
-void Copy_1D_Array_Device_Kernel(T* devArray_Src, T* devArray_Dist, int N)
+namespace ex
 {
-    int xThreadIdx = threadIdx.x;
-    int blockWidth = blockDim.x;
-
-    int index = blockIdx.x * blockWidth + xThreadIdx;
-
-#ifdef VEC_CHECK
-    if (index < N)
-        devArray_Dist[index] = devArray_Src[index];
-#else
-    devArray_Dist[index] = devArray_Src[index];
-#endif
-
-
+    namespace FillArrayRND
+    {
+        void run(int argc, char* argv[]);
+    }
 }
+
+
+#endif // _EX_FILL_ARRAY_RND_H_

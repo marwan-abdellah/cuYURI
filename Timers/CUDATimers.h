@@ -17,7 +17,7 @@
 #define CUDATIMERS_H_
 
 #include "TimerGlobals.h"
-#include "CUDA/cuGlobals.h"
+#include "CUDA/cu_Globals.h"
 
 namespace Timers
 {

@@ -1,25 +1,279 @@
 /*********************************************************************
- * Copyrights (c) Marwan Abdellah. All rights reserved.
- * This code is part of my Master's Thesis Project entitled "High
- * Performance Fourier Volume Rendering on Graphics Processing Units
- * (GPUs)" and submitted to the Systems & Biomedical Engineering
- * Department, Faculty of Engineering, Cairo University.
- * Please, don't use or distribute without authors' permission.
+ * Copyright © 2011-2012,
+ * Marwan Abdellah: <abdellah.marwan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
 
- * File         : Volume
- * Author(s)    : Marwan Abdellah <abdellah.marwan@gmail.com>
- * Created      : April 2011
- * Description  :
- * Note(s)      :
- *********************************************************************/
-#include "cuUtils.h"
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ ********************************************************************/
+#include "cu_Utilities.h"
 #include "Globals.h"
+
+
+template <typename T>
+int cuUtils::Upload_1D_Array(T* hostArray, T* deviceArray, int N)
+{
+    LOG();
+
+    INFO("Uploading vector to device");
+
+    // Required  device memory in bytes
+    const int reqDevMem = N * sizeof(T);
+
+    if (reqDevMem < 1024)
+    {
+        INFO("Memory Required: " + ITS(reqDevMem) + " Bytes");
+    }
+    else
+    {
+        if (reqDevMem < (1024 * 1024))
+        {
+            INFO("Memory Required: " +
+                 ITS(reqDevMem / 1024) + " KBytes");
+        }
+        else
+        {
+            if (reqDevMem < (1024 * 1024 * 1024))
+            {
+                INFO("Memory Required: " +
+                     ITS(reqDevMem / (1024 * 1024)) + " MBytes");
+            }
+            else
+            {
+                INFO("Memory Required: " +
+                    ITS(reqDevMem / (1024 * 1024 * 1024)) + " GBytes");
+            }
+        }
+    }
+
+    // Copy array from the host side to the device side
+    cutilSafeCall(cudaMemcpy(deviceArray, hostArray,
+                             reqDevMem, cudaMemcpyHostToDevice));
+
+    return SUCCESS;
+}
+
+template <typename T>
+int cuUtils::Download_1D_Array(T* hostArray, T* deviceArray, int N)
+{
+    LOG();
+
+    INFO("Downloading vector to host");
+
+    const int reqDevMem = N * sizeof(int);
+
+    // Copy array form the device side to the host side
+    cutilSafeCall(cudaMemcpy(hostArray, deviceArray,
+                             reqDevMem, cudaMemcpyDeviceToHost));
+
+    return SUCCESS;
+}
+
+template <typename T>
+T* cuUtils::Create_Device_Vector(const int N)
+{
+    LOG();
+
+    INFO("Creating device vector");
+
+    // Vector size in bytes
+    const int vectorSize = N * sizeof(T);
+
+    // Pointer to the device vector
+    T* deviceVecPtr;
+
+    // Allocate the device vector
+    cudaMalloc((void**)(&deviceVecPtr), vectorSize);
+
+    return deviceVecPtr;
+}
+
+template <typename T>
+int cuUtils::Free_Device_Vector(T* deviceVecPtr)
+{
+    LOG();
+
+    INFO("Freeing device memory");
+
+    // Free device vector
+    cudaFree(deviceVecPtr);
+
+    return SUCCESS;
+}
+
+template
+int cuUtils::Upload_1D_Array <char>
+(char* hostArray, char* deviceArray, int N);
+
+template
+int cuUtils::Upload_1D_Array <unsigned char>
+(unsigned char* hostArray, unsigned char* deviceArray, int N);
+
+template
+int cuUtils::Upload_1D_Array <int>
+(int* hostArray, int* deviceArray, int N);
+
+template
+int cuUtils::Upload_1D_Array <unsigned int>
+(unsigned int* hostArray, unsigned int* deviceArray, int N);
+
+template
+int cuUtils::Upload_1D_Array <float>
+(float* hostArray, float* deviceArray, int N);
+
+template
+int cuUtils::Upload_1D_Array <double>
+(double* hostArray, double* deviceArray, int N);
+
+template
+int cuUtils::Upload_1D_Array <cufftComplex>
+(cufftComplex* hostArray, cufftComplex* deviceArray, int N);
+
+template
+int cuUtils::Upload_1D_Array <cufftDoubleComplex>
+(cufftDoubleComplex* hostArray, cufftDoubleComplex* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <char>
+(char* hostArray, char* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <unsigned char>
+(unsigned char* hostArray, unsigned char* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <int>
+(int* hostArray, int* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <unsigned int>
+(unsigned int* hostArray, unsigned int* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <float>
+(float* hostArray, float* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <double>
+(double* hostArray, double* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <cufftComplex>
+(cufftComplex* hostArray, cufftComplex* deviceArray, int N);
+
+template
+int cuUtils::Download_1D_Array <cufftDoubleComplex>
+(cufftDoubleComplex* hostArray, cufftDoubleComplex* deviceArray, int N);
+
+template
+char* cuUtils::Create_Device_Vector <char>
+(const int N);
+
+template
+unsigned char* cuUtils::Create_Device_Vector <unsigned char>
+(const int N);
+
+template
+int* cuUtils::Create_Device_Vector <int>
+(const int N);
+
+template
+unsigned int* cuUtils::Create_Device_Vector <unsigned int>
+(const int N);
+
+template
+float* cuUtils::Create_Device_Vector <float>
+(const int N);
+
+template
+double* cuUtils::Create_Device_Vector <double>
+(const int N);
+
+template
+cufftComplex* cuUtils::Create_Device_Vector <cufftComplex>
+(const int N);
+
+template
+cufftDoubleComplex* cuUtils::Create_Device_Vector <cufftDoubleComplex>
+(const int N);
+
+template
+int cuUtils::Free_Device_Vector <char>
+(char* deviceVecPtr);
+
+template
+int cuUtils::Free_Device_Vector <unsigned char>
+(unsigned char* deviceVecPtr);
+
+template
+int cuUtils::Free_Device_Vector <int>
+(int* deviceVecPtr);
+
+template
+int cuUtils::Free_Device_Vector <unsigned int>
+(unsigned int* deviceVecPtr);
+
+template
+int cuUtils::Free_Device_Vector <float>
+(float* deviceVecPtr);
+
+template
+int cuUtils::Free_Device_Vector <double>
+(double* deviceVecPtr);
+
+template
+int cuUtils::Free_Device_Vector <cufftComplex>
+(cufftComplex* deviceVecPtr);
+
+template
+int cuUtils::Free_Device_Vector <cufftDoubleComplex>
+(cufftDoubleComplex* deviceVecPtr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int cuUtils::upload_1D_float(float* hostArr, float* devArr, int size_X)
 {
 	LOG();
 
-	int devMem = size_X * sizeof(float);
+    int devMem = size_X * sizeof(float);
 
 	if(devMem < 1024)
 	{

@@ -1,17 +1,21 @@
-# *********************************************************************
-# * Copyrights (c) Marwan Abdellah. All rights reserved.
-# * This code is part of my Master's Thesis Project entitled "High
-# * Performance Fourier Volume Rendering on Graphics Processing Units
-# * (GPUs)" and submitted to the Systems & Biomedical Engineering
-# * Department, Faculty of Engineering, Cairo University.
-# * Please, don't use or distribute without authors' permission.
+#####################################################################
+# Copyright © 2011-2012,
+# Marwan Abdellah: <abdellah.marwan@gmail.com>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation.
 
-# * File        : CMakeLists.txt
-# * Author(s)	: Marwan Abdellah <abdellah.marwan@gmail.com>
-# * Created	: April 2011
-# * Description	: CMake 
-# * Note(s)	:
-# *********************************************************************
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA 02110-1301, USA.
+#####################################################################
 
 # Minimum required CMake version 
 cmake_minimum_required(VERSION 2.6)
@@ -38,27 +42,26 @@ ENDIF(FFTW_FOUND)
 # OpenGL
 FIND_PACKAGE(OpenGL REQUIRED)
 
-
 IF(OPENGL_FOUND)
-  MESSAGE(STATUS "OpenGL found...")
-  MESSAGE("-- OpenGL include directory : ${OPENGL_INCLUDE_DIR}")
-  MESSAGE("-- OpenGL library directory : ${OPENGL_LIBRARY}")
-  INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-  LINK_LIBRARIES(${OPENGL_LIBRARY})
+    MESSAGE(STATUS "OpenGL found...")
+    MESSAGE("-- OpenGL include directory : ${OPENGL_INCLUDE_DIR}")
+    MESSAGE("-- OpenGL library directory : ${OPENGL_LIBRARY}")
+    INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+    LINK_LIBRARIES(${OPENGL_LIBRARY})
 ELSE(OPENGL_FOUND)
-  MESSAGE(FATAL_ERROR "OpenGL not found")
+    MESSAGE(FATAL_ERROR "OpenGL not found")
 ENDIF(OPENGL_FOUND)
 
 # GLUT
 FIND_PACKAGE(GLUT REQUIRED)
 IF(GLUT_FOUND)
-  MESSAGE(STATUS  "GLUT found...")
-  MESSAGE("GLUT include directory : ${GLUT_INCLUDE_DIR}")
-  MESSAGE("GLUT library directory : ${GLUT_LIBRARY}")
-  INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR}/GL)
-  LINK_LIBRARIES(${GLUT_LIBRARY})
+    MESSAGE(STATUS  "GLUT found...")
+    MESSAGE("GLUT include directory : ${GLUT_INCLUDE_DIR}")
+    MESSAGE("GLUT library directory : ${GLUT_LIBRARY}")
+    INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR}/GL)
+    LINK_LIBRARIES(${GLUT_LIBRARY})
 ELSE(GLUT_FOUND)
-  MESSAGE(FATAL_ERROR "GLUT not found")
+    MESSAGE(FATAL_ERROR "GLUT not found")
 ENDIF(GLUT_FOUND)
 
 # GLEW
@@ -90,7 +93,7 @@ INCLUDE(FindImageMagick_Local)
 # DICOM
 INCLUDE(FindDICOM)
 
-SET(BASIC_SOURCES Array/Real/Array.cpp
+SET(CPP_SOURCES Array/Real/Array.cpp
             Array/Complex/cuComplex.cpp
             Array/Complex/fftwComplex.cpp
             Timers/BoostTimers.cpp
@@ -102,10 +105,9 @@ SET(BASIC_SOURCES Array/Real/Array.cpp
             Utilities/Memory.cpp
             Utilities/XL.cpp
             Utilities/Bench.cpp
-            FFT/FFTShift.cpp
             FFT/FFT2D.cpp
             FFT/FFT3D.cpp
-            CUDA/Utilities/cuUtils.cpp)
+            CUDA/cu_Utilities.cpp)
 
 # Include directories 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
@@ -118,22 +120,31 @@ SET(CUDA_KERNELS_DIR ${CMAKE_SOURCE_DIR}/CUDA
                         )
 INCLUDE_DIRECTORIES(${CUDA_KERNELS_DIR})
 
-ADD_SUBDIRECTORY(doc)
+
+#ADD_SUBDIRECTORY(doc)
 INCLUDE(${CMAKE_SOURCE_DIR}/doc)
 
 
+#########################################################
+#! Compiler Flags
+#########################################################
+set(CMAKE_C_FLAGS " -fpermissive -fPIC -O3 -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
 
-# Compiler Flags
-set(CMAKE_C_FLAGS "-fpermissive -fPIC -O3 -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
 INCLUDE(${CMAKE_SOURCE_DIR}/CUDA/cu_Kernels.cmake)
-    
-# Generate the executable considering CUDA stuff :)
-#CUDA_ADD_EXECUTABLE(cuYuri runEngine.cpp ${CUDA_SOURCES} ${SOURCES})
 
-# Link to a library to be used later 
-ADD_LIBRARY(CORE ${CUDA_SOURCES} ${BASIC_SOURCES})
+CUDA_ADD_LIBRARY(cuYURI ${CUDA_SOURCES} ${CPP_SOURCES})
+SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/libcuYURI.a)
+
+
+
+
+#########################################################
+# Compile Examples
+#########################################################
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
+
 
 # --------------------------------------------------------
 # Test Projects
@@ -146,7 +157,7 @@ ADD_LIBRARY(CORE ${CUDA_SOURCES} ${BASIC_SOURCES})
 #INCLUDE(${CMAKE_SOURCE_DIR}/Tests/Array/Real/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Tests/Timers/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Tests/Templates/CMakeLists.cmake)
-INCLUDE(${CMAKE_SOURCE_DIR}/Tests/CUDA/MaxSubArray/CMakeLists.cmake)
+#INCLUDE(${CMAKE_SOURCE_DIR}/Tests/CUDA/MaxSubArray/CMakeLists.cmake)
 
 # --------------------------------------------------------
 # Benchmarking Projects
@@ -157,4 +168,4 @@ INCLUDE(${CMAKE_SOURCE_DIR}/Tests/CUDA/MaxSubArray/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Benchmarking/FFT_Shift/2D/Real/CMakeLists.cmake)
 
 # FVR
-INCLUDE(${CMAKE_SOURCE_DIR}/FourierVolumeRenderer/CMakeLists.cmake)
+#INCLUDE(${CMAKE_SOURCE_DIR}/FourierVolumeRenderer/CMakeLists.cmake)

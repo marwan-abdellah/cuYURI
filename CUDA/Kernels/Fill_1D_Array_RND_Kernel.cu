@@ -17,8 +17,6 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#include "cuGlobals.h"
-
 /*!
  * CUDA : This kernel fills an input vector - or 1D array - with random
  * sequence of numbers of length N.

@@ -25,52 +25,52 @@ extern
 void cu_Copy_1D_Array_Device_Impl
 (dim3 cuBlock, dim3 cuGrid,
  T *devArray_Src, T* devArray_Dist, int N,
- cu_Profile* profile);
+ cuProfile* profile);
 
 template <typename T>
 extern
 void cu_Copy_1D_Array_Device
 (dim3 cuBlock, dim3 cuGrid,
  T *devArray_Src, T* devArray_Dist, int N,
- cu_Profile* profile)
+ cuProfile* profile)
 {
-    cu_Copy_1D_Array_Device_Impl( cuBlock, cuGrid, devArray, N, profile);
+    cu_Copy_1D_Array_Device_Impl(cuBlock, cuGrid, devArray_Src, devArray_Dist, N, profile);
 }
 
 template
 void cu_Copy_1D_Array_Device <char>
 (dim3 cuBlock, dim3 cuGrid,
 char *devArray_Src, char* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device <unsigned char>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned char *devArray_Src, unsigned char* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device <int>
 (dim3 cuBlock, dim3 cuGrid,
 int *devArray_Src, int* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device <unsigned int>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned int *devArray_Src, unsigned int* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device <float>
 (dim3 cuBlock, dim3 cuGrid,
 float *devArray_Src, float* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Copy_1D_Array_Device <double>
 (dim3 cuBlock, dim3 cuGrid,
 double *devArray_Src, double* devArray_Dist, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 #endif // _COPY_1D_ARRAY_DEVICE_H_

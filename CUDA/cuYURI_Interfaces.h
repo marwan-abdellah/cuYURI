@@ -17,27 +17,14 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#ifndef _CU_GLOBALS_H_
-#define _CU_GLOBALS_H_
+#ifndef _CUYUR_INTERFACES_H_
+#define _CUYUR_INTERFACES_H_
 
-#include <cutil_inline.h>
-#include <cuda_runtime_api.h>
-#include <cuda.h>
-#include <cuda_runtime.h>
+#include "cu_Globals.h"
+#include "cu_Utilities.h"
 
-struct profileStruct
-{
-	uint kernelTime;
-	float kernelDuration;
-	int kernelExecErr;
-};
+// Adding all the interfaces to a single interface
+#include "Interfaces/Fill_1D_Array_RND.h"
+#include "Interfaces/Copy_1D_Array_Device.h"
 
-typedef profileStruct cudaProfile;
-
-
-typedef profileStruct cu_Profile;
-
-
-
-
-#endif /* _CU_GLOBALS_H_ */
+#endif // _CUYUR_INTERFACES_H_

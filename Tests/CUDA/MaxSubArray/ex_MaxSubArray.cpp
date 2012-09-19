@@ -17,7 +17,7 @@
 
 #include "ex_MaxSubArray.h"
 #include "FFT/FFTShift.h"
-#include "CUDA/Utilities/cuUtils.h"
+#include "CUDA/cu_Utilities.h"
 
 #include "Utilities/Utils.h"
 #include "CUDA/cuGlobals.h"
@@ -54,6 +54,8 @@ void ex_MaxSubArray::runSample()
     dim3 cuBlock(4, 1, 1);
     dim3 cuGrid(N / cuBlock.x, 1, 1);
 
+
+    cuUtils::Upload_1D_Array <int> (NULL, NULL, 10);
 
     cu_Profile profiles;
 

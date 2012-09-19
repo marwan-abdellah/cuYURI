@@ -17,21 +17,25 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-template <typename T>
-__global__
-void Copy_1D_Array_Device_Kernel(T* devArray_Src, T* devArray_Dist, int N)
+#ifndef _CU_GLOBALS_H_
+#define _CU_GLOBALS_H_
+
+#include "cu_Includes.h"
+
+struct gpuProfileStruct
 {
-    int xThreadIdx = threadIdx.x;
-    int blockWidth = blockDim.x;
+	uint kernelTime;
+	float kernelDuration;
+	int kernelExecErr;
+};
 
-    int index = blockIdx.x * blockWidth + xThreadIdx;
+typedef gpuProfileStruct cuProfile;
 
-#ifdef VEC_CHECK
-    if (index < N)
-        devArray_Dist[index] = devArray_Src[index];
-#else
-    devArray_Dist[index] = devArray_Src[index];
-#endif
+enum YURI_RETURN
+{
+    SUCCESS = 1,
+    FAIL = 0
+};
 
 
-}
+#endif // _CU_GLOBALS_H_ 

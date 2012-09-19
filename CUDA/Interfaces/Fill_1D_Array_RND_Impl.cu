@@ -20,7 +20,7 @@
 #ifndef _FILL_1D_ARRAY_RND_IMPL_CU_
 #define _FILL_1D_ARRAY_RND_IMPL_CU_
 
-#include "cuGlobals.h"
+#include "cu_Globals.h"
 #include "Timers/BoostTimers.h"
 
 #include "Kernels/Fill_1D_Array_RND_Kernel.cu"
@@ -29,7 +29,7 @@ template <typename T>
 extern
 void cu_Fill_1D_Array_RND_Impl
 (dim3 cuBlock, dim3 cuGrid, T *devArray, int N,
- cu_Profile* profile)
+ cuProfile* profile)
 {
     // Create CUDA timer
     cutCreateTimer(&(profile->kernelTime));
@@ -57,36 +57,36 @@ template
 void cu_Fill_1D_Array_RND_Impl <char>
 (dim3 cuBlock, dim3 cuGrid,
 char *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Fill_1D_Array_RND_Impl <unsigned char>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned char *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Fill_1D_Array_RND_Impl <int>
 (dim3 cuBlock, dim3 cuGrid,
 int *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Fill_1D_Array_RND_Impl <unsigned int>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned int *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Fill_1D_Array_RND_Impl <float>
 (dim3 cuBlock, dim3 cuGrid,
 float *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 template
 void cu_Fill_1D_Array_RND_Impl <double>
 (dim3 cuBlock, dim3 cuGrid,
 double *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 #endif // _FILL_1D_ARRAY_RND_IMPL_CU_

@@ -40,7 +40,7 @@ extern
 void cu_Fill_1D_Array_RND_Impl
 (dim3 cuBlock, dim3 cuGrid,
  T *devArray, int N,
- cu_Profile* profile);
+ cuProfile* profile);
 
 namespace cuYURI
 {
@@ -49,7 +49,7 @@ extern
 void cu_Fill_1D_Array_RND
 (dim3 cuBlock, dim3 cuGrid,
  T *devArray, int N,
- cu_Profile* profile)
+ cuProfile* profile)
 {
     cu_Fill_1D_Array_RND_Impl( cuBlock, cuGrid, devArray, N, profile);
 }
@@ -77,7 +77,7 @@ template
 void cu_Fill_1D_Array_RND <char>
 (dim3 cuBlock, dim3 cuGrid,
 char *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 /*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
  * input vector of type unsigned char.
@@ -102,7 +102,7 @@ template
 void cu_Fill_1D_Array_RND <unsigned char>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned char *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 /*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
  * input vector of type int.
@@ -127,7 +127,7 @@ template
 void cu_Fill_1D_Array_RND <int>
 (dim3 cuBlock, dim3 cuGrid,
 int *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 /*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
  * input vector of type unsigned int.
@@ -152,7 +152,7 @@ template
 void cu_Fill_1D_Array_RND <unsigned int>
 (dim3 cuBlock, dim3 cuGrid,
 unsigned int *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 /*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
  * input vector of type float.
@@ -177,7 +177,7 @@ template
 void cu_Fill_1D_Array_RND <float>
 (dim3 cuBlock, dim3 cuGrid,
 float *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 /*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
  * input vector of type double.
@@ -202,7 +202,7 @@ template
 void cu_Fill_1D_Array_RND <double>
 (dim3 cuBlock, dim3 cuGrid,
 double *devArray, int N,
-cu_Profile* profile);
+cuProfile* profile);
 
 } // namespace cuYURI
 
