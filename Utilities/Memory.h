@@ -8,10 +8,15 @@
 #ifndef MEMORY_H_
 #define MEMORY_H_
 
-#include <cstdlib>
+
 #include "LoggingMACROS.h"
+#include <cstdlib>
 #include <fftw3.h>
 #include <cufft.h>
+
+#include "Memory_1D.h"
+#include "Memory_2D.h"
+#include "Memory_3D.h"
 
 namespace Memory
 {
@@ -80,15 +85,6 @@ namespace Memory
 
 	template <typename T>
 	void free_3D(T*** ptrData, const int size_X, const int size_Y, const int size_Z);
-
-
-
-
-
-
-
-
-
 }
 
 #endif /* MEMORY_H_ */

@@ -22,6 +22,7 @@
 #include "Utils.h"
 #include "Memory.h"
 
+
 #define PRINT_INFO 1
 
 /* @ Messaging & Logging */
@@ -117,7 +118,7 @@
 
 
 /* @ Memory Dellocation */
-#define FREE_MEM_1D( PTR ) ( { free( PTR ); PTR = NULL; } )
+// #define FREE_MEM_1D( PTR ) ( { free( PTR ); PTR = NULL; } )
 #define FREE_MEM_2D_FLOAT( PTR, SIZE_X, SIZE_Y ) 								\
 		(  Memory::free_2D_float(PTR, SIZE_X, SIZE_Y ) )
 #define FREE_MEM_2D_DOUBLE( PTR, SIZE_X, SIZE_Y ) 								\

@@ -25,8 +25,16 @@
 #include "Utilities/Utils.h"
 #include "Utilities/MACROS.h"
 
+#include "Utilities/MemoryMACROS.h"
+
 void ex::FillArrayRND::run(int argc, char* argv[])
 {
+    if (argv[1] == NULL)
+    {
+        INFO("Usage: ex_FillArrayRND <VECTRO_SIZE>");
+        EXIT(0);
+    }
+
     // Vector length N
     const int N = atoi(argv[1]);
 
@@ -39,7 +47,7 @@ void ex::FillArrayRND::run(int argc, char* argv[])
     int *deviceVector;
 
     // Allocating the host array
-    hostVector = MEM_ALLOC_1D_GENERIC(int, N);
+    hostVector = MEM_ALLOC_1D(int, N);
 
     // Allocating device array
     deviceVector = cuUtils::Create_Device_Vector <int> (N);
@@ -63,7 +71,7 @@ void ex::FillArrayRND::run(int argc, char* argv[])
         INFO(ITS(hostVector[i]));
 
     // Free host array
-    FREE_MEM_1D(hostVector);
+    FREE_MEM_1D(hostVector, int);
 
     // Free device memory
     cuUtils::Free_Device_Vector(deviceVector);

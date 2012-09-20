@@ -103,6 +103,9 @@ SET(CPP_SOURCES Array/Real/Array.cpp
             Utilities/Logging.cpp
             Utilities/Tracing.cpp
             Utilities/Memory.cpp
+Utilities/Memory_1D.cpp
+Utilities/Memory_2D.cpp
+Utilities/Memory_3D.cpp
             Utilities/XL.cpp
             Utilities/Bench.cpp
             FFT/FFT2D.cpp
@@ -121,7 +124,7 @@ SET(CUDA_KERNELS_DIR ${CMAKE_SOURCE_DIR}/CUDA
 INCLUDE_DIRECTORIES(${CUDA_KERNELS_DIR})
 
 
-#ADD_SUBDIRECTORY(doc)
+ADD_SUBDIRECTORY(doc)
 INCLUDE(${CMAKE_SOURCE_DIR}/doc)
 
 
