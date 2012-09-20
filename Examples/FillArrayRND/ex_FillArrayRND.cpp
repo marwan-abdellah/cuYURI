@@ -67,8 +67,10 @@ void ex::FillArrayRND::run(int argc, char* argv[])
     cuUtils::Download_1D_Array <int> (hostVector, deviceVector, N);
 
     // Check the results
+    INFO("Checking the resulting array on the host side")
     for (int i = 0; i < N; i++)
-        INFO(ITS(hostVector[i]));
+        INFO_LOOP(i, ITS(hostVector[i]));
+    SEP();
 
     // Free host array
     FREE_MEM_1D(hostVector, int);

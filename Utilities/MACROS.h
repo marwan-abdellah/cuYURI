@@ -25,6 +25,21 @@
 
 #define PRINT_INFO 1
 
+/* @ Utilities */
+#define ITS( INT ) ( Utils::intToString( INT ) )
+#define FTS( FLT ) ( Utils::floatToString( FLT ) )
+#define DTS( DBL ) ( Utils::doubleToString( DBL ) )
+#define CITS( INT ) ( Utils::intToString_const( INT ) )
+#define CATS( CHAR ) ( Utils::charArrayToString( CHAR ) )
+#define CCATS( CHAR ) ( Utils::charArrayToString_const( CHAR ) )
+#define STI( INT ) ( stringToInt( INT ) )
+#define CSTI( INT ) ( stringToInt_const( INT ) )
+#define STF( FLOAT ) ( stringToFloat( FLOAT ) )
+#define CSTF( FLOAT ) ( stringToFloat_const( FLOAT ))
+#define STD( DOUBLE ) ( stringToDouble( DOUBLE ) )
+#define CSTD( DOUBLE ) ( stringToDouble_const( DOUBLE ) )
+#define STCA ( STRNG ) ( Utils::stringToCharArray( STRNG ) )
+
 /* @ Messaging & Logging */
 #ifdef PRINT_INFO
     #define INFO( MESSAGE )                                         			\
@@ -36,9 +51,15 @@
 #endif
 
 #define SEP( MESSAGE )															\
-	COUT << 																	\
-	"********************************************************"					\
-	<< ENDL;
+    COUT << 																	\
+    "********************************************************"					\
+    << ENDL;
+
+#define INFO_LOOP( ITERATION, MESSAGE )    \
+    COUT << TAB << "@[" << ITS( ITERATION ) << "] -> " <<                    \
+    STRG( MESSAGE ) << ENDL;
+
+
 
 #ifdef PRINT_DEBUG_INFO
     #define DBG_INFO( MESSAGE )                                     			\
@@ -146,20 +167,7 @@
 #define FREE_MEM_3D_CUFFTDOUBLECOMPLEX( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 			\
 		(  Memory::free_3D_cufftDoubleComplex(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
 
-/* @ Utilities */
-#define ITS( INT ) ( Utils::intToString( INT ) )
-#define FTS( FLT ) ( Utils::floatToString( FLT ) )
-#define DTS( DBL ) ( Utils::doubleToString( DBL ) )
-#define CITS( INT ) ( Utils::intToString_const( INT ) )
-#define CATS( CHAR ) ( Utils::charArrayToString( CHAR ) )
-#define CCATS( CHAR ) ( Utils::charArrayToString_const( CHAR ) )
-#define STI( INT ) ( stringToInt( INT ) )
-#define CSTI( INT ) ( stringToInt_const( INT ) )
-#define STF( FLOAT ) ( stringToFloat( FLOAT ) )
-#define CSTF( FLOAT ) ( stringToFloat_const( FLOAT ))
-#define STD( DOUBLE ) ( stringToDouble( DOUBLE ) )
-#define CSTD( DOUBLE ) ( stringToDouble_const( DOUBLE ) )
-#define STCA ( STRNG ) ( Utils::stringToCharArray( STRNG ) )
+
 
 
 #endif /* _MACROS_H_ */
