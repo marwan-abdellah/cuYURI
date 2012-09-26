@@ -1,41 +1,53 @@
-#ifndef _COPENGL_H_
-#define _COPENGL_H_
+/*********************************************************************
+ * Copyright © 2011-2012,
+ * Marwan Abdellah: <abdellah.marwan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
 
-#include "GL_Includes.h"
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ ********************************************************************/
 
-#define OFFSET(i) ((char *)NULL + (i))
+#ifndef _OPENGL_H_
+#define _OPENGL_H_
 
-#include <glut.h>
 #include "GL/gl.h"
+
+
+
+
 namespace OpenGL
 {
-// Initialization functions
+
 void InitOpenGLContext(int argc, char** argv);
-void InitOpenGL();
 
-
+void DisplayImage(float* imagePtr, int NX, int NY);
 
 GLuint* UploadImageToTexture(const int imageWidth,
                              const int imageHeight,
-                             float* imagePtr, GLuint* imageTex_ID);
+                             float* imagePtr);
 
-GLuint* AllocateTex(const int imageWidth,
-                                  const int imageHeight,
-                                  float* imagePtr);
+void UpdateTexID(GLuint* imgTex_ID);
 
-/* @ preparing FBO */
-void prepareFBO(GLuint* iFBO_ID, GLuint* iSliceTexture_ID);
-void updateSliceTexture(GLuint* iImageTexture_ID);
+void UpdateWindowParams(const int newWinWidth, const int newWinHeight);
 
 // OpenGL callbacks
-void displayGL();
-void reshapeGL(int iWinWidth, int iWinHeight);
-void keyboardGL(unsigned char Button, int iX, int iY);
-void idleGL();
-void mouseGL(int iButton, int iState, int IX, int iY);
-void mouseMotionGL(int iX, int iY);
-void registerOpenGLCallBacks();
+void DisplayGL();
+void ReshapeGL(int iWinWidth, int iWinHeight);
+void KeyboardGL(unsigned char Button, int iX, int iY);
+void IdleGL();
+void MouseGL(int iButton, int iState, int IX, int iY);
+void MouseMotionGL(int iX, int iY);
+void RegisterGLCallBacks();
 }
 
-#endif // COPENGL_H
+#endif // _OPENGL_H_

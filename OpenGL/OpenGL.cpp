@@ -1,23 +1,27 @@
+/*********************************************************************
+ * Copyright © 2011-2012,
+ * Marwan Abdellah: <abdellah.marwan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ ********************************************************************/
+
 #include "OpenGL.h"
-//#include "OpenGLCheck.h"
+#include "OpenGL/GLUT.h"
 #include "Utilities/MACROS.h"
 #include "Utilities/Utils.h"
 
-#include "OpenGL/Glut.h"
-
-#include <glut.h>
-#include "GL/gl.h"
-
-
-/*************/
-/* @ EXTERNS */
-/*************/
-float eXRot_Glob;
-float eYRot_Glob;
-float eZRot_Glob;
-float eZoomLevel_Glob ;
-float eSliceTrans_Glob ;
-float eNormValue_Glob;
 
 /************/
 /* @ LOCALS */
@@ -26,52 +30,27 @@ GLuint* cGL_ImageTexture_ID;
 
 int    eWinWidth;
 int    eWinHeight;
-float  eImageZoom       = 1;
-float  eNormValue       = 1.0;
-int    eGloWinWidth     = 512;
-int    eGloWinHeight    = 512;
 
-void OpenGL::updateSliceTexture(GLuint* iImageTexture_ID)
+
+int    glWinWidth       = 512;
+int    glWinHeight      = 512;
+float  glZoomLevel      = 1;
+
+
+void OpenGL::UpdateWindowParams(const int newWinWidth, const int newWinHeight)
 {
-    cGL_ImageTexture_ID = iImageTexture_ID;
-}
+    glWinWidth = newWinWidth;
+    glWinHeight = newWinHeight;
 
-void OpenGL::prepareFBO(GLuint* iFBO_ID, GLuint* imageTex_ID)
-{
-    INFO("Preparing FBO");
-
-   // glGenFramebuffersEXT(1, iFBO_ID);
-   //// glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, *iFBO_ID);
-
-    /* @ Attaching the FBO to the associated texture */
-  //  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
-                           //   GL_TEXTURE_2D, *imageTex_ID, 0);
-
-    /* @ Unbinding */
-   /// glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-//
-    INFO("Preparing FBO DONE");
 }
 
 void OpenGL::InitOpenGLContext(int argc, char** argv)
 {
     INFO ("Initializing OpenGL Contex");
 
-    /*
-    // Checking the avialability of OpenGL context
-    if (isOpenGLAvailable())
-    {
-        INFO("OpenGL device is available");
-    }
-    else
-    {
-        INFO("OpenGL device is NOT available");
-        EXIT(0);
-    }
-    */
-
     /* @ GLUT Initialization */
     OpenGL::InitGlut(argc, argv);
+
 
     /*
     // Initialize necessary OpenGL extensions
@@ -84,155 +63,137 @@ void OpenGL::InitOpenGLContext(int argc, char** argv)
         INFO("Requied OpenGL extensions are FOUND");
         */
 
+    /* @ Clearing color buffer */
+    glClearColor (0.0, 0.0, 0.0, 0.0);
+
+    /* Setting the pixel storage mode */
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
     INFO("Registering OpenGL callbacks");
 
     // Registering OpenGL CallBack Functions
-    registerOpenGLCallBacks();
+    RegisterGLCallBacks();
 
     INFO("Initializing OpenGL Contex DONE");
 }
 
 
 
-
-void OpenGL::InitOpenGL()
-{
-    /* @ Clearing color buffer */
-    glClearColor (0.0, 0.0, 0.0, 0.0);
-
-    /* Setting the pixel storage mode */
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-}
-
-GLuint* OpenGL::AllocateTex(const int imageWidth,
+GLuint* OpenGL::UploadImageToTexture(const int imageWidth,
                                   const int imageHeight,
                                   float* imagePtr)
 {
     // Texture ID
-    GLuint* imageTex_ID;
+    GLuint* imageTex_ID = MEM_ALLOC_1D_GENERIC(GLuint, 1);
 
-    INFO("1");
     //  Create 2D texture object as a render target
     glGenTextures(1, imageTex_ID);
-    INFO("2");
+
     // Bind the texture target
     glBindTexture(GL_TEXTURE_2D, *imageTex_ID);
-    INFO("3");
+
+
     // Set the 2D texture parameters
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    INFO("4");
+
     // @NOTE Automatic mipmap Generation included in OpenGL v1.4
     glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE,
                  imageWidth, imageHeight, 0,
                  GL_LUMINANCE, GL_FLOAT, imagePtr);
-    INFO("5");
+
     // Unbinding texture
     glBindTexture(GL_TEXTURE_2D, 0);
-    INFO("6");
+
     return imageTex_ID;
 }
 
-
-GLuint* OpenGL::UploadImageToTexture(const int imageWidth,
-                                  const int imageHeight,
-                                  float* imagePtr, GLuint *imageTex_ID)
+void OpenGL::UpdateTexID(GLuint* imgTex_ID)
 {
-    // Texture ID
-    GLuint* imageTex_ID_2;
-
-    INFO("1");
-    //  Create 2D texture object as a render target
-    glGenTextures(1, imageTex_ID);
-    INFO("2");
-    // Bind the texture target
-    glBindTexture(GL_TEXTURE_2D, *imageTex_ID);
-
-    INFO("3");
-    // Set the 2D texture parameters
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    INFO("4");
-    // @NOTE Automatic mipmap Generation included in OpenGL v1.4
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE,
-                 imageWidth, imageHeight, 0,
-                 GL_LUMINANCE, GL_FLOAT, imagePtr);
-    INFO("5");
-    // Unbinding texture
-    glBindTexture(GL_TEXTURE_2D, 0);
-    INFO("6");
-    return imageTex_ID_2;
+    cGL_ImageTexture_ID = imgTex_ID;
 }
 
-void OpenGL::displayGL()
+
+void OpenGL::DisplayImage(float* imagePtr, int NX, int NY)
+{
+    OpenGL::InitOpenGLContext(NULL, NULL);
+
+    GLuint* imgTex_ID = OpenGL::UploadImageToTexture(NX, NY, imagePtr);
+
+    OpenGL::UpdateTexID(imgTex_ID);
+
+    glutMainLoop();
+}
+
+
+
+void OpenGL::DisplayGL()
 {
     /* @ Clearing color buffer */
     glClear(GL_COLOR_BUFFER_BIT);
 
     /* @ Disabling depth test */
     glDisable(GL_DEPTH_TEST);
-    /*
-//    /* @ Binding slice texture to be displayed On OpenGL Quad */
-//    glBindTexture(GL_TEXTURE_2D, *cGL_ImageTexture_ID);
-//    glEnable(GL_TEXTURE_2D);
 
-//    /* Adjusting slice texture parameters */
-//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    /* @ Binding slice texture to be displayed On OpenGL Quad */
+    glBindTexture(GL_TEXTURE_2D, *cGL_ImageTexture_ID);
+    glEnable(GL_TEXTURE_2D);
 
-//    /* @ Adjusting viewport */
-//    glViewport(-eWinWidth / 2, -eWinHeight / 2, eWinWidth * 2, eWinHeight * 2);
+    /* Adjusting slice texture parameters */
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-//    glMatrixMode(GL_MODELVIEW);
-//    glPushMatrix();
+    /* @ Adjusting viewport */
+    glViewport(-glWinWidth / 2, -glWinHeight / 2, glWinWidth * 2, glWinHeight * 2);
 
-//    /* @ Center slice texture at the orgin (0,0) */
-//    glScalef(eImageZoom, eImageZoom, 1);
-//    glTranslatef(-0.5, -0.5, 0.0);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
 
-//    /* @ Texture the slice on the QUAD */
-//    glBegin(GL_QUADS);
-//        glVertex2f(0, 0);		glTexCoord2f(0, 0);
-//        glVertex2f(0, 1);		glTexCoord2f(1, 0);
-//        glVertex2f(1, 1);		glTexCoord2f(1, 1);
-//        glVertex2f(1, 0);		glTexCoord2f(0, 1);
-//    glEnd();
-//    glPopMatrix();
+    /* @ Center slice texture at the orgin (0,0) */
+    glScalef(glZoomLevel, glZoomLevel, 1);
+    glTranslatef(-0.5, -0.5, 0.0);
 
-//    /* @ Release texture reference & disable texturing */
-//    glBindTexture(GL_TEXTURE_2D, 0);
-//    glDisable(GL_TEXTURE_2D);
+    /* @ Texture the slice on the QUAD */
+    glBegin(GL_QUADS);
+        glVertex2f(0, 0);		glTexCoord2f(0, 0);
+        glVertex2f(0, 1);		glTexCoord2f(1, 0);
+        glVertex2f(1, 1);		glTexCoord2f(1, 1);
+        glVertex2f(1, 0);		glTexCoord2f(0, 1);
+    glEnd();
+    glPopMatrix();
 
-//    /* @ Swapping buffer contents */
-//    glutSwapBuffers();
+    /* @ Release texture reference & disable texturing */
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
+
+    /* @ Swapping buffer contents */
+    glutSwapBuffers();
 }
 
-void OpenGL::reshapeGL(int iWinWidth, int iWinHeight)
+void OpenGL::ReshapeGL(int iWinWidth, int iWinHeight)
 {
-    /* @ Adjusting viewPort */
+    // Adjusting viewPort
     glViewport(0, 0, iWinWidth, iWinHeight);
 
-    /* @ For adjusting window size */
-    eWinHeight = iWinHeight;
-    eWinWidth = iWinWidth;
+    // Adjusting window size
+    glWinWidth = iWinWidth;
+    glWinHeight = iWinHeight;
 
-    // Projection
+    // Load I to the projection matrix
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 }
 
-void OpenGL::idleGL()
+void OpenGL::IdleGL()
 {
     glutPostRedisplay();
 }
 
-void OpenGL::keyboardGL(unsigned char fKey, int fX, int fY)
+void OpenGL::KeyboardGL(unsigned char fKey, int fX, int fY)
 {
 
     // Dummy
@@ -253,17 +214,17 @@ void OpenGL::keyboardGL(unsigned char fKey, int fX, int fY)
     glutPostRedisplay();
 }
 
-void OpenGL::mouseGL(int fButton, int fState, int fX, int fY)
+void OpenGL::MouseGL(int fButton, int fState, int fX, int fY)
 {
     if(fState == GLUT_DOWN)
     {
         if(fButton == GLUT_LEFT_BUTTON)
         {
-            printf("1");
+            INFO("1");
         }
         else if(fButton == GLUT_MIDDLE_BUTTON)
         {
-             printf("12");
+             INFO("12");
         }
         else if(fButton == GLUT_RIGHT_BUTTON)
         {
@@ -279,7 +240,7 @@ void OpenGL::mouseGL(int fButton, int fState, int fX, int fY)
     glutPostRedisplay();
 }
 
-void OpenGL::mouseMotionGL(int iX, int iY)
+void OpenGL::MouseMotionGL(int iX, int iY)
 {
     // Dummy
     if (iX | iY) {}
@@ -287,17 +248,17 @@ void OpenGL::mouseMotionGL(int iX, int iY)
     glutPostRedisplay();
 }
 
-void OpenGL::registerOpenGLCallBacks()
+void OpenGL::RegisterGLCallBacks()
 {
     /* Registering OpenGL context callbacks*/
     INFO("Registerng OpenGL context callbacks");
 
-    glutDisplayFunc(displayGL);
-    glutKeyboardFunc(keyboardGL);
-    glutReshapeFunc(reshapeGL);
-    glutIdleFunc(idleGL);
-    glutMouseFunc(mouseGL);
-    glutMotionFunc(mouseMotionGL);
+    glutDisplayFunc(DisplayGL);
+    glutKeyboardFunc(KeyboardGL);
+    glutReshapeFunc(ReshapeGL);
+    glutIdleFunc(IdleGL);
+    glutMouseFunc(MouseGL);
+    glutMotionFunc(MouseMotionGL);
 
     INFO("Registerng OpenGL context callbacks DONE");
 }

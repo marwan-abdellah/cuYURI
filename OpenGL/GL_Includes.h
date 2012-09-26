@@ -2,6 +2,8 @@
 #define _GL_INCLUDES_H_
 
 // OpenGL includes
+
+#include <glut.h>
 // System includes
 #include <stdlib.h>
 #include <stdio.h>

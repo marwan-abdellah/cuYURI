@@ -88,7 +88,7 @@ CUDA/cuMemory_1D_Array.cpp
 CUDA/cuDataTransfer_1D_Array.cpp
 CUDA/cuKernelConf.cpp
 Magick/Image.cpp
-OpenGL/Glut.cpp
+OpenGL/GLUT.cpp
 OpenGL/OpenGL.cpp
 OpenGL/GLEW.cpp)
 

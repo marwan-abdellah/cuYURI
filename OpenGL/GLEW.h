@@ -3,7 +3,7 @@
 
 namespace OpenGL
 {
-/* @ Checking required OpenGL extensions */
-bool checkGLExtensions();
+// Checking required OpenGL extensions
+bool CheckGLExtensions();
 }
 #endif // GLEW_H
