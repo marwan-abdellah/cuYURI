@@ -16,13 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  ********************************************************************/
-#define MAGIC_NO 1.12345
+
 /*!
- * CUDA : This kernel fills an input vector - or 1D array - with random
- * sequence of numbers of length N.
+ * CUDA : This kernel copies a source 1D array to a destination array
+ * with length N
  *
- * @param devArray
- *      Input device vector - or 1D array - to the kernel.
+ * @param devArray_Src
+ *      Source device vector - or 1D array.
+ *
+ * @param devArray_Dist
+ *      Destnation device vector - or 1D array.
  *
  * @param N
  *      Vector length.
@@ -31,7 +34,7 @@
  *      Marwan Abdellah <abdellah.marwan@gmail.com>
  *
  * @date
- *      Created: April, 2011.
+ *      Created: August, 2012.
  * @date
  *      Last Update: September, 2012.
  *
@@ -42,24 +45,19 @@
  */
 template <typename T>
 __global__
-void Fill_1D_Array_RND_Kernel(T* devArray, int N)
+void Copy_1D_Array_Kernel(T* devArray_Src, T* devArray_Dist, int N)
 {
-    // Thread index @X
-    int x_threadIdx = threadIdx.x;
+    int xThreadIdx = threadIdx.x;
+    int blockWidth = blockDim.x;
 
-    // Block size @X
-    int x_blockDim = blockDim.x;
-
-    // Block index @X
-    int x_blockIdx = blockIdx.x;
-
-    // Thread flat index
-    int index = ((x_blockIdx * x_blockDim) + x_threadIdx);
+    int index = blockIdx.x * blockWidth + xThreadIdx;
 
 #ifdef VEC_CHECK
     if (index < N)
-        devArray[index] = index;
+        devArray_Dist[index] = devArray_Src[index];
 #else
-    devArray[index] = (T) ((index * MAGIC_NO) * 2.56789 + (MAGIC_NO))  ;
+    devArray_Dist[index] = devArray_Src[index];
 #endif
+
+
 }

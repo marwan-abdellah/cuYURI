@@ -143,6 +143,8 @@ namespace Utils
 	string_t charArrayToString(char* inputCharArray);
     string_t charArrayToString_const(const char* inputCharArray);
 
+
+
     char* stringToCharArray(string_t inputString);
 
     int rand_int();

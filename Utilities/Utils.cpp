@@ -16,30 +16,7 @@
 #include "Utils.h"
 
 
-template <typename T>
-extern
-T Utils::StringToNum(string_t string)
-{
-    return (T) atoi(string.c_str());
-}
 
-template
-char Utils::StringToNum <char> (string_t string);
-
-template
-unsigned char Utils::StringToNum <unsigned char> (string_t string);
-
-template
-int Utils::StringToNum <int> (string_t string);
-
-template
-unsigned int Utils::StringToNum <unsigned int> (string_t string);
-
-template
-float Utils::StringToNum <float> (string_t string);
-
-template
-double Utils::StringToNum <double> (string_t string);
 
 
 

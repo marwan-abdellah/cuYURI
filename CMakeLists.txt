@@ -72,45 +72,32 @@ INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIR})
 # Add the heade files to the include directories
 INCLUDE_DIRECTORIES("${OPENGL_INCLUDE_DIR}")
 
-# CUDA
-INCLUDE(FindCUDA_Local)
+# Includes
+INCLUDE(Includes)
 
-# LibXL 64 bit
-INCLUDE(FindLibXL)
+SET(CPP_SOURCES
+Logging/Logging.cpp
+Memory/Memory_1D.cpp
+Memory/Memory_2D.cpp
+Memory/Memory_3D.cpp
+Timers/Boost.cpp
+Timers/CUDA.cpp
+Utilities/XL.cpp
+Utilities/Utils.cpp
+CUDA/cuMemory_1D_Array.cpp
+CUDA/cuDataTransfer_1D_Array.cpp
+CUDA/cuKernelConf.cpp
+Magick/Image.cpp
+OpenGL/Glut.cpp
+OpenGL/OpenGL.cpp
+OpenGL/GLEW.cpp)
 
-# STL Soft 
-INCLUDE(FindSTLSoft)
 
-# Boost
-INCLUDE(FindBoost_Local)
-
-# OpenMP
-INCLUDE(FindOpenMP_Local)
-
-# ImageMagick
-INCLUDE(FindImageMagick_Local)
-
-# DICOM
-INCLUDE(FindDICOM)
-
-SET(CPP_SOURCES Array/Real/Array.cpp
-            Array/Complex/cuComplex.cpp
-            Array/Complex/fftwComplex.cpp
-            Timers/BoostTimers.cpp
-            Timers/CUDATimers.cpp
-            Volume/Volume.cpp
-            Utilities/Utils.cpp
-            Utilities/Logging.cpp
-            Utilities/Tracing.cpp
-            Utilities/Memory.cpp
-Utilities/Memory_1D.cpp
-Utilities/Memory_2D.cpp
-Utilities/Memory_3D.cpp
-            Utilities/XL.cpp
-            Utilities/Bench.cpp
-            FFT/FFT2D.cpp
-            FFT/FFT3D.cpp
-            CUDA/cu_Utilities.cpp)
+LIST(APPEND CPP_SOURCES
+Dependencies/Excel/BasicExcel.cpp
+Dependencies/Excel/BasicExcel.hpp
+Dependencies/Excel/ExcelFormat.cpp
+)
 
 # Include directories 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
@@ -124,7 +111,7 @@ SET(CUDA_KERNELS_DIR ${CMAKE_SOURCE_DIR}/CUDA
 INCLUDE_DIRECTORIES(${CUDA_KERNELS_DIR})
 
 
-ADD_SUBDIRECTORY(doc)
+#ADD_SUBDIRECTORY(doc)
 INCLUDE(${CMAKE_SOURCE_DIR}/doc)
 
 
@@ -135,7 +122,7 @@ set(CMAKE_C_FLAGS " -fpermissive -fPIC -O3 -pthread -pipe -DLINUX -D_BOOL -DREQU
 
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
-INCLUDE(${CMAKE_SOURCE_DIR}/CUDA/cu_Kernels.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/CUDA/cuKernels.cmake)
 
 CUDA_ADD_LIBRARY(cuYURI ${CUDA_SOURCES} ${CPP_SOURCES})
 SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/libcuYURI.a)
@@ -147,6 +134,9 @@ SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/
 # Compile Examples
 #########################################################
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/Add_1D_Arrays/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayArrayGL/CMakeLists.cmake)
 
 
 # --------------------------------------------------------

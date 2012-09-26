@@ -17,76 +17,76 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#ifndef _FILL_1D_ARRAY_RND_IMPL_CU_
-#define _FILL_1D_ARRAY_RND_IMPL_CU_
-
-#include "cuGlobals.h"
-#include "Timers/Boost.h"
-
-#include "Kernels/Fill_1D_Array_RND_Kernel.cu"
+/**
+ * \file Copy_1D_Array.h
+ *
+ * @brief This interface links directly to the implementation of the
+ *      Add_1D_Arrays_Device_Kernel.
+ *
+ * @author
+ *      Marwan Abdellah <abdellah.marwan@gmail.com>
+ *
+ * @date
+ *      Created: August, 2011.
+ * @date
+ *      Last Update: September, 2012.
+ */
+#ifndef _COPY_1D_ARRAY_H_
+#define _COPY_1D_ARRAY_H_
 
 template <typename T>
 extern
-void cu_Fill_1D_Array_RND_Impl
-(dim3 cuBlock, dim3 cuGrid, T *devArray, int N,
+void cu_Copy_1D_Array_Impl
+(dim3 cuBlock, dim3 cuGrid,
+ T *devArray_Src, T* devArray_Dist, int N,
+ cuProfile* profile);
+
+namespace cuYURI
+{
+template <typename T>
+extern
+void cu_Copy_1D_Array_Device
+(dim3 cuBlock, dim3 cuGrid,
+ T *devArray_Src, T* devArray_Dist, int N,
  cuProfile* profile)
 {
-    // Create CUDA timer
-    cutCreateTimer(&(profile->kernelTime));
-
-    // Reset CUDA timer
-    cutResetTimer(profile->kernelTime);
-
-    // Start CUDA timer
-    cutStartTimer(profile->kernelTime);
-
-    // Execute the kernel
-    Fill_1D_Array_RND_Kernel <<< cuGrid, cuBlock >>> (devArray, N);
-
-    // Stop CUDA timer
-    cutStopTimer(profile->kernelTime);
-
-    // Calculate kernel execution time
-    profile->kernelDuration = cutGetTimerValue(profile->kernelTime);
-
-    // Check successfull execution of the kernel
-    profile->kernelExecErr = cudaPeekAtLastError();
+    cu_Copy_1D_Array_Impl(cuBlock, cuGrid, devArray_Src, devArray_Dist, N, profile);
 }
 
 template
-void cu_Fill_1D_Array_RND_Impl <char>
+void cu_Copy_1D_Array_Device <char>
 (dim3 cuBlock, dim3 cuGrid,
-char *devArray, int N,
+char *devArray_Src, char* devArray_Dist, int N,
 cuProfile* profile);
 
 template
-void cu_Fill_1D_Array_RND_Impl <unsigned char>
+void cu_Copy_1D_Array_Device <unsigned char>
 (dim3 cuBlock, dim3 cuGrid,
-unsigned char *devArray, int N,
+unsigned char *devArray_Src, unsigned char* devArray_Dist, int N,
 cuProfile* profile);
 
 template
-void cu_Fill_1D_Array_RND_Impl <int>
+void cu_Copy_1D_Array_Device <int>
 (dim3 cuBlock, dim3 cuGrid,
-int *devArray, int N,
+int *devArray_Src, int* devArray_Dist, int N,
 cuProfile* profile);
 
 template
-void cu_Fill_1D_Array_RND_Impl <unsigned int>
+void cu_Copy_1D_Array_Device <unsigned int>
 (dim3 cuBlock, dim3 cuGrid,
-unsigned int *devArray, int N,
+unsigned int *devArray_Src, unsigned int* devArray_Dist, int N,
 cuProfile* profile);
 
 template
-void cu_Fill_1D_Array_RND_Impl <float>
+void cu_Copy_1D_Array_Device <float>
 (dim3 cuBlock, dim3 cuGrid,
-float *devArray, int N,
+float *devArray_Src, float* devArray_Dist, int N,
 cuProfile* profile);
 
 template
-void cu_Fill_1D_Array_RND_Impl <double>
+void cu_Copy_1D_Array_Device <double>
 (dim3 cuBlock, dim3 cuGrid,
-double *devArray, int N,
+double *devArray_Src, double* devArray_Dist, int N,
 cuProfile* profile);
-
-#endif // _FILL_1D_ARRAY_RND_IMPL_CU_
+}
+#endif // _COPY_1D_ARRAY_H_

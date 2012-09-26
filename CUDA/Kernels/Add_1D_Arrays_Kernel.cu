@@ -16,13 +16,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  ********************************************************************/
-#define MAGIC_NO 1.12345
+
 /*!
- * CUDA : This kernel fills an input vector - or 1D array - with random
- * sequence of numbers of length N.
+ * CUDA : This kernel 2 input vectors to the output vector with length N
  *
- * @param devArray
- *      Input device vector - or 1D array - to the kernel.
+ * @param devArrayInput_1
+ *      First input array.
+ *
+ * @param devArrayInput_2
+ *      Second input vector.
+ *
+ * @param devArrayOutput
+ *      Sum vector.
  *
  * @param N
  *      Vector length.
@@ -31,7 +36,7 @@
  *      Marwan Abdellah <abdellah.marwan@gmail.com>
  *
  * @date
- *      Created: April, 2011.
+ *      Created: August, 2012.
  * @date
  *      Last Update: September, 2012.
  *
@@ -40,26 +45,25 @@
  * @note
  *      Minimum Device Compute Capability 1.0.
  */
+
 template <typename T>
 __global__
-void Fill_1D_Array_RND_Kernel(T* devArray, int N)
+void Add_1D_Arrays_Kernel(T* devArrayInput_1,
+                                 T* devArrayInput_2,
+                                 T* devArrayOutput,
+                                 int N)
 {
-    // Thread index @X
-    int x_threadIdx = threadIdx.x;
+    int xThreadIdx = threadIdx.x;
+    int blockWidth = blockDim.x;
 
-    // Block size @X
-    int x_blockDim = blockDim.x;
-
-    // Block index @X
-    int x_blockIdx = blockIdx.x;
-
-    // Thread flat index
-    int index = ((x_blockIdx * x_blockDim) + x_threadIdx);
+    int index = blockIdx.x * blockWidth + xThreadIdx;
 
 #ifdef VEC_CHECK
     if (index < N)
-        devArray[index] = index;
+        devArrayOutput[index] = devArrayInput_1[index] + devArrayInput_2[index];
 #else
-    devArray[index] = (T) ((index * MAGIC_NO) * 2.56789 + (MAGIC_NO))  ;
+    devArrayOutput[index] = devArrayInput_1[index] + devArrayInput_2[index];
 #endif
+
+
 }

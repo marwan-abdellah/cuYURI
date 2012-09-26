@@ -18,14 +18,17 @@
  ********************************************************************/
 
 #include "ex_FillArrayRND.h"
-#include "CUDA/cu_Globals.h"
-#include "CUDA/cu_Utilities.h"
+#include "CUDA/cuGlobals.h"
+#include "CUDA/cuUtilities.h"
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"
 #include "Utilities/MACROS.h"
 
 #include "Utilities/MemoryMACROS.h"
+
+// Sets the kernel GPU configuration automatically
+#define AUTO_CONF 1
 
 void ex::FillArrayRND::run(int argc, char* argv[])
 {
@@ -52,16 +55,22 @@ void ex::FillArrayRND::run(int argc, char* argv[])
     // Allocating device array
     deviceVector = cuUtils::Create_Device_Vector <int> (N);
 
-    // Kernel configuration
-    // NOTE: N should be power-of-two to have a SUCCESSFUL kernel execution
-    dim3 cuBlock(4, 1, 1);
-    dim3 cuGrid(N / cuBlock.x, 1, 1);
-
     // GPU profiler
     cuProfile profile;
 
+#ifdef AUTO_CONF
+    // Generate optimized AUTOMATIC kernel configuration for the GPU
+    kernelConf* autoConf = cuUtils::AutoGenKernelConf_1D(N);
+#else
+    // Kernel configuration
+    // NOTE: N should be power-of-two to have a SUCCESSFUL kernel execution
+    // for the manual configuration
+    dim3 cuBlock(2, 1, 1);
+    dim3 cuGrid(N / cuBlock.x, 1, 1);
+#endif
+
     // Launch the kernel and get statistics
-    cuYURI::cu_Fill_1D_Array_RND <int> (cuBlock, cuGrid, deviceVector, N, &profile);
+    cuYURI::cu_Fill_1D_Array_RND <int> (autoConf->cuBlock, autoConf->cuGrid, deviceVector, N, &profile);
 
     // Download the resulting vector to the host side
     cuUtils::Download_1D_Array <int> (hostVector, deviceVector, N);
@@ -77,6 +86,8 @@ void ex::FillArrayRND::run(int argc, char* argv[])
 
     // Free device memory
     cuUtils::Free_Device_Vector(deviceVector);
+
+    // Application Finalization
 
     INFO("Done");
 }

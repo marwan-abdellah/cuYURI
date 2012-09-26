@@ -16,10 +16,10 @@
 #ifndef _LOGGING_MACROS_H_
 #define _LOGGING_MACROS_H_
 
-#include "Typedefs.h"
-#include "Logging.h"
+#include "Utilities/Typedefs.h"
+#include "Logging/Logging.h"
 
-#define fileStream Utils::logFileStream
+#define fileStream Log::logFileStream
 
 #define LOG() 												\
 	fileStream << "- FILE:" << STRG(__FILE__) << 			\

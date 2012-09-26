@@ -21,14 +21,14 @@
     @section INTRODUCTION INTRODUCTION
         @subsection Features Features
             - The latest release of [PRODUCT_NAME]  provides the following major features and improvements:
-                - Neuron Painter can generate soma only reports
+                - N/A. 
     @htmlonly
     <hr>
     @endhtmlonly        
     @section New_in_this_release New in this release
     
         @subsection New_Features New Features
-            - Neuron Painter can generate soma only reports
+            - Later 
             
         @subsection Enhancements Enhancements
             - N/A
@@ -43,13 +43,10 @@
             - N/A
             
         @subsection API_Changes API Changes
-            - Neuron Painter can generate soma only reports
-            	- While using the NeuronPainter in python, soma_only flag should be set. 
+            - N/A
             
         @subsection Documentation Documentation
-            - Neuron Painter can generate soma only reports
-            	- If NeuronPainter is constructed using the soma_only boolean flag on, it will generate HDF5 reports for soma only', therefore all the report files be smaller. This
-            	is useful for generating spiking neuron reports for circuits with high number of neurons.
+            - N/A
 
         @subsection Bug_Fixes Bug Fixes
             - N/A

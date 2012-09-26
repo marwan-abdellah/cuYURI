@@ -24,7 +24,6 @@ using namespace std;
 
 typedef unsigned char uchar;
 typedef unsigned char uimage;
-typedef char image;
 typedef std::string string_t ;
 typedef std::ifstream istream_t;
 typedef std::ofstream ostream_t;

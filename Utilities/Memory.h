@@ -14,9 +14,9 @@
 #include <fftw3.h>
 #include <cufft.h>
 
-#include "Memory_1D.h"
-#include "Memory_2D.h"
-#include "Memory_3D.h"
+#include "Memory/Memory_1D.h"
+#include "Memory/Memory_2D.h"
+#include "Memory/Memory_3D.h"
 
 namespace Memory
 {

@@ -17,15 +17,30 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#ifndef _CUYUR_INTERFACES_H_
-#define _CUYUR_INTERFACES_H_
+#ifndef _CU_GLOBALS_H_
+#define _CU_GLOBALS_H_
 
-#include "cuGlobals.h"
-#include "cuUtilities.h"
+#include "cuIncludes.h"
 
-// Adding all the interfaces to a single interface
-#include "Interfaces/Fill_1D_Array_RND.h"
-#include "Interfaces/Copy_1D_Array.h"
-#include "Interfaces/Add_1D_Arrays.h"
+struct gpuProfileStruct
+{
+	uint kernelTime;
+	float kernelDuration;
+	int kernelExecErr;
+};
 
-#endif // _CUYUR_INTERFACES_H_
+typedef gpuProfileStruct cuProfile;
+
+enum YURI_RETURN
+{
+    SUCCESS = 1,
+    FAIL = 0
+};
+
+struct kernelConf
+{
+    dim3 cuGrid;
+    dim3 cuBlock;
+};
+
+#endif // _CU_GLOBALS_H_ 

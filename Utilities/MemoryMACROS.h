@@ -9,6 +9,12 @@
 #include "Memory.h"
 
 /*!
+ * Generic allocation of 1D arrays.
+ */
+#define MEM_ALLOC_1D_GENRIC( TYPE, NX )                             \
+    ( TYPE* malloc ( sizeof( TYPE ) * NX ) )
+
+/*!
  * Customized allocation of 1D arrays.
  */
 #define MEM_ALLOC_1D( TYPE, NX )                                    \

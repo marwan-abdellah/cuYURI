@@ -32,7 +32,7 @@
 #define CITS( INT ) ( Utils::intToString_const( INT ) )
 #define CATS( CHAR ) ( Utils::charArrayToString( CHAR ) )
 #define CCATS( CHAR ) ( Utils::charArrayToString_const( CHAR ) )
-#define STI( INT ) ( stringToInt( INT ) )
+#define STI( INT ) ( Utils::stringToInt( INT ) )
 #define CSTI( INT ) ( stringToInt_const( INT ) )
 #define STF( FLOAT ) ( stringToFloat( FLOAT ) )
 #define CSTF( FLOAT ) ( stringToFloat_const( FLOAT ))
@@ -56,7 +56,7 @@
     << ENDL;
 
 #define INFO_LOOP( ITERATION, MESSAGE )    \
-    COUT << TAB << "@[" << ITS( ITERATION ) << "] -> " <<                    \
+    COUT << TAB << "@[" << ( ITERATION ) << "] -> " <<                    \
     STRG( MESSAGE ) << ENDL;
 
 

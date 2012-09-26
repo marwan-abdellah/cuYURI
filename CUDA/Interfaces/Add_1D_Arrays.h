@@ -18,44 +18,43 @@
  ********************************************************************/
 
 /**
- * \file Fill_1D_Array_RND.h
+ * \file Add_1D_Arrays.h
  *
- * @brief Includes all the mandatory interfaces and header files for
- * CUDA kernels and utility functions from the NVIDIA CUDA Toolkit
- * and the GPU Computing SDK.
+ * @brief This interface links directly to the implementation of the
+ *      Add_1D_Arrays_Device_Kernel.
  *
  * @author
  *      Marwan Abdellah <abdellah.marwan@gmail.com>
  *
  * @date
- *      Created: April, 2011.
+ *      Created: August, 2011.
  * @date
  *      Last Update: September, 2012.
  */
 
-#ifndef _FILL_1D_ARRAY_RND_H_
-#define _FILL_1D_ARRAY_RND_H_
+#ifndef _ADD_1D_ARRAYS_DEVICE_H_
+#define _ADD_1D_ARRAYS_DEVICE_H_
 
 template <typename T>
 extern
-void cu_Fill_1D_Array_RND_Impl
+void cu_Add_1D_Arrays_Impl
 (dim3 cuBlock, dim3 cuGrid,
- T *devArray, int N,
+ T *devArrayInput_1,  T* devArrayInput_2, T* devArrayOutput, int N,
  cuProfile* profile);
 
 namespace cuYURI
 {
 template <typename T>
 extern
-void cu_Fill_1D_Array_RND
+void cu_Add_1D_Arrays
 (dim3 cuBlock, dim3 cuGrid,
- T *devArray, int N,
+ T *devArrayInput_1,  T* devArrayInput_2, T* devArrayOutput, int N,
  cuProfile* profile)
 {
-    cu_Fill_1D_Array_RND_Impl( cuBlock, cuGrid, devArray, N, profile);
+    cu_Add_1D_Arrays_Impl(cuBlock, cuGrid, devArrayInput_1, devArrayInput_2, devArrayOutput, N, profile);
 }
 
-/*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
+/*! Instantiates cu_Add_1D_Arrays() with the explicitly specified template for
  * input vector of type char.
  *
  * @param cuBlock
@@ -64,8 +63,14 @@ void cu_Fill_1D_Array_RND
  * @param cuGrid
  *          Kernel grid configuration.
  *
- * @param devArray
- *          Input device vector to the kernel.
+ * @param devArrayInput_1
+ *          First input device vector.
+ *
+ * @param devArrayInput_2
+ *          Second input device vector.
+ *
+ * @param devArrayOutput
+ *          Output (Sum) device vector.
  *
  * @param N
  *          Length of the input vector.
@@ -75,12 +80,13 @@ void cu_Fill_1D_Array_RND
  *
  */
 template
-void cu_Fill_1D_Array_RND <char>
+void cu_Add_1D_Arrays <char>
 (dim3 cuBlock, dim3 cuGrid,
-char *devArray, int N,
+char *devArrayInput_1, char *devArrayInput_2,
+char* devArrayOutput, int N,
 cuProfile* profile);
 
-/*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
+/*! Instantiates cu_Add_1D_Arrays() with the explicitly specified template for
  * input vector of type unsigned char.
  *
  * @param cuBlock
@@ -89,8 +95,14 @@ cuProfile* profile);
  * @param cuGrid
  *          Kernel grid configuration.
  *
- * @param devArray
- *          Input device vector to the kernel.
+ * @param devArrayInput_1
+ *          First input device vector.
+ *
+ * @param devArrayInput_2
+ *          Second input device vector.
+ *
+ * @param devArrayOutput
+ *          Output (Sum) device vector.
  *
  * @param N
  *          Length of the input vector.
@@ -100,12 +112,13 @@ cuProfile* profile);
  *
  */
 template
-void cu_Fill_1D_Array_RND <unsigned char>
+void cu_Add_1D_Arrays <unsigned char>
 (dim3 cuBlock, dim3 cuGrid,
-unsigned char *devArray, int N,
+unsigned char *devArrayInput_1, unsigned char *devArrayInput_2,
+unsigned char* devArrayOutput, int N,
 cuProfile* profile);
 
-/*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
+/*! Instantiates cu_Add_1D_Arrays() with the explicitly specified template for
  * input vector of type int.
  *
  * @param cuBlock
@@ -114,8 +127,14 @@ cuProfile* profile);
  * @param cuGrid
  *          Kernel grid configuration.
  *
- * @param devArray
- *          Input device vector to the kernel.
+ * @param devArrayInput_1
+ *          First input device vector.
+ *
+ * @param devArrayInput_2
+ *          Second input device vector.
+ *
+ * @param devArrayOutput
+ *          Output (Sum) device vector.
  *
  * @param N
  *          Length of the input vector.
@@ -125,12 +144,12 @@ cuProfile* profile);
  *
  */
 template
-void cu_Fill_1D_Array_RND <int>
+void cu_Add_1D_Arrays <int>
 (dim3 cuBlock, dim3 cuGrid,
-int *devArray, int N,
+int *devArrayInput_1, int *devArrayInput_2, int* devArrayOutput, int N,
 cuProfile* profile);
 
-/*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
+/*! Instantiates cu_Add_1D_Arrays() with the explicitly specified template for
  * input vector of type unsigned int.
  *
  * @param cuBlock
@@ -139,8 +158,14 @@ cuProfile* profile);
  * @param cuGrid
  *          Kernel grid configuration.
  *
- * @param devArray
- *          Input device vector to the kernel.
+ * @param devArrayInput_1
+ *          First input device vector.
+ *
+ * @param devArrayInput_2
+ *          Second input device vector.
+ *
+ * @param devArrayOutput
+ *          Output (Sum) device vector.
  *
  * @param N
  *          Length of the input vector.
@@ -150,12 +175,13 @@ cuProfile* profile);
  *
  */
 template
-void cu_Fill_1D_Array_RND <unsigned int>
+void cu_Add_1D_Arrays <unsigned int>
 (dim3 cuBlock, dim3 cuGrid,
-unsigned int *devArray, int N,
+unsigned int *devArrayInput_1, unsigned int *devArrayInput_2,
+unsigned int* devArrayOutput, int N,
 cuProfile* profile);
 
-/*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
+/*! Instantiates cu_Add_1D_Arrays() with the explicitly specified template for
  * input vector of type float.
  *
  * @param cuBlock
@@ -164,8 +190,14 @@ cuProfile* profile);
  * @param cuGrid
  *          Kernel grid configuration.
  *
- * @param devArray
- *          Input device vector to the kernel.
+ * @param devArrayInput_1
+ *          First input device vector.
+ *
+ * @param devArrayInput_2
+ *          Second input device vector.
+ *
+ * @param devArrayOutput
+ *          Output (Sum) device vector.
  *
  * @param N
  *          Length of the input vector.
@@ -175,12 +207,13 @@ cuProfile* profile);
  *
  */
 template
-void cu_Fill_1D_Array_RND <float>
+void cu_Add_1D_Arrays <float>
 (dim3 cuBlock, dim3 cuGrid,
-float *devArray, int N,
+float *devArrayInput_1, float *devArrayInput_2,
+float* devArrayOutput, int N,
 cuProfile* profile);
 
-/*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
+/*! Instantiates cu_Add_1D_Arrays() with the explicitly specified template for
  * input vector of type double.
  *
  * @param cuBlock
@@ -189,8 +222,14 @@ cuProfile* profile);
  * @param cuGrid
  *          Kernel grid configuration.
  *
- * @param devArray
- *          Input device vector to the kernel.
+ * @param devArrayInput_1
+ *          First input device vector.
+ *
+ * @param devArrayInput_2
+ *          Second input device vector.
+ *
+ * @param devArrayOutput
+ *          Output (Sum) device vector.
  *
  * @param N
  *          Length of the input vector.
@@ -200,11 +239,10 @@ cuProfile* profile);
  *
  */
 template
-void cu_Fill_1D_Array_RND <double>
+void cu_Add_1D_Arrays <double>
 (dim3 cuBlock, dim3 cuGrid,
-double *devArray, int N,
+double *devArrayInput_1, double *devArrayInput_2,
+double* devArrayOutput, int N,
 cuProfile* profile);
-
-} // namespace cuYURI
-
-#endif // _FILL_1D_ARRAY_RND_H_
+}
+#endif // _ADD_1D_ARRAYS_DEVICE_H_
