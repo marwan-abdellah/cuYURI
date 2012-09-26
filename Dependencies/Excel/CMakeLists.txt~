@@ -1,0 +1,23 @@
+# Minimum required CMake version 
+cmake_minimum_required(VERSION 2.6)
+
+# Fourier Volume Rendeing
+PROJECT(ExcelFormat)
+
+SET(CPP_SOURCES BasicExcel.cpp
+		BasicExcel.hpp
+		ExcelFormat.cpp
+)
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+
+set(CMAKE_C_FLAGS " -fpermissive -fPIC -O3 -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
+
+ADD_LIBRARY(ExcelFormat ${CPP_SOURCES})
+
+SET_PROPERTY(TARGET ExcelFormat PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/libExcelFormat.a)
+
+ADD_EXECUTABLE(Examples Examples.cpp)
+TARGET_LINK_LIBRARIES(Examples.cpp ExcelFormat)
+
