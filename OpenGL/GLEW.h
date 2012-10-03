@@ -5,5 +5,6 @@ namespace OpenGL
 {
 // Checking required OpenGL extensions
 bool CheckGLExtensions();
+void CheckGLExtensionsRequiredForRayCaster();
 }
 #endif // GLEW_H

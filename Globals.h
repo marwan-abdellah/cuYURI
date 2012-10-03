@@ -10,6 +10,9 @@
 
 #include <fftw3.h>
 
+
+
+
 /*
  * Gets rid of the annoying warrning
  * "deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]"
@@ -40,6 +43,27 @@ typedef vol_char* vol_double_t;
 
 typedef fftwf_complex* fftwf_complex_t;
 typedef fftw_complex* fftw_complex_t;
+
+
+struct volumeSize
+{
+    int NX;     // X
+    int NY;     // Y
+    int NZ;     // Z
+    int NU;     // Unified Dimension (X = Y = Z)
+};
+
+
+struct volumeImage
+{
+    // Volume dimensiosn
+    volumeSize volSize;
+
+    // Pointer to the volume image data
+    char* volPtr;
+};
+
+
 
 
 struct volume_char

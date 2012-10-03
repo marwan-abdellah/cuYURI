@@ -20,7 +20,11 @@
 #ifndef _OPENGL_H_
 #define _OPENGL_H_
 
+#include <glew.h>
 #include "GL/gl.h"
+
+#include "Utilities/MACROS.h"
+
 
 
 
@@ -36,7 +40,7 @@ GLuint* UploadImageToTexture(const int imageWidth,
                              const int imageHeight,
                              float* imagePtr);
 
-void UpdateTexID(GLuint* imgTex_ID);
+void UpdateTexID(GLuint* imgTex2D_ID);
 
 void UpdateWindowParams(const int newWinWidth, const int newWinHeight);
 
@@ -48,6 +52,47 @@ void IdleGL();
 void MouseGL(int iButton, int iState, int IX, int iY);
 void MouseMotionGL(int iX, int iY);
 void RegisterGLCallBacks();
+
+
+
+
+
+namespace RayCaster
+{
+void EnableFrameBuffer(GLuint* frameBuffer);
+
+void EnableRenderBuffer(GLuint* renderBuffer);
+
+void DisableFrameBuffer();
+
+void CreateVertexWithColor(float x, float y, float z);
+
+void DrawColoredCube(float x, float y, float z);
+
+GLuint* UploadVolumeRGB(volumeImage* volImgPtr);
+
+GLuint* UploadVolumeRGBA(volumeImage* volImgPtr);
+
+GLuint* CreateFBO();
+
+GLuint* CreateBackFaceBuffer(const int WINDOW_SIZE_X,
+                             const int WINDOW_SIZE_Y);
+
+GLuint* CreateImageBuffer(const int WINDOW_SIZE_X,
+                          const int WINDOW_SIZE_Y);
+
+GLuint* CreateRenderBuffer(const int WINDOW_SIZE_X,
+                           const int WINDOW_SIZE_Y);
+
+
+void DrawFullScreenQuad();
+
+void RenderBackFace(GLuint* backfaceTex_ID);
+void ReshapeProjection(int projectionWidth, int projectionHeight);
+void RenderBufferToScreen(GLuint* imageTex_ID, GLuint* backfaceTex_ID,
+                          const int WINDOW_SIZE_X,
+                          const int WINDOW_SIZE_Y);
+}
 }
 
 #endif // _OPENGL_H_

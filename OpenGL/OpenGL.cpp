@@ -22,20 +22,11 @@
 #include "Utilities/MACROS.h"
 #include "Utilities/Utils.h"
 
-
-/************/
-/* @ LOCALS */
-/************/
-GLuint* cGL_ImageTexture_ID;
-
-int    eWinWidth;
-int    eWinHeight;
-
-
 int    glWinWidth       = 512;
 int    glWinHeight      = 512;
 float  glZoomLevel      = 1;
 
+GLuint* glTex2D_ID;
 
 void OpenGL::UpdateWindowParams(const int newWinWidth, const int newWinHeight)
 {
@@ -50,18 +41,6 @@ void OpenGL::InitOpenGLContext(int argc, char** argv)
 
     /* @ GLUT Initialization */
     OpenGL::InitGlut(argc, argv);
-
-
-    /*
-    // Initialize necessary OpenGL extensions
-    if (!checkGLExtensions())
-    {
-        INFO("Missing OpenGL Necessary Extensions");
-        EXIT(0);
-    }
-    else
-        INFO("Requied OpenGL extensions are FOUND");
-        */
 
     /* @ Clearing color buffer */
     glClearColor (0.0, 0.0, 0.0, 0.0);
@@ -79,6 +58,16 @@ void OpenGL::InitOpenGLContext(int argc, char** argv)
 
 
 
+void SetTex2DParams()
+{
+    // Set the 2D texture parameters
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
+
+
 GLuint* OpenGL::UploadImageToTexture(const int imageWidth,
                                   const int imageHeight,
                                   float* imagePtr)
@@ -92,12 +81,8 @@ GLuint* OpenGL::UploadImageToTexture(const int imageWidth,
     // Bind the texture target
     glBindTexture(GL_TEXTURE_2D, *imageTex_ID);
 
+    SetTex2DParams();
 
-    // Set the 2D texture parameters
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     // @NOTE Automatic mipmap Generation included in OpenGL v1.4
     glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE,
@@ -110,9 +95,9 @@ GLuint* OpenGL::UploadImageToTexture(const int imageWidth,
     return imageTex_ID;
 }
 
-void OpenGL::UpdateTexID(GLuint* imgTex_ID)
+void OpenGL::UpdateTexID(GLuint* imgTex2D_ID)
 {
-    cGL_ImageTexture_ID = imgTex_ID;
+    glTex2D_ID = imgTex2D_ID;
 }
 
 
@@ -120,9 +105,9 @@ void OpenGL::DisplayImage(float* imagePtr, int NX, int NY)
 {
     OpenGL::InitOpenGLContext(NULL, NULL);
 
-    GLuint* imgTex_ID = OpenGL::UploadImageToTexture(NX, NY, imagePtr);
+    GLuint* imgTex2D_ID = OpenGL::UploadImageToTexture(NX, NY, imagePtr);
 
-    OpenGL::UpdateTexID(imgTex_ID);
+    OpenGL::UpdateTexID(imgTex2D_ID);
 
     glutMainLoop();
 }
@@ -138,7 +123,7 @@ void OpenGL::DisplayGL()
     glDisable(GL_DEPTH_TEST);
 
     /* @ Binding slice texture to be displayed On OpenGL Quad */
-    glBindTexture(GL_TEXTURE_2D, *cGL_ImageTexture_ID);
+    glBindTexture(GL_TEXTURE_2D, *glTex2D_ID);
     glEnable(GL_TEXTURE_2D);
 
     /* Adjusting slice texture parameters */

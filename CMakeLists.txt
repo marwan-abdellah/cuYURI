@@ -90,7 +90,12 @@ CUDA/cuKernelConf.cpp
 Magick/Image.cpp
 OpenGL/GLUT.cpp
 OpenGL/OpenGL.cpp
-OpenGL/GLEW.cpp)
+OpenGL/GLEW.cpp
+Volume/Loader.cpp
+Volume/Volume.cpp
+Volume/TestVolume.cpp
+OpenGL/Cg.cpp
+OpenGL/RayCaster.cpp)
 
 
 LIST(APPEND CPP_SOURCES
@@ -128,7 +133,18 @@ CUDA_ADD_LIBRARY(cuYURI ${CUDA_SOURCES} ${CPP_SOURCES})
 SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/libcuYURI.a)
 
 
+find_library(CG_LIB NAMES Cg
+  HINTS /usr/lib/x86_64-linux-gnu/
+  PATHS /usr/lib /usr/local/lib /opt/local/lib
+)
 
+find_library(CG_GL_LIB NAMES CgGL
+  HINTS /usr/lib/x86_64-linux-gnu/
+  PATHS /usr/lib /usr/local/lib /opt/local/lib
+)
+
+LINK_LIBRARIES(${CG_LIB})
+LINK_LIBRARIES(${CG_GL_LIB})
 
 #########################################################
 # Compile Examples
@@ -137,7 +153,8 @@ INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/Add_1D_Arrays/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayArrayGL/CMakeLists.cmake)
-
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeSlicer/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeRayCaster/CMakeLists.cmake)
 
 # --------------------------------------------------------
 # Test Projects
