@@ -3,7 +3,7 @@
 
 void OpenGL::Cg::cgErrorCallback(CGcontext currentContext)
 {
-    // Get last errir
+    // Get last error
     CGerror lastError = cgGetError();
 
     // Check for errors
@@ -49,6 +49,7 @@ void OpenGL::Cg::LoadVertexProgram(CGcontext currentContext,
     vertexProg = cgCreateProgramFromFile
             (currentContext, CG_SOURCE, shaderFilePath,
              vertexProfile, progName, NULL);
+
 
     // Compile the vertex program on the fly
     if (!cgIsProgramCompiled(vertexProg))

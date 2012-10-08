@@ -17,19 +17,17 @@
 # MA 02110-1301, USA.
 #####################################################################
 
-#########################################################
-#! Example source files
-#########################################################
-SET(EXAMPLE_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/ex_VolumeSlicer.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/Run.cpp)
+MESSAGE("-- FINDING CUDA")
 
-#########################################################
-#! Generating executable
-#########################################################
-CUDA_ADD_EXECUTABLE(ex_DisplayArrayGL ${EXAMPLE_SOURCES})
+# Find CUDA package
+FIND_PACKAGE(CUDA REQUIRED)
 
-#########################################################
-#! Link the executable against the cuYURI library
-#########################################################
-TARGET_LINK_LIBRARIES(ex_VolumeSlicer cuYURI)
+IF(CUDA_FOUND)
+    MESSAGE(STATUS "CUDA Found")
+    MESSAGE("-- CUDA include directory : ${CUDA_INCLUDE_DIRS}")
+    MESSAGE("-- CUDA library directory : ${FFTW_LIBRARIES}")
+    INCLUDE_DIRECTORIES(${CUDA_INCLUDE_DIRS})
+    LINK_LIBRARIES(${CUDA_LIBRARIES})
+ELSE(CUDA_FOUND)
+    MESSAGE(FATAL_ERROR "CUDA NOT Found")
+ENDIF(CUDA_FOUND)

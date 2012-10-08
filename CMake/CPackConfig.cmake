@@ -6,13 +6,13 @@
 # -----------------------------------------------------------------------------
 
 # Package Name 
-set(CPACK_PACKAGE_NAME "FFT_CV")
+set(CPACK_PACKAGE_NAME "cuYURI")
 
 # Vendor 
 set(CPACK_PACKAGE_VENDOR "ABDELLAH") 
 
 # Summary 
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Simple application to test the FFTW library with OpenCV")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "cuYURI Library")
 
 # Maintainer 
 set(CPACK_PACKAGE_CONTACT "Marwan Abdellah <abdellah.marwan@gmail.com")

@@ -24,7 +24,7 @@
 
 struct gpuProfileStruct
 {
-	uint kernelTime;
+    unsigned int kernelTime;
 	float kernelDuration;
 	int kernelExecErr;
 };

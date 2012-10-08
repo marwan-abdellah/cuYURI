@@ -11,6 +11,7 @@ namespace Cg
 {
 
 void cgErrorCallback(CGcontext currentContext);
+
 void SetTextureUniformParams(char* paramName, GLuint iTex_ID,
                              const CGprogram &shaderProg,
                              CGparameter paramVal);

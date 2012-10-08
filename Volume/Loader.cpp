@@ -74,10 +74,14 @@ volumeImage* Volume::LoadVolume(const char* path)
     // Allocating volume structre
     volumeImage* iVolume = MEM_ALLOC_1D_GENERIC(volumeImage, 1);
 
+    // Load header
+    volumeSize* iVolSize = MEM_ALLOC_1D_GENERIC(volumeSize, 1);
+    iVolSize = Volume::LoadHeader(path);
+
     // Reading the header file to get volume dimensions
-    iVolume->volSize.NX = (Volume::LoadHeader(path))->NX;
-    iVolume->volSize.NY = (Volume::LoadHeader(path))->NY;
-    iVolume->volSize.NZ = (Volume::LoadHeader(path))->NZ;
+    iVolume->volSize.NX = (iVolSize->NX);
+    iVolume->volSize.NY = (iVolSize->NY);
+    iVolume->volSize.NZ = (iVolSize->NZ);
 
     if (iVolume->volSize.NX == iVolume->volSize.NY &&
             iVolume->volSize.NX == iVolume->volSize.NZ)

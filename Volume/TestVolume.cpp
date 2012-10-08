@@ -5,6 +5,9 @@
 
 volumeImage* Volume::CreateTestVolume(const int N)
 {
+    INFO("Creating TEST Volume");
+
+    // Allocating volume image object
     volumeImage* volImg = MEM_ALLOC_1D_GENERIC(volumeImage, 1);
 
     // Saving the volume dimensions in the volume structure
@@ -90,6 +93,8 @@ volumeImage* Volume::CreateTestVolume(const int N)
             }
         }
     }
+
+    INFO("Creating TEST Volume DONE");
 
     return volImg;
 }

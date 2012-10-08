@@ -1,4 +1,5 @@
 #include "OpenGL.h"
+#include "Cg.h"
 #include "Utilities/MACROS.h"
 
 
@@ -32,13 +33,13 @@ CGprogram iVertProg;
 CGprogram iFragProg;
 
 // internal Cg parameters
-CGparamter iCgParam_1;
-CGparamter iCgParam_2;
+CGparameter iCgParam_1;
+CGparameter iCgParam_2;
 
 
-
+/*
 void OpenGL::RayCaster::UpdateCgParamters(CGparameter CgParam1,
-                                          CGparamter CgParam2)
+                                          CGparameter CgParam2)
 {
     iCgParam_1 = CgParam1;
     iCgParam_2 = CgParam2;
@@ -58,7 +59,7 @@ void OpenGL::RayCaster::UpdateCgProfiles(CGprofile CgVertProfile,
     iVertProf = CgVertProfile;
     iFragProf = CgFragProfile;
 }
-
+*/
 
 void OpenGL::RayCaster::EnableFrameBuffer(GLuint* frameBuffer)
 {
@@ -173,17 +174,22 @@ GLuint* OpenGL::RayCaster::UploadVolumeRGBA(volumeImage* ptrVolImage)
     // Pixel data storage format
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 
+    INFO("1");
+
     // Generate texture ID
     GLuint* volumeTex_ID = MEM_ALLOC_1D_GENERIC(GLuint, 1);
 
+    INFO("2");
     // Generate texture ID
     glGenTextures(1, volumeTex_ID);
 
+    INFO("3");
     // Bind texture
     glBindTexture(GL_TEXTURE_3D, *volumeTex_ID);
-
+INFO("4");
     // Replacement mode
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    INFO("5");
 
     // Adjust 3D texture paramters
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -192,6 +198,7 @@ GLuint* OpenGL::RayCaster::UploadVolumeRGBA(volumeImage* ptrVolImage)
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
 
+    INFO("6");
     // Upload the texture to the GPU
     glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA,
                  ptrVolImage->volSize.NX,
@@ -201,6 +208,7 @@ GLuint* OpenGL::RayCaster::UploadVolumeRGBA(volumeImage* ptrVolImage)
                  GL_RGBA,
                  GL_UNSIGNED_BYTE,
                  ptrVolImage->volPtr);
+    INFO("7");
 
     INFO("Uploading volume to 3D texture DONE");
 
@@ -389,7 +397,7 @@ void OpenGL::RayCaster::ReshapeProjection(int projectionWidth, int projectionHei
 
 
 
-
+/*
 void RayCasting_SinglePass(GLuint* imageTex_ID,)
 {
     // Attach final image texture to frame buffer
@@ -430,4 +438,4 @@ void RayCasting_SinglePass(GLuint* imageTex_ID,)
     cgGLDisableProfile(vertexProfile);
     cgGLDisableProfile(fragmentProfile);
 }
-
+*/

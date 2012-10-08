@@ -10,9 +10,6 @@
 
 #include <fftw3.h>
 
-
-
-
 /*
  * Gets rid of the annoying warrning
  * "deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]"

@@ -18,7 +18,7 @@
  ********************************************************************/
 
 #include "OpenGL.h"
-#include "OpenGL/GLUT.h"
+#include "GLUT.h"
 #include "Utilities/MACROS.h"
 #include "Utilities/Utils.h"
 

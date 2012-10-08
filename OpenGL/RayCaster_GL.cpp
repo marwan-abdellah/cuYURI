@@ -1,4 +1,5 @@
 #include "OpenGL.h"
+#include "RayCaster_GL.h"
 
 void OpenGL::RayCaster::Resize_GL(int windowWidth, int windowHeight)
 {
@@ -22,7 +23,7 @@ void OpenGL::RayCaster::Resize_GL(int windowWidth, int windowHeight)
     glMatrixMode(GL_MODELVIEW);
 }
 
-
+/*
 
 // for contiunes keypresses
 void ProcessKeys()
@@ -69,8 +70,9 @@ void KeyboardUpCallback(unsigned char key, int x, int y)
     }
 }
 
+*/
 void OpenGL::RayCaster::Idel_GL()
 {
-    ProcessKeys();
-    glutPostRedisplay();
+    //ProcessKeys();
+    //glutPostRedisplay();
 }

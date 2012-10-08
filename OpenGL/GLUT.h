@@ -20,7 +20,7 @@
 #ifndef _GLUT_H_
 #define _GLUT_H_
 
-#include <glut.h>
+#include <GL/glut.h>
 #include "GL/gl.h"
 
 namespace OpenGL

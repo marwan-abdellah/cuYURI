@@ -21,7 +21,7 @@
 #! Example source files
 #########################################################
 SET(EXAMPLE_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/ex_VolumeRayCaster.cpp
+    #${CMAKE_CURRENT_LIST_DIR}/ex_VolumeRayCaster.cpp
     ${CMAKE_CURRENT_LIST_DIR}/Run.cpp)
 
 #########################################################

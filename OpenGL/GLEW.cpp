@@ -1,6 +1,6 @@
 #include "GLEW.h"
 #include "Utilities/MACROS.h"
-#include <glew.h>
+#include <GL/glew.h>
 
 
 bool OpenGL::CheckGLExtensions()

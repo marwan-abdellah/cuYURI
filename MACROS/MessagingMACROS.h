@@ -8,7 +8,7 @@
     COUT << STRG( __FILE__ ) << ":[" <<                             			\
     ( __LINE__ ) << "]" << ENDL << TAB <<                           			\
     STRG( __FUNCTION__ ) << ": EXITING " << CODE << ENDL;           			\
-    exit( 0 );
+    exit( CODE );
 
 /*!
  * Inserts a sepration line of (*) to separate between two different

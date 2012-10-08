@@ -7,32 +7,39 @@ if(ImageMagick_FOUND)
 endif()
 
 # Set Boost heuristic directories 
-set(ImageMagick_INC_DIR "/usr/include/ImageMagick")
+set(ImageMagick_INC_DIR "/opt/local/include/ImageMagick")
 set(ImageMagick_LIB_DIR "/usr/lib")
 
 find_library(Magick_LIB NAMES Magick++
-  PATHS /usr/lib 
+  PATHS /opt/local/lib
+        /usr/lib
 	/usr/local/lib 
-	/opt/local/lib
+
 )
 
 find_library(MagickCore_LIB NAMES MagickCore
-  PATHS /usr/lib
+  PATHS /opt/local/lib
+        /usr/lib
         /usr/local/lib
-        /opt/local/lib
+
 )
 
 find_library(MagickWand_LIB NAMES MagickWand
-  PATHS /usr/lib
+  PATHS /opt/local/lib
+        /usr/lib
         /usr/local/lib
-        /opt/local/lib
+
 )
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(ImageMagick DEFAULT_MSG Magick_LIB MagickCore_LIB MagickWand_LIB)
 
 # Include directories 
+MESSAGE($ImageMagick_INC_DIR->${ImageMagick_INC_DIR})
 INCLUDE_DIRECTORIES(${ImageMagick_INC_DIR})   
+INCLUDE_DIRECTORIES("${ImageMagick_INC_DIR}/Magick++")
+INCLUDE_DIRECTORIES("/opt/local/include/ImageMagick")
+
 
 # Link Boost timer libraries to the application 
 LINK_LIBRARIES(${Magick_LIB} ${MagickCore_LIB} ${MagickWand_LIB})

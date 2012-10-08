@@ -19,23 +19,34 @@
 
 #include "GLUT.h"
 #include "Utilities/MACROS.h"
+
 void OpenGL::InitGlut(int argc, char** argv)
 {
     INFO("Initializing GLUT");
+
+    // Initialize GLUT context
     glutInit(&argc, argv);
 
+    // Initial window dimensions
     const int initialWinWidth = 512;
     const int initialWinHeight = 512;
 
-    // Calculte window position
+    // Calculate window dimensions and center its position
     const int screenWidth = glutGet(GLUT_SCREEN_WIDTH);
     const int screenHeight = glutGet(GLUT_SCREEN_HEIGHT);
     const int glutWinPos_X = ((screenWidth - initialWinWidth) / 2);
     const int glutWinPos_Y = ((screenHeight- initialWinHeight) / 2);
 
+    // RGBA and double buffering display mode
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+
+    // Set GLUT window size
     glutInitWindowSize(initialWinWidth, initialWinHeight);
+
+    // Set GLUT window position
     glutInitWindowPosition(glutWinPos_X, glutWinPos_Y);
+
+    // Create GLUT window and set its title
     glutCreateWindow("cuYURI - OpenGL Integration");
 
     INFO("Display Mode : GLUT_RGBA | GLUT_DOUBLE");

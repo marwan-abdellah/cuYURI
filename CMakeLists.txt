@@ -17,63 +17,61 @@
 # MA 02110-1301, USA.
 #####################################################################
 
-# Minimum required CMake version 
-cmake_minimum_required(VERSION 2.6)
+#########################################################
+#! Minimum required CMake version
+#########################################################
+cmake_minimum_required(VERSION 2.8)
 
-# Fourier Volume Rendeing
-PROJECT(cuYuri)
+#########################################################
+#! Project name
+#########################################################
+PROJECT(cuYURI)
 
-# Add CMake modules 
+#########################################################
+#! Add CMake customized modules
+#########################################################
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
-# FFTW
-SET(FFTW_ROOT ${PROJECT_SOURCE_DIR}/../install) 
-FIND_PACKAGE(FFTW REQUIRED)
-IF(FFTW_FOUND)
-  MESSAGE(STATUS "FFTW found...")
-  MESSAGE("-- FFTW include directory : ${FFTW_INCLUDE_DIR}")
-  MESSAGE("-- FFTW library directory : ${FFTW_LIBRARIES}")
-  INCLUDE_DIRECTORIES(${FFTW_INCLUDE_DIR})
-  LINK_LIBRARIES(${FFTW_LIBRARIES})
-ELSE(FFTW_FOUND)
-  MESSAGE(FATAL_ERROR "FFTW not found")
-ENDIF(FFTW_FOUND)
+#########################################################
+#! Find packages
+#########################################################
+# @FFTW
+INCLUDE(Find_FFTW)
 
-# OpenGL
-FIND_PACKAGE(OpenGL REQUIRED)
+# @Cocoa for Apple
+INCLUDE(Find_Cocoa)
 
-IF(OPENGL_FOUND)
-    MESSAGE(STATUS "OpenGL found...")
-    MESSAGE("-- OpenGL include directory : ${OPENGL_INCLUDE_DIR}")
-    MESSAGE("-- OpenGL library directory : ${OPENGL_LIBRARY}")
-    INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-    LINK_LIBRARIES(${OPENGL_LIBRARY})
-ELSE(OPENGL_FOUND)
-    MESSAGE(FATAL_ERROR "OpenGL not found")
-ENDIF(OPENGL_FOUND)
+# @OpenGL
+INCLUDE(Find_OpenGL)
 
-# GLUT
-FIND_PACKAGE(GLUT REQUIRED)
-IF(GLUT_FOUND)
-    MESSAGE(STATUS  "GLUT found...")
-    MESSAGE("GLUT include directory : ${GLUT_INCLUDE_DIR}")
-    MESSAGE("GLUT library directory : ${GLUT_LIBRARY}")
-    INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR}/GL)
-    LINK_LIBRARIES(${GLUT_LIBRARY})
-ELSE(GLUT_FOUND)
-    MESSAGE(FATAL_ERROR "GLUT not found")
-ENDIF(GLUT_FOUND)
+# @GLUT
+INCLUDE(Find_GLUT)
 
-# GLEW
-INCLUDE(FindGLEW)
-LINK_LIBRARIES(${GLEW_LIB})
-INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIR})
+# @GLEW
+INCLUDE(Find_GLEW)
 
-# Add the heade files to the include directories
-INCLUDE_DIRECTORIES("${OPENGL_INCLUDE_DIR}")
+# @X11 supporting libraries
+INCLUDE(Find_X11)
 
-# Includes
-INCLUDE(Includes)
+# @Cg NVIDIA
+INCLUDE(Find_Cg)
+
+# @CUDA
+INCLUDE(Find_CUDA)
+
+# @CUDA GPU Computing SDK
+INCLUDE(Find_CUDA_SDK)
+
+# @OpenMP
+INCLUDE(Find_OpenMP)
+
+# @ImageMagick
+INCLUDE(Find_ImageMagick)
+
+# @Boost
+INCLUDE(Find_Boost)
+
+
 
 SET(CPP_SOURCES
 Logging/Logging.cpp
@@ -82,21 +80,24 @@ Memory/Memory_2D.cpp
 Memory/Memory_3D.cpp
 Timers/Boost.cpp
 Timers/CUDA.cpp
-Utilities/XL.cpp
+#Utilities/XL.cpp
 Utilities/Utils.cpp
 CUDA/cuMemory_1D_Array.cpp
 CUDA/cuDataTransfer_1D_Array.cpp
 CUDA/cuKernelConf.cpp
 Magick/Image.cpp
-OpenGL/GLUT.cpp
 OpenGL/OpenGL.cpp
 OpenGL/GLEW.cpp
+OpenGL/GLUT.cpp
 Volume/Loader.cpp
 Volume/Volume.cpp
 Volume/TestVolume.cpp
 OpenGL/Cg.cpp
-OpenGL/RayCaster.cpp)
-
+OpenGL/RayCaster.cpp
+OpenGL/RayCaster_GL.cpp
+OpenGL/VolumeRayCaster.cpp
+OpenGL/SimpleVolumeSlicer.cpp
+)
 
 LIST(APPEND CPP_SOURCES
 Dependencies/Excel/BasicExcel.cpp
@@ -130,27 +131,17 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 INCLUDE(${CMAKE_SOURCE_DIR}/CUDA/cuKernels.cmake)
 
 CUDA_ADD_LIBRARY(cuYURI ${CUDA_SOURCES} ${CPP_SOURCES})
+
 SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/libcuYURI.a)
 
 
-find_library(CG_LIB NAMES Cg
-  HINTS /usr/lib/x86_64-linux-gnu/
-  PATHS /usr/lib /usr/local/lib /opt/local/lib
-)
 
-find_library(CG_GL_LIB NAMES CgGL
-  HINTS /usr/lib/x86_64-linux-gnu/
-  PATHS /usr/lib /usr/local/lib /opt/local/lib
-)
-
-LINK_LIBRARIES(${CG_LIB})
-LINK_LIBRARIES(${CG_GL_LIB})
 
 #########################################################
 # Compile Examples
 #########################################################
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
-INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
+#INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/Add_1D_Arrays/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayArrayGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeSlicer/CMakeLists.cmake)
@@ -179,3 +170,16 @@ INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeRayCaster/CMakeLists.cmake)
 
 # FVR
 #INCLUDE(${CMAKE_SOURCE_DIR}/FourierVolumeRenderer/CMakeLists.cmake)
+
+
+
+
+#########################################################
+#! Generating executable
+#########################################################
+CUDA_ADD_EXECUTABLE(run ${CMAKE_SOURCE_DIR}/Visualization/VolumeSlicer_3D/VolumeRenderPyramid.cpp)
+
+#########################################################
+#! Link the executable against the cuYURI library
+#########################################################
+TARGET_LINK_LIBRARIES(run cuYURI)

@@ -20,8 +20,8 @@
 #ifndef _OPENGL_H_
 #define _OPENGL_H_
 
-#include <glew.h>
-#include "GL/gl.h"
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 #include "Utilities/MACROS.h"
 

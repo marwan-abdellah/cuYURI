@@ -1,10 +1,12 @@
 #ifndef RAYCASTER_GL_H
 #define RAYCASTER_GL_H
-
-class RayCaster_GL
+namespace OpenGL
 {
-public:
-    RayCaster_GL();
-};
+namespace RayCaster
+{
 
+void Resize_GL(int windowWidth, int windowHeight);
+void Idel_GL();
+}
+}
 #endif // RAYCASTER_GL_H

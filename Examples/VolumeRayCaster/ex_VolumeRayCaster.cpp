@@ -28,7 +28,7 @@
 
 #include "OpenGL/GLEW.h"
 
-#include <glew.h>
+#include <GL/glew.h>
 #include <Cg/cg.h>
 #include <fstream>
 #include <Cg/cgGL.h>
@@ -60,7 +60,7 @@ CGcontext context;
 CGprofile vertexProfile, fragmentProfile;
 CGparameter cgParam_1,cgParam_2;
 
-CGprogram vertex_main,fragment_main; // the raycasting shader programs
+CGprogram vertex_main,fragment_main;
 
 GLuint* renderBuffer;
 GLuint* frameBuffer;
@@ -82,7 +82,7 @@ void init()
     // Clear color buffer
     glClearColor(0.0, 0.0, 0.0, 0);
 
-    // Load volume (Create sample volume)
+    // Load volume (create sample volume)
     volumeImage* volImagePtr = MEM_ALLOC_1D_GENERIC(volumeImage, 1);
     volImagePtr = Volume::CreateTestVolume(VOLUME_TEX_SIZE);
 
@@ -103,9 +103,12 @@ void init()
     fragmentProfile = OpenGL::Cg::GetFragmentProfile(context);
 
     // Load vertex program and check for erros
+    INFO("1");
     OpenGL::Cg::LoadVertexProgram(context, vertexProfile, vertex_main,"raycasting_shader.cg","vertex_main");
-    OpenGL::Cg::cgErrorCallback(context);
 
+    INFO("2");
+    OpenGL::Cg::cgErrorCallback(context);
+    INFO("3");
     // Load fragment program and check for errors
     OpenGL::Cg::LoadFragmentProgram(context, fragmentProfile, fragment_main,"raycasting_shader.cg","fragment_main");
     OpenGL::Cg::cgErrorCallback(context);

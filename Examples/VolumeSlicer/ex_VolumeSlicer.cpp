@@ -27,7 +27,7 @@
 #include "Utilities/MemoryMACROS.h"
 #include "OpenGL/OpenGL.h"
 
-#include <glut.h>
+#include "OpenGL/GLUT.h"
 
 using namespace std;
 
