@@ -189,8 +189,8 @@ void CreateVolumeTexture()
 
     // Load volume (create sample volume)
     volumeImage* volImagePtr = MEM_ALLOC_1D_GENERIC(volumeImage, 1);
-    // volImagePtr = Volume::CreateTestVolume(VOLUME_TEX_SIZE);
-    volImagePtr = Volume::LoadVolume("/Software/DataSets/CTData/CTData");
+     volImagePtr = Volume::CreateTestVolume(256);
+    //volImagePtr = Volume::LoadVolume("/home/abdellah/Software/DataSets/CTData/CTData");
 
     INFO("Uploading volume texture to the GPU");
 
@@ -205,21 +205,21 @@ void CreateVolumeTexture()
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 
-//    glTexImage3D(GL_TEXTURE_3D, 0,GL_RGBA,
-//                 volImagePtr->volSize.NX,
-//                 volImagePtr->volSize.NY,
-//                 volImagePtr->volSize.NZ,
-//                 0, GL_RGBA,
-//                 GL_UNSIGNED_BYTE,
-//                 volImagePtr->volPtr);
+    glTexImage3D(GL_TEXTURE_3D, 0,GL_RGBA,
+                 volImagePtr->volSize.NX,
+                 volImagePtr->volSize.NY,
+                 volImagePtr->volSize.NZ,
+                 0, GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+                 volImagePtr->volPtr);
 
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_LUMINANCE,
+/*    glTexImage3D(GL_TEXTURE_3D, 0, GL_LUMINANCE,
                  volImagePtr->volSize.NX,
                  volImagePtr->volSize.NY,
                  volImagePtr->volSize.NZ,
                  0, GL_LUMINANCE,
                  GL_UNSIGNED_BYTE,
-                 volImagePtr->volPtr);
+                 volImagePtr->volPtr)*/;
 
     INFO("Volume texture created");
 }
@@ -305,10 +305,12 @@ void Init()
 
     // Load shaders
     LoadVertexProgram(vertexProgram,"raycasting_shader.cg","vertex_main");
-    cgErrorCallback();
+    //cgErrorCallback();
     LoadFragmentProgram(fragmentProgram,"raycasting_shader.cg","fragment_main");
-    cgErrorCallback();
+    //cgErrorCallback();
 
+
+    INFO("PASS");
     // Create buffers
     glGenFramebuffersEXT(1, &frameBuffer);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,frameBuffer);
@@ -558,9 +560,9 @@ void RayCastingPass()
 void Display_GL()
 {
     // Increment rotation
-    // rotateX += 0.25;
-    // rotateY += 0.25;
-    // rotateZ += 0.25;
+     rotateX += 0.25;
+     rotateY += 0.25;
+     rotateZ += 0.25;
 
     // Resize window
     Resize_GL(WINDOW_SIZE,WINDOW_SIZE);

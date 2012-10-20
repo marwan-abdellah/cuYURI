@@ -264,7 +264,7 @@ void SetDisplayList(void)
 **************************[MAN-END]******************************************/
 void Init(void)
 {
-   ReadVolume("/home/abdellah/Software/DataSets/VHM_SHOULDER_8/VHM_SHOULDER_8");
+   ReadVolume("/home/abdellah/Software/DataSets/CTData/CTData");
     printf("x5 \n ");
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

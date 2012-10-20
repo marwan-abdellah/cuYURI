@@ -27,6 +27,7 @@
 #include "FourierVolumeRenderer.h"
 #include "Timers/TimerGlobals.h"
 #include "Timers/BoostTimers.h"
+#include "Magick/Image.h"
 
 #define SIZE 4
 
@@ -40,9 +41,12 @@ int main( int argc, char** argv )
 
     //Volume::testVolume();
 
-    Utils::Test_XL();
+   // Utils::Test_XL();
 
-    FVR::doItAllHere();
+   // FVR::doItAllHere();
+
+
+    Img::
 
 
     Utils::closeLogFile();

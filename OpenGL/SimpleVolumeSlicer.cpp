@@ -208,12 +208,12 @@ void SetDisplayList(void)
 
 void Init(void)
 {
-  ReadVolume("/Software/DataSets/CTData/CTData");
+  ReadVolume("/home/abdellah/Software/DataSets/CTData/CTData");
 
    // Load volume (create sample volume)
-   //volumeImage* volImagePtr = MEM_ALLOC_1D_GENERIC(volumeImage, 1);
-    //volImagePtr = Volume::CreateTestVolume(256);
-   //volImagePtr = Volume::LoadVolume("/Software/DataSets/CTData/CTData");
+   volumeImage* volImagePtr = MEM_ALLOC_1D_GENERIC(volumeImage, 1);
+   volImagePtr = Volume::CreateTestVolume(256);
+   //volImagePtr = Volume::LoadVolume("/home/abdellah/Software/DataSets/CTData/CTData");
 
 
 //   iWidth = volImagePtr->volSize.NX;
@@ -243,7 +243,7 @@ void Init(void)
 
    printf("x7 \n ");
 
-   glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, iWidth, iHeight, iDepth, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+   //glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, iWidth, iHeight, iDepth, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
 //   glTexImage3D(GL_TEXTURE_3D, 0, GL_LUMINANCE,
 //                volImagePtr->volSize.NX,
@@ -253,7 +253,8 @@ void Init(void)
 //                GL_LUMINANCE,
 //                GL_UNSIGNED_BYTE,
 //                volImagePtr->volPtr);
-   //glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, iWidth, iHeight, iDepth, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+   glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, iWidth, iHeight, iDepth, 0, GL_RGBA, GL_UNSIGNED_BYTE, volImagePtr->volPtr);
 
 
    printf("x8 \n ");

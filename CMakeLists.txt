@@ -71,7 +71,6 @@ INCLUDE(Find_ImageMagick)
 # @Boost
 INCLUDE(Find_Boost)
 
-
 SET(CPP_SOURCES
 Logging/Logging.cpp
 Memory/Memory_1D.cpp
@@ -79,7 +78,6 @@ Memory/Memory_2D.cpp
 Memory/Memory_3D.cpp
 Timers/Boost.cpp
 Timers/CUDA.cpp
-#Utilities/XL.cpp
 Utilities/Utils.cpp
 CUDA/cuMemory_1D_Array.cpp
 CUDA/cuDataTransfer_1D_Array.cpp
@@ -96,6 +94,8 @@ OpenGL/RayCaster.cpp
 OpenGL/RayCaster_GL.cpp
 OpenGL/VolumeRayCaster.cpp
 OpenGL/SimpleVolumeSlicer.cpp
+Visualization/VolumeSlicer/SimpleVolumeSlicer.cpp
+Visualization/VolumeRayCaster/VolumeRayCaster.cpp
 )
 
 LIST(APPEND CPP_SOURCES
@@ -111,30 +111,29 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 SET(CUDA_KERNELS_DIR ${CMAKE_SOURCE_DIR}/CUDA
                      ${CMAKE_SOURCE_DIR}/CUDA/FFT
                      ${CMAKE_SOURCE_DIR}/CUDA/Interfaces
+    )
 
-                        )
 INCLUDE_DIRECTORIES(${CUDA_KERNELS_DIR})
+INCLUDE(${CMAKE_SOURCE_DIR}/CUDA/cuKernels.cmake)
 
 
+#########################################################
+#! Doxygen documentation
+#########################################################
 #ADD_SUBDIRECTORY(doc)
 INCLUDE(${CMAKE_SOURCE_DIR}/doc)
-
 
 #########################################################
 #! Compiler Flags
 #########################################################
 set(CMAKE_C_FLAGS " -fpermissive -fPIC -O3 -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
-
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
-INCLUDE(${CMAKE_SOURCE_DIR}/CUDA/cuKernels.cmake)
-
+#########################################################
+#! Generate the cuYURI library
+#########################################################
 CUDA_ADD_LIBRARY(cuYURI ${CUDA_SOURCES} ${CPP_SOURCES})
-
 SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/libcuYURI.a)
-
-
-
 
 #########################################################
 # Compile Examples
@@ -143,6 +142,7 @@ INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
 #INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/Add_1D_Arrays/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayArrayGL/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeSlicer/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeRayCaster/CMakeLists.cmake)
 
