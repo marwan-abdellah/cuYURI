@@ -19,12 +19,14 @@
 
 MESSAGE("-- FINDING ImageMagick")
 
-FIND_PACKAGE(ImageMagick REQUIRED)
+#FIND_PACKAGE(ImageMagick REQUIRED)
+
+FIND_PACKAGE(ImageMagick COMPONENTS Magick++ convert)
 
 IF(ImageMagick_FOUND)
     MESSAGE(STATUS "ImageMagick Found")
-    MESSAGE("-- ImageMagick include directory : ${ImageMagick_INCLUDE_DIRS}")
-    MESSAGE("-- ImageMagick library directory : ${ImageMagick_LIBRARIES}")
+    MESSAGE("-- ImageMagick include directory :" ${ImageMagick_INCLUDE_DIRS})
+    MESSAGE("-- ImageMagick library directory :" ${ImageMagick_LIBRARIES})
 ELSE(ImageMagick_FOUND)
     MESSAGE(FATAL_ERROR "ImageMagick NOT Found")
 ENDIF(ImageMagick_FOUND)
@@ -33,6 +35,12 @@ SET(ImageMagick_INC_DIR ${ImageMagick_INCLUDE_DIRS})
 SET(ImageMagick_LIB_DIR ${ImageMagick_LIBRARIES})
 
 
+FIND_PATH(ImageMagick_INC_DIR "glew.h"
+  HINTS "${CUDA_SDK_ROOT}/C/common/inc/GL"
+    /usr/include
+    /usr/local/include
+    /opt/local/include
+)
 
 # Find Magick++ library
 FIND_LIBRARY(Magick_LIB NAMES Magick++

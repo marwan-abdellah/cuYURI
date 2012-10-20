@@ -20,7 +20,7 @@
 #########################################################
 #! Minimum required CMake version
 #########################################################
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.6)
 
 #########################################################
 #! Project name
@@ -37,6 +37,12 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 #########################################################
 # @FFTW
 INCLUDE(Find_FFTW)
+
+# @CUDA
+INCLUDE(Find_CUDA)
+
+# @CUDA GPU Computing SDK
+INCLUDE(Find_CUDA_SDK)
 
 # @Cocoa for Apple
 INCLUDE(Find_Cocoa)
@@ -56,12 +62,6 @@ INCLUDE(Find_X11)
 # @Cg NVIDIA
 INCLUDE(Find_Cg)
 
-# @CUDA
-INCLUDE(Find_CUDA)
-
-# @CUDA GPU Computing SDK
-INCLUDE(Find_CUDA_SDK)
-
 # @OpenMP
 INCLUDE(Find_OpenMP)
 
@@ -70,7 +70,6 @@ INCLUDE(Find_ImageMagick)
 
 # @Boost
 INCLUDE(Find_Boost)
-
 
 
 SET(CPP_SOURCES

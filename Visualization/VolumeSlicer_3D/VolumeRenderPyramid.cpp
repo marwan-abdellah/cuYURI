@@ -17,8 +17,8 @@
 * Rev     	When      	Who         	What
 * A	  	 16May03        sumane		    Created.
 ****************************************************************************/
-#include <fstream.h>
-#include <iostream.h>
+#include <fstream>
+#include <iostream>
 
 #include <GL/glew.h>
 #include <GL/glut.h>
@@ -27,7 +27,7 @@
 #include <time.h>
 #include<assert.h>
 #include <GL/glext.h>
-#include <fstream.h>
+#include <fstream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <Cg/cg.h>
@@ -72,6 +72,8 @@ char step_p = 0;
 
 float Aperture    = 0.5;
 float ApexAngle_2 = 30.0;
+
+using namespace std;
 
 /*************************[MAN-BEG]*******************************************
 *
