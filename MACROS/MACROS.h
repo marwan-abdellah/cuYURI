@@ -18,9 +18,9 @@
 
 #include <iostream>
 #include <fstream>
-#include "Typedefs.h"
-#include "Utils.h"
-#include "Memory.h"
+#include "Utilities/Typedefs.h"
+#include "Utilities/Utils.h"
+#include "Utilities/Memory.h"
 
 
 #define PRINT_INFO 1
@@ -56,7 +56,7 @@
     << ENDL;
 
 #define INFO_LOOP( ITERATION, MESSAGE )    \
-    COUT << TAB << "@[" << ( ITERATION ) << "] -> " <<                    \
+    COUT << TAB << "@[" << ( ITERATION ) << "] -> " <<                          \
     STRG( MESSAGE ) << ENDL;
 
 
@@ -78,57 +78,24 @@
     exit( 0 );
 
 /* @ Memory Allocation */
-
 #define MEM_ALLOC_1D_GENERIC(TYPE, SIZE) 										\
 		((TYPE*)  malloc (SIZE * sizeof(TYPE)))
-
-#define MEM_ALLOC_1D_CHAR( SIZE_X ) 											\
-		( Memory::alloc_1D_char( SIZE_X ) )
-#define MEM_ALLOC_2D_CHAR( SIZE_X, SIZE_Y ) 									\
-		( Memory::alloc_2D_char( SIZE_X, SIZE_Y ) )
-#define MEM_ALLOC_3D_CHAR( SIZE_X, SIZE_Y, SIZE_Z ) 							\
-		(Memory::alloc_3D_char( SIZE_X, SIZE_Y , SIZE_Z ) )
-#define MEM_ALLOC_1D_FLOAT( SIZE_X ) 											\
-		( Memory::alloc_1D_float( SIZE_X ) )
-#define MEM_ALLOC_2D_FLOAT( SIZE_X, SIZE_Y ) 									\
-		( Memory::alloc_2D_float( SIZE_X, SIZE_Y ) )
-#define MEM_ALLOC_3D_FLOAT( SIZE_X, SIZE_Y, SIZE_Z ) 							\
-		(Memory::alloc_3D_float( SIZE_X, SIZE_Y , SIZE_Z ) )
-#define MEM_ALLOC_1D_DOUBLE( SIZE_X )											\
-		( Memory::alloc_1D_double( SIZE_X ) )
-#define MEM_ALLOC_2D_DOUBLE( SIZE_X, SIZE_Y ) 									\
-		( Memory::alloc_2D_double( SIZE_X, SIZE_Y ) )
-#define MEM_ALLOC_3D_DOUBLE( SIZE_X, SIZE_Y, SIZE_Z ) 							\
-		(Memory::alloc_3D_double( SIZE_X, SIZE_Y , SIZE_Z ) )
-#define MEM_ALLOC_2D_FFTWFCOMPLEX( SIZE_X, SIZE_Y ) 							\
-		( Memory::alloc_2D_fftwfComplex( SIZE_X, SIZE_Y ) )
-#define MEM_ALLOC_3D_FFTWFCOMPLEX( SIZE_X, SIZE_Y, SIZE_Z ) 					\
-		(Memory::alloc_3D_fftwfComplex( SIZE_X, SIZE_Y , SIZE_Z ) )
-#define MEM_ALLOC_2D_FFTWCOMPLEX( SIZE_X, SIZE_Y ) 								\
-		( Memory::alloc_2D_fftwComplex( SIZE_X, SIZE_Y ) )
-#define MEM_ALLOC_3D_FFTWCOMPLEX( SIZE_X, SIZE_Y, SIZE_Z ) 						\
-		(Memory::alloc_3D_fftwComplex( SIZE_X, SIZE_Y , SIZE_Z ) )
-#define MEM_ALLOC_2D_CUFFTCOMPLEX( SIZE_X, SIZE_Y ) 							\
-		( Memory::alloc_2D_cufftComplex( SIZE_X, SIZE_Y ) )
-#define MEM_ALLOC_3D_CUFFTCOMPLEX( SIZE_X, SIZE_Y, SIZE_Z ) 					\
-		(Memory::alloc_3D_cufftComplex( SIZE_X, SIZE_Y , SIZE_Z ) )
-#define MEM_ALLOC_2D_CUFFTDOUBLECOMPLEX( SIZE_X, SIZE_Y ) 						\
-		( Memory::alloc_2D_cufftDoubleComplex( SIZE_X, SIZE_Y ) )
-#define MEM_ALLOC_3D_CUFFTDOUBLECOMPLEX( SIZE_X, SIZE_Y, SIZE_Z ) 				\
-		(Memory::alloc_3D_cufftDoubleComplex( SIZE_X, SIZE_Y , SIZE_Z ) )
-
-
-
-
-
-#define MEM_ALLOC_1D(TYPE, SIZE_X) 							\
+#define MEM_ALLOC_1D(TYPE, SIZE_X)                                              \
 		(Memory::alloc_1D <TYPE> (SIZE_X))
-#define MEM_ALLOC_2D( TYPE, SIZE_X, SIZE_Y ) 				\
+#define MEM_ALLOC_2D( TYPE, SIZE_X, SIZE_Y )                                    \
 		(Memory::alloc_2D <TYPE> (SIZE_X, SIZE_Y))
-#define MEM_ALLOC_3D( TYPE, SIZE_X, SIZE_Y, SIZE_Z) 		\
+#define MEM_ALLOC_3D( TYPE, SIZE_X, SIZE_Y, SIZE_Z)                             \
 		(Memory::alloc_3D <TYPE> (SIZE_X, SIZE_Y , SIZE_Z))
 
 
+#define DISPLAY_KERNEL_PROFILING_DATA (KERNEL_NAME, PROFILE)                    \
+    SEP();                                                                      \
+    COUT << TAB << "Kernel Execution Time @[" << KERNEL_NAME " << "]" << ENDL;         \
+    COUT << TAB << TAB << "@Nano-Seconds (ns)  : " << (PROFILE.kernelDuration * (1000 * 1000)) << ENDL;                   \
+    COUT << TAB << TAB << "@Micro-Seconds (us) : " << (PROFILE.kernelDuration * 1000) << ENDL;                            \
+    COUT << TAB << TAB << "@Milli-Seconds (ms) : " <<  PROFILE.kernelDuration << ENDL;                                     \
+    COUT << TAB << TAB << "@Seconds (s)        : " << (PROFILE.kernelDuration / (1000)) << ENDL;                            \
+    SEP();
 
 
 

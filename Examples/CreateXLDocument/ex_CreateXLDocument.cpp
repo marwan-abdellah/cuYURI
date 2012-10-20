@@ -19,14 +19,13 @@
 
 #include "ex_CreateXLDocument.h"
 #include "CUDA/cuGlobals.h"
-#include "CUDA/cuUtilities.h"
+#include "CUDA/Utilities/cuUtilities.h"
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"
 #include "Utilities/MACROS.h"
 #include "Utilities/MemoryMACROS.h"
 #include "Dependencies/Excel/ExcelFormat.h"
-#include <ImageMagick/Magick++.h>
 
 using namespace ExcelFormat;
 
@@ -38,15 +37,8 @@ using namespace ExcelFormat;
  */
 #define	FW_BOLD		700
 
-#include "Magick/Image.h"
-
-void ex::CreateXLDocument::run(int argc, char* argv[])
+void ex_CreateXLDocument::run(int argc, char* argv[])
 {
-    Magick::Image* imgPtr;
-
-    imgPtr = Img::ReadImage("");
-
-    Img::WriteImage("", imgPtr);
 
     if (argv[1] == NULL)
     {

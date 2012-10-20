@@ -19,13 +19,12 @@
 #ifndef _EX_VOLUME_SLICER_H_
 #define _EX_VOLUME_SLICER_H_
 
-namespace ex
+
+namespace ex_VolumeSlicer
 {
-    namespace VolumeSlicer
-    {
-        void run(int argc, char** argv);
-    }
+    void run(int argc, char** argv);
 }
+
 
 
 #endif // _EX_VOLUME_SLICER_H_

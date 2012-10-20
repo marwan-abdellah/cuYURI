@@ -19,12 +19,9 @@
 #ifndef _EX_FILL_ARRAY_RND_H_
 #define _EX_FILL_ARRAY_RND_H_
 
-namespace ex
+namespace ex_FillArrayRND
 {
-    namespace FillArrayRND
-    {
-        void run(int argc, char* argv[]);
-    }
+    void run(int argc, char* argv[]);
 }
 
 

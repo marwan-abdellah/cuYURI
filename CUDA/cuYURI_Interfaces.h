@@ -17,15 +17,17 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#ifndef _CUYUR_INTERFACES_H_
-#define _CUYUR_INTERFACES_H_
+#ifndef _CUYURI_INTERFACES_H_
+#define _CUYURI_INTERFACES_H_
 
 #include "cuGlobals.h"
-#include "cuUtilities.h"
+#include "CUDA/Utilities/cuUtilities.h"
 
 // Adding all the interfaces to a single interface
+#include "Interfaces/Fill_1D_Array.h"
+#include "Interfaces/Fill_1D_Array_Normalized.h"
 #include "Interfaces/Fill_1D_Array_RND.h"
 #include "Interfaces/Copy_1D_Array.h"
 #include "Interfaces/Add_1D_Arrays.h"
 
-#endif // _CUYUR_INTERFACES_H_
+#endif // _CUYURI_INTERFACES_H_

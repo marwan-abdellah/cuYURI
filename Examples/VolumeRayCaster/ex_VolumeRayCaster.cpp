@@ -19,7 +19,7 @@
 
 #include "ex_VolumeRayCaster.h"
 #include "CUDA/cuGlobals.h"
-#include "CUDA/cuUtilities.h"
+#include "CUDA/Utilities/cuUtilities.h"
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"

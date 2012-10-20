@@ -19,13 +19,9 @@
 #ifndef _EX_ADD_1D_ARRAYS_RND_H_
 #define _EX_ADD_1D_ARRAYS_RND_H_
 
-namespace ex
+namespace ex_Add_1D_Arrays
 {
-    namespace Add_1D_Arrays
-    {
-        void run(int argc, char* argv[]);
-    }
+    void run(int argc, char* argv[]);
 }
-
 
 #endif // _EX_ADD_1D_ARRAYS_RND_H_

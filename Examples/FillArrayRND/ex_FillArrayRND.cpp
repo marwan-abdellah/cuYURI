@@ -19,18 +19,17 @@
 
 #include "ex_FillArrayRND.h"
 #include "CUDA/cuGlobals.h"
-#include "CUDA/cuUtilities.h"
+#include "CUDA/Utilities/cuUtilities.h"
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"
 #include "Utilities/MACROS.h"
-
 #include "Utilities/MemoryMACROS.h"
 
 // Sets the kernel GPU configuration automatically
 #define AUTO_CONF 1
 
-void ex::FillArrayRND::run(int argc, char* argv[])
+void ex_FillArrayRND::run(int argc, char* argv[])
 {
     if (argv[1] == NULL)
     {
@@ -44,16 +43,16 @@ void ex::FillArrayRND::run(int argc, char* argv[])
     INFO("Input vector has a length of " + ITS(N));
 
     // Host (CPU) vector (1D array)
-    int *hostVector;
+    float *hostVector;
 
     // Device (GPU) vector
-    int *deviceVector;
+    float *deviceVector;
 
     // Allocating the host array
-    hostVector = MEM_ALLOC_1D(int, N);
+    hostVector = MEM_ALLOC_1D(float, N);
 
     // Allocating device array
-    deviceVector = cuUtils::Create_Device_Vector <int> (N);
+    deviceVector = cuUtils::Create_Device_Vector <float> (N);
 
     // GPU profiler
     cuProfile profile;
@@ -70,24 +69,27 @@ void ex::FillArrayRND::run(int argc, char* argv[])
 #endif
 
     // Launch the kernel and get statistics
-    cuYURI::cu_Fill_1D_Array_RND <int> (autoConf->cuBlock, autoConf->cuGrid, deviceVector, N, &profile);
+    cuYURI::cu_Fill_1D_Array_RND <float> (autoConf->cuBlock,
+                                          autoConf->cuGrid,
+                                          deviceVector, N, &profile);
+
+    // Display profiling data
+    cuUtils::DisplayKernelProfilingData("cu_Fill_1D_Array_RND", &profile);
 
     // Download the resulting vector to the host side
-    cuUtils::Download_1D_Array <int> (hostVector, deviceVector, N);
+    cuUtils::Download_1D_Array <float> (hostVector, deviceVector, N);
 
     // Check the results
     INFO("Checking the resulting array on the host side")
-    for (int i = 0; i < N; i++)
-        INFO_LOOP(i, ITS(hostVector[i]));
+   // for (int i = 0; i < N; i++)
+       // INFO_LOOP(i, FTS(hostVector[i]));
     SEP();
 
     // Free host array
-    FREE_MEM_1D(hostVector, int);
+    FREE_MEM_1D(hostVector, float);
 
     // Free device memory
     cuUtils::Free_Device_Vector(deviceVector);
-
-    // Application Finalization
 
     INFO("Done");
 }

@@ -10,7 +10,9 @@ using namespace MagickCore;
 
 namespace Img
 {
-    void DisplayImage();
+    void DisplayImage(Magick::Image* imagePtr);
+
+    unsigned char* ConvertImageToCharArray(Magick::Image* imagePtr);
 
     Magick::Image* ReadImage(char* imagePath);
 

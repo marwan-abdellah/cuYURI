@@ -19,13 +19,9 @@
 #ifndef _EX_DISPLAY_ARRAY_GL_H_
 #define _EX_DISPLAY_ARRAY_GL_H_
 
-namespace ex
+namespace ex_DisplayArrayGL
 {
-    namespace DisplayArrayGL
-    {
-        void run(int argc, char** argv);
-    }
+    void run(int argc, char** argv);
 }
-
 
 #endif // _EX_DISPLAY_ARRAY_GL_H_

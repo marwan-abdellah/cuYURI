@@ -79,9 +79,6 @@ Memory/Memory_3D.cpp
 Timers/Boost.cpp
 Timers/CUDA.cpp
 Utilities/Utils.cpp
-CUDA/cuMemory_1D_Array.cpp
-CUDA/cuDataTransfer_1D_Array.cpp
-CUDA/cuKernelConf.cpp
 Magick/Image.cpp
 OpenGL/OpenGL.cpp
 OpenGL/GLEW.cpp
@@ -94,14 +91,25 @@ OpenGL/RayCaster.cpp
 OpenGL/RayCaster_GL.cpp
 OpenGL/VolumeRayCaster.cpp
 OpenGL/SimpleVolumeSlicer.cpp
-Visualization/VolumeSlicer/SimpleVolumeSlicer.cpp
-Visualization/VolumeRayCaster/VolumeRayCaster.cpp
+
 )
 
 LIST(APPEND CPP_SOURCES
-Dependencies/Excel/BasicExcel.cpp
-Dependencies/Excel/BasicExcel.hpp
-Dependencies/Excel/ExcelFormat.cpp
+    Visualization/VolumeSlicer/VolumeSlicer.cpp
+    Visualization/VolumeRayCaster/VolumeRayCaster.cpp
+)
+
+LIST(APPEND CPP_SOURCES
+    CUDA/Memory/cuMemory_1D_Array.cpp
+    CUDA/Memory/cuDataTransfer_1D_Array.cpp
+    CUDA/Utilities/cuKernelConf.cpp
+    CUDA/Utilities/cuUtilities.cpp
+)
+
+LIST(APPEND CPP_SOURCES
+    Dependencies/Excel/BasicExcel.cpp
+    Dependencies/Excel/BasicExcel.hpp
+    Dependencies/Excel/ExcelFormat.cpp
 )
 
 # Include directories 
@@ -139,9 +147,10 @@ SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/
 # Compile Examples
 #########################################################
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
-#INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/Add_1D_Arrays/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayArrayGL/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayGPUArrayGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeSlicer/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeRayCaster/CMakeLists.cmake)

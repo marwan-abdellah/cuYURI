@@ -16,7 +16,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  ********************************************************************/
-#define MAGIC_NO 1.12345
+
+#include <curand.h>
+#include <curand_kernel.h>
+
+__global__
+void initSeed_Kernel(curandState *randState)
+{
+    // Thread index
+    int index = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // Initialization
+    curand_init(1337, index, 0, &randState[index]);
+}
+
+
 /*!
  * CUDA : This kernel fills an input vector - or 1D array - with random
  * sequence of numbers of length N.
@@ -42,7 +56,7 @@
  */
 template <typename T>
 __global__
-void Fill_1D_Array_RND_Kernel(T* devArray, int N)
+void Fill_1D_Array_RND_Kernel(T* devArray, int N, curandState* randState)
 {
     // Thread index @X
     int x_threadIdx = threadIdx.x;
@@ -58,8 +72,8 @@ void Fill_1D_Array_RND_Kernel(T* devArray, int N)
 
 #ifdef VEC_CHECK
     if (index < N)
-        devArray[index] = index;
+        devArray[index] = (T) (float) curand_uniform(&randState[index]);
 #else
-    devArray[index] = (T) ((index * MAGIC_NO) * 2.56789 + (MAGIC_NO))  ;
+    devArray[index] = (T) (float) curand_uniform(&randState[index]);
 #endif
 }

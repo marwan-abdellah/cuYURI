@@ -3,7 +3,7 @@
 int main(int argc, char* argv [])
 {
     // Run the example
-    ex::CreateXLDocument::run(argc, argv);
+    ex_CreateXLDocument::run(argc, argv);
 
     return 0;
 }

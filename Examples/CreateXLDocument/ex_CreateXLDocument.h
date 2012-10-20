@@ -19,13 +19,9 @@
 #ifndef _EX_CREATE_XL_DOCUMENT_H_
 #define _EX_CREATE_XL_DOCUMENT_H_
 
-namespace ex
+namespace ex_CreateXLDocument
 {
-    namespace CreateXLDocument
-    {
-        void run(int argc, char* argv[]);
-    }
+    void run(int argc, char* argv[]);
 }
-
 
 #endif // _EX_CREATE_XL_DOCUMENT_H_

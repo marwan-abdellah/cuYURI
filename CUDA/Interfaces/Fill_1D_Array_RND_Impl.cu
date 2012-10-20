@@ -20,6 +20,9 @@
 #ifndef _FILL_1D_ARRAY_RND_IMPL_CU_
 #define _FILL_1D_ARRAY_RND_IMPL_CU_
 
+#include <curand.h>
+#include <curand_kernel.h>
+
 #include "cuGlobals.h"
 #include "Timers/Boost.h"
 
@@ -40,8 +43,18 @@ void cu_Fill_1D_Array_RND_Impl
     // Start CUDA timer
     cutStartTimer(profile->kernelTime);
 
+    // Random number generation code on the GPU
+    curandState *stateDeviceMatrix;
+    cudaMalloc(&stateDeviceMatrix, cuBlock.x * cuGrid.x);
+
+    // Init the random value
+    initSeed_Kernel <<< cuGrid.x, cuBlock.x >>> (stateDeviceMatrix);
+
     // Execute the kernel
-    Fill_1D_Array_RND_Kernel <<< cuGrid, cuBlock >>> (devArray, N);
+    Fill_1D_Array_RND_Kernel <<< cuGrid, cuBlock >>> (devArray, N, stateDeviceMatrix);
+
+    // Free the state matrix on the device
+    cudaFree(stateDeviceMatrix);
 
     // Stop CUDA timer
     cutStopTimer(profile->kernelTime);

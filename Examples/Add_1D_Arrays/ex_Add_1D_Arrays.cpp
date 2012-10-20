@@ -19,15 +19,14 @@
 
 #include "ex_Add_1D_Arrays.h"
 #include "CUDA/cuGlobals.h"
-#include "CUDA/cuUtilities.h"
+#include "CUDA/Utilities/cuUtilities.h"
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"
 #include "Utilities/MACROS.h"
-
 #include "Utilities/MemoryMACROS.h"
 
-void ex::Add_1D_Arrays::run(int argc, char* argv[])
+void ex_Add_1D_Arrays::run(int argc, char* argv[])
 {
     if (argv[1] == NULL)
     {
@@ -77,7 +76,8 @@ void ex::Add_1D_Arrays::run(int argc, char* argv[])
              N, &profile);
 
     // Download the resulting vector to the host side
-    cuUtils::Download_1D_Array <int> (hostVectorOutput, devInputVectorOutput, N);
+    cuUtils::Download_1D_Array <int>
+            (hostVectorOutput, devInputVectorOutput, N);
 
     // Check the results
     INFO("Checking the resulting array on the host side")
@@ -90,8 +90,6 @@ void ex::Add_1D_Arrays::run(int argc, char* argv[])
 
     // Free device memory
     cuUtils::Free_Device_Vector(devInputVectorOutput);
-
-    // Application Finalization
 
     INFO("Done");
 }
