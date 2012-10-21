@@ -29,8 +29,7 @@
 #include <ImageMagick/Magick++.h>
 
 #include "OpenGL/OpenGL.h"
-#include "Magick/Image.h"
-using namespace ExcelFormat;
+#include "Image/Image.h"
 
 void ex_DisplayImageGL::run(int argc, char** argv)
 {

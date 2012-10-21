@@ -28,7 +28,7 @@
 #include "Dependencies/Excel/ExcelFormat.h"
 #include <ImageMagick/Magick++.h>
 #include "OpenGL/OpenGL.h"
-#include "Magick/Image.h"
+#include "Image/Image.h"
 using namespace ExcelFormat;
 
 // Sets the kernel GPU configuration automatically

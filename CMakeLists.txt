@@ -76,7 +76,7 @@ Logging/Logging.cpp
 Timers/Boost.cpp
 Timers/CUDA.cpp
 Utilities/Utils.cpp
-Magick/Image.cpp
+Image/Image.cpp
 OpenGL/OpenGL.cpp
 OpenGL/GLEW.cpp
 OpenGL/GLUT.cpp
