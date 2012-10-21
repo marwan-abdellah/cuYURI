@@ -179,7 +179,6 @@ void DrawColoredCube(float x, float y, float z)
         CreateVertexWithColor(x, 0.0, z);
 
     glEnd();
-
 }
 
 // create a test volume texture, here you could load your own volume
@@ -198,7 +197,7 @@ void CreateVolumeTexture()
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     glGenTextures(1, &volumeTex_ID);
     glBindTexture(GL_TEXTURE_3D, volumeTex_ID);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -213,13 +212,7 @@ void CreateVolumeTexture()
                  GL_UNSIGNED_BYTE,
                  volImagePtr->volPtr);
 
-/*    glTexImage3D(GL_TEXTURE_3D, 0, GL_LUMINANCE,
-                 volImagePtr->volSize.NX,
-                 volImagePtr->volSize.NY,
-                 volImagePtr->volSize.NZ,
-                 0, GL_LUMINANCE,
-                 GL_UNSIGNED_BYTE,
-                 volImagePtr->volPtr)*/;
+
 
     INFO("Volume texture created");
 }
@@ -227,6 +220,7 @@ void CreateVolumeTexture()
 
 void Init()
 {
+    // Initializing GLEW
     INFO("Initializing GLEW");
     GLenum glewError = glewInit();
 
@@ -251,7 +245,7 @@ void Init()
         glewGetExtension("GL_ARB_shading_language_100") != GL_TRUE)
     {
         INFO("Driver does not support OpenGL Shading Language");
-        INFO("EXITING ... ");
+        INFO("EXITTING ... ");
         EXIT(0);
     }
 

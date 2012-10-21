@@ -1,3 +1,22 @@
+/*********************************************************************
+ * Copyright © 2011-2012,
+ * Marwan Abdellah: <abdellah.marwan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ ********************************************************************/
+
 #ifndef RAYCASTER_H
 #define RAYCASTER_H
 
@@ -14,12 +33,18 @@
 #include <ctime>
 #include <cassert>
 #include "Volume/Vector3.h"
+#include "Volume/Volume.h"
+#include "Volume/Loader.h"
+#include "MACROS/MACROS.h"
+
+#include "Parameters.h"
 
 namespace RayCaster
 {
+void UpdateScene();
+void UpdateVolume();
 void ReadVolume(char *prefix);
 void ReadHeader(char *prefix, int &w, int &h, int &d);
-
 void EnableRenderBuffers();
 void DisableRenderBuffers();
 void CreateVertexWithColor(float x, float y, float z);
@@ -37,8 +62,17 @@ void Resize_GL(int w, int h);
 void RenderFinalImage();
 void RenderBufferToScreen();
 void RenderBackface();
+void CreateFrameBuffer();
+void CreateColorMapTexture();
+void CreateRenderBuffer();
+void InitGLEW();
+void InitCgContext();
 void RayCastingPass();
 void Display_GL();
-int VolRayCaster(int argc, char* argv[]);
+void InitGlut(int argc, char** argv);
+int VolRayCaster(int argc, char** argv);
+void RegisterOpenGLCallBacks();
 }
+
+
 #endif // VOLUMERAYCASTER_H
