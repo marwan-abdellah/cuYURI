@@ -3,7 +3,7 @@
 
 #include <Cg/cg.h>
 #include <Cg/cgGL.h>
-#include "Utilities/MACROS.h"
+#include "MACROS/MACROS.h"
 
 namespace OpenGL
 {

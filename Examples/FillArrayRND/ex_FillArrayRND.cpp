@@ -23,8 +23,8 @@
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"
-#include "Utilities/MACROS.h"
-#include "Utilities/MemoryMACROS.h"
+#include "MACROS/MACROS.h"
+#include "MACROS/MemoryMACROS.h"
 
 // Sets the kernel GPU configuration automatically
 #define AUTO_CONF 1

@@ -1,10 +1,10 @@
 #include "Loader.h"
-#include "Utilities/MACROS.h"
+#include "MACROS/MACROS.h"
 #include "Utilities/Utils.h"
 
 volumeSize* Volume::LoadHeader(const char *path)
 {
-    LOG();
+
 
     // Atructure allocation
     volumeSize* iVolDim = MEM_ALLOC_1D_GENERIC(volumeSize, 1);
@@ -52,7 +52,7 @@ volumeSize* Volume::LoadHeader(const char *path)
 
 volumeImage* Volume::LoadVolume(const char* path)
 {
-    LOG();
+
 
     // Loading the volume file
     char volFile[1000];

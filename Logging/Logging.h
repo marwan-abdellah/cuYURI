@@ -21,7 +21,7 @@
 #define _LOGGING_H_
 
 #include "Utilities/Typedefs.h"
-#include "Utilities/LoggingMACROS.h"
+#include "MACROS/LoggingMACROS.h"
 
 
 namespace Log

@@ -23,8 +23,8 @@
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"
-#include "Utilities/MACROS.h"
-#include "Utilities/MemoryMACROS.h"
+#include "MACROS/MACROS.h"
+#include "MACROS/MemoryMACROS.h"
 #include "Dependencies/Excel/ExcelFormat.h"
 
 using namespace ExcelFormat;

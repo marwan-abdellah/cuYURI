@@ -36,6 +36,7 @@ void VertexProgram(in float4 Position   : POSITION,
 
   // Adjust for the texture coordinate offsets
   hTex0.x   = hTex0.x - 0.5 + 0.5*hTex0.w;
+  hTex0.y   = hTex0.y - 0.5 + 0.5*hTex0.w;
 
   // Clip pyramidal volume
   hClip0    =  dot(hTex0_Orig, ClipPlane0);

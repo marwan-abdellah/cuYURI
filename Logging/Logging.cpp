@@ -18,7 +18,6 @@
  ********************************************************************/
 
 #include "Logging.h"
-#include "Utilities/LoggingMACROS.h"
 
 // Log file stream
 ostream_t Log::logFileStream;

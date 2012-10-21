@@ -19,19 +19,18 @@
 ****************************************************************************/
 #include <fstream>
 #include <iostream>
-
-#include <GL/glew.h>
-#include <GL/glut.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
 #include<assert.h>
-#include <GL/glext.h>
-#include <fstream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <GL/glew.h>
+#include <GL/glut.h>
+#include <GL/glext.h>
 #include <Cg/cg.h>
 #include <Cg/cgGL.h>
+
 
 // Cg Context
 static CGcontext Context         = NULL;
@@ -76,49 +75,12 @@ float ApexAngle_2 = 30.0;
 using namespace std;
 
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   d2r
-*
-* DESCRIPTION:
-*
-*   This converts degrees to radians
-*
-* FORMAL PARAMETERS:
-*   angle is in degrees
-*
-* RETURNS:
-*   angle in radians
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 float d2r(float angle)
 {
     return(angle*3.14/180.0);
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   ReadHeader
-*
-* DESCRIPTION:
-*
-*   This reads in the header of the 3D data volume
-*
-* FORMAL PARAMETERS:
-*   prefix contains the file prefix.
-*
-* RETURNS:
-*   w, h, and d are width, height and depth of the volume
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 void ReadHeader(char *prefix, int &w, int &h, int &d)
 {
 	char file[300];
@@ -138,24 +100,7 @@ void ReadHeader(char *prefix, int &w, int &h, int &d)
 	ifile.close();
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   ReadVolume
-*
-* DESCRIPTION:
-*
-*   This reads in the 3D data volume
-*
-* FORMAL PARAMETERS:
-*   prefix contains the file prefix.
-*
-* RETURNS:
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 void ReadVolume(char *prefix)
 {
 	char file[100];
@@ -207,26 +152,6 @@ void ReadVolume(char *prefix)
 }
 
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   SetDisplayList
-*
-* DESCRIPTION:
-*
-*   Creates a display list containing all the enclosing rectangles 
-*   corresponding to the cutplanes.
-*
-* FORMAL PARAMETERS:
-*   None
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 void SetDisplayList(void)
 {
    float dist;
@@ -268,25 +193,6 @@ void SetDisplayList(void)
    delete [] vPoints;
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   InitColorMap
-*
-* DESCRIPTION:
-*
-*   Initializes color map
-*
-* FORMAL PARAMETERS:
-*   None
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 void InitColorMap(void)
 {
 	GLubyte val, *ptr = ColorMapArray = new GLubyte [ColorMapLength*4];
@@ -304,28 +210,9 @@ void InitColorMap(void)
 	}
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   Init
-*
-* DESCRIPTION:
-*
-*   Initializes OpenGL state machine
-*
-* FORMAL PARAMETERS:
-*   None
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 void Init(void)
 {    
-   ReadVolume("/Software/DataSets/CTData/CTData");
+   ReadVolume("/home/abdellah/Software/DataSets/CTData/CTData");
    InitColorMap();
 
 
@@ -390,25 +277,6 @@ void Init(void)
    SetDisplayList();
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   Display
-*
-* DESCRIPTION:
-*
-*   Display routine for OpenGL
-*
-* FORMAL PARAMETERS:
-*   None
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 void Display(void)
 {
    glEnable(GL_TEXTURE_3D);
@@ -458,25 +326,6 @@ void Display(void)
    glDisable(GL_TEXTURE_3D);
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   Idle
-*
-* DESCRIPTION:
-*
-*   Idle routine for OpenGL
-*
-* FORMAL PARAMETERS:
-*   None
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 void Idle(void)
 {
 	static clock_t thisClock, startClock = clock();
@@ -502,25 +351,6 @@ void Idle(void)
 	numTimes++;
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   Reshape
-*
-* DESCRIPTION:
-*
-*   Reshape routine for OpenGL
-*
-* FORMAL PARAMETERS:
-*   w and h are width and height of the window
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 void Reshape(int w, int h)
 {
    glViewport(0, 0, (GLsizei) w, (GLsizei) h);
@@ -534,25 +364,7 @@ void Reshape(int w, int h)
    glLoadIdentity();
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   PrintHelp
-*
-* DESCRIPTION:
-*
-*   Prints a help line
-*
-* FORMAL PARAMETERS:
-*   None
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 void PrintHelp(void)
 {
 	cerr << endl;
@@ -569,24 +381,6 @@ void PrintHelp(void)
 	cerr << endl;
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   CheckCgError
-*
-* DESCRIPTION:
-*
-*   This reports the Cg error messages
-*
-* FORMAL PARAMETERS:
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
 static void CheckCgError(void)
 {
 	CGerror err = cgGetError();
@@ -597,24 +391,7 @@ static void CheckCgError(void)
 	}
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   InitializeFragmentProgram
-*
-* DESCRIPTION:
-*
-*   This initializes the fragment program
-*
-* FORMAL PARAMETERS:
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 void InitializeVertexProgram(void)
 {
     /*
@@ -641,7 +418,7 @@ void InitializeVertexProgram(void)
     vProfile = CG_PROFILE_VP40;//cgGLGetLatestProfile(CG_GL_VERTEX);
     cgGLSetOptimalOptions(vProfile);
 	
-    vProgram = cgCreateProgramFromFile(Context, CG_SOURCE, "VolumeRenderPyramidV.cg", vProfile, "VertexProgram", NULL);
+    vProgram = cgCreateProgramFromFile(Context, CG_SOURCE, "../Data/VolumeSlicerShaderV.cg", vProfile, "VertexProgram", NULL);
 	CheckCgError();
 	
 	cerr << "---- VERTEX PROGRAM BEGIN ----" << endl;
@@ -695,35 +472,16 @@ void InitializeVertexProgram(void)
     }
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   InitializeFragmentProgram
-*
-* DESCRIPTION:
-*
-*   This initializes the fragment program
-*
-* FORMAL PARAMETERS:
-*   if Source_p is true, we will load the source program. Else load the
-*   object program.
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 void InitializeFragmentProgram(char Source_p)
 {
 	fProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
 	cgGLSetOptimalOptions(fProfile);
 
 	if (Source_p)
-		fProgram = cgCreateProgramFromFile(Context, CG_SOURCE, "VolumeRenderPyramidF.cg", fProfile, "FragmentProgram", 0);
+        fProgram = cgCreateProgramFromFile(Context, CG_SOURCE, "../Data/VolumeSlicerShaderF.cg", fProfile, "FragmentProgram", 0);
 	else
-		fProgram = cgCreateProgramFromFile(Context, CG_OBJECT, "VolumeRenderPyramidF.ocg", fProfile, "FragmentProgram", 0);
+        fProgram = cgCreateProgramFromFile(Context, CG_OBJECT, "../Data/VolumeSlicerShaderF.ocg", fProfile, "FragmentProgram", 0);
 	CheckCgError();
 
 	cerr << "---- FRAGMENT PROGRAM BEGIN ----" << endl;
@@ -746,24 +504,6 @@ void InitializeFragmentProgram(char Source_p)
 }
 
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   InitializeGPU
-*
-* DESCRIPTION:
-*
-*   This initializes the GPU
-*
-* FORMAL PARAMETERS:
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/	
 void InitializeGPU(void)
 {
 
@@ -800,24 +540,7 @@ printf("1----------------\n");
     printf("2----------------");
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   QuitGPU
-*
-* DESCRIPTION:
-*
-*   This quits the GPU
-*
-* FORMAL PARAMETERS:
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 void QuitGPU(void)
 {
 	cgDestroyProgram(vProgram);
@@ -830,26 +553,7 @@ void QuitGPU(void)
 	cgDestroyContext(Context);
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   Keyboard
-*
-* DESCRIPTION:
-*
-*   Handles keybord commands
-*
-* FORMAL PARAMETERS:
-*   key is the key pressed by the user.
-*   (x, y) are the coordinates of the mouse
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 void Keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
@@ -921,25 +625,7 @@ void Keyboard(unsigned char key, int x, int y)
 	}
 }
 
-/*************************[MAN-BEG]*******************************************
-*
-* NAME:
-*   main
-*
-* DESCRIPTION:
-*
-* This is the main program that starts the app.
-*
-* FORMAL PARAMETERS:
-*  none
-*
-* RETURNS:
-*   None
-*
-* REVISION HISTORY:
-* Rev     When      Who         What
-* A	   16May03      sumane		Created.
-**************************[MAN-END]******************************************/
+
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);

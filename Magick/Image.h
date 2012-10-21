@@ -8,8 +8,29 @@
 using namespace Magick;
 using namespace MagickCore;
 
+
+struct unsignedcharImage
+{
+    unsigned char* uCharPixels;
+    int size_X;
+    int size_Y;
+};
+
+struct floatImage
+{
+    float* floatPixels;
+    int size_X;
+    int size_Y;
+};
+
 namespace Img
 {
+    void NotmalizeImage(floatImage* fImage);
+
+    floatImage* LoadImageInFloatArray(char* imagePath);
+
+    unsignedcharImage* LoadImageInCharArray(char* imagePath);
+
     void DisplayImage(Magick::Image* imagePtr);
 
     unsigned char* ConvertImageToCharArray(Magick::Image* imagePtr);

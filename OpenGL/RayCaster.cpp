@@ -1,6 +1,6 @@
 #include "OpenGL.h"
 #include "Cg.h"
-#include "Utilities/MACROS.h"
+#include "MACROS/MACROS.h"
 
 
 // OpenGL internal parameters

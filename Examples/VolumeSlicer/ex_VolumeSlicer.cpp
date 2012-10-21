@@ -24,7 +24,9 @@
 #include "CUDA/cuYURI_Interfaces.h"
 #include "Globals.h"
 #include "Utilities/Utils.h"
-#include "Utilities/MACROS.h"
+#include "MACROS/MACROS.h"
+#include "MACROS/MemoryMACROS.h"
+
 
 void ex_VolumeSlicer::run(int argc, char** argv)
 {

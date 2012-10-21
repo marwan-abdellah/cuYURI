@@ -19,7 +19,7 @@
 
 #include "OpenGL.h"
 #include "GLUT.h"
-#include "Utilities/MACROS.h"
+#include "MACROS/MACROS.h"
 #include "Utilities/Utils.h"
 
 int    glWinWidth       = 512;

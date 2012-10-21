@@ -18,7 +18,7 @@
  ********************************************************************/
 
 #include "Timers/Boost.h"
-#include "Utilities/MACROS.h"
+#include "MACROS/MACROS.h"
 
 boostTimer Timers::Boost::GetTime_Second()
 {
@@ -37,7 +37,7 @@ durationStruct* Timers::Boost::GetDuration
 {
     // Allocate durationStruct to get the execution time in
     // different reolutions
-    durationStruct* duration = MEM_ALLOC_1D(durationStruct, 1);
+    durationStruct* duration = MEM_ALLOC_1D_GENERIC(durationStruct, 1);
 
     // Calculate the execution time for a given CPU function
     boostDuration _duration = (endTime - startTime);

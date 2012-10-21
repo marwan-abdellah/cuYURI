@@ -20,7 +20,6 @@
 #include <fstream>
 #include "Utilities/Typedefs.h"
 #include "Utilities/Utils.h"
-#include "Utilities/Memory.h"
 
 
 #define PRINT_INFO 1
@@ -96,45 +95,5 @@
     COUT << TAB << TAB << "@Milli-Seconds (ms) : " <<  PROFILE.kernelDuration << ENDL;                                     \
     COUT << TAB << TAB << "@Seconds (s)        : " << (PROFILE.kernelDuration / (1000)) << ENDL;                            \
     SEP();
-
-
-
-
-
-
-
-
-
-/* @ Memory Dellocation */
-// #define FREE_MEM_1D( PTR ) ( { free( PTR ); PTR = NULL; } )
-#define FREE_MEM_2D_FLOAT( PTR, SIZE_X, SIZE_Y ) 								\
-		(  Memory::free_2D_float(PTR, SIZE_X, SIZE_Y ) )
-#define FREE_MEM_2D_DOUBLE( PTR, SIZE_X, SIZE_Y ) 								\
-		(  Memory::free_2D_double(PTR, SIZE_X, SIZE_Y ) )
-#define FREE_MEM_3D_FLOAT( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 						\
-		(  Memory::free_3D_float(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
-#define FREE_MEM_3D_CHAR( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 						\
-        (  Memory::free_3D_char(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
-#define FREE_MEM_3D_DOUBLE( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 						\
-		(  Memory::free_3D_double(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
-#define FREE_MEM_2D_FFTWFCOMPLEX( PTR, SIZE_X, SIZE_Y ) 						\
-		(  Memory::free_2D_fftwfComplex(PTR, SIZE_X, SIZE_Y ) )
-#define FREE_MEM_2D_FFTWCOMPLEX( PTR, SIZE_X, SIZE_Y ) 							\
-		(  Memory::free_2D_fftwComplex(PTR, SIZE_X, SIZE_Y ) )
-#define FREE_MEM_2D_CUFFTCOMPLEX( PTR, SIZE_X, SIZE_Y ) 						\
-		(  Memory::free_2D_cufftComplex(PTR, SIZE_X, SIZE_Y ) )
-#define FREE_MEM_2D_CUFFTDOUBLECOMPLEX( PTR, SIZE_X, SIZE_Y ) 					\
-		(  Memory::free_2D_cufftDoubleComplex(PTR, SIZE_X, SIZE_Y ) )
-#define FREE_MEM_3D_FFTWFCOMPLEX( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 				\
-		(  Memory::free_3D_fftwfComplex(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
-#define FREE_MEM_3D_FFTWCOMPLEX( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 					\
-		(  Memory::free_3D_fftwComplex(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
-#define FREE_MEM_3D_CUFFTCOMPLEX( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 				\
-		(  Memory::free_3D_cufftComplex(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
-#define FREE_MEM_3D_CUFFTDOUBLECOMPLEX( PTR, SIZE_X, SIZE_Y, SIZE_Z ) 			\
-		(  Memory::free_3D_cufftDoubleComplex(PTR, SIZE_X, SIZE_Y, SIZE_Z ) )
-
-
-
 
 #endif /* _MACROS_H_ */

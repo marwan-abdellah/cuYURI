@@ -73,9 +73,6 @@ INCLUDE(Find_Boost)
 
 SET(CPP_SOURCES
 Logging/Logging.cpp
-Memory/Memory_1D.cpp
-Memory/Memory_2D.cpp
-Memory/Memory_3D.cpp
 Timers/Boost.cpp
 Timers/CUDA.cpp
 Utilities/Utils.cpp
@@ -92,6 +89,12 @@ OpenGL/RayCaster_GL.cpp
 OpenGL/VolumeRayCaster.cpp
 OpenGL/SimpleVolumeSlicer.cpp
 
+)
+
+LIST(APPEND CPP_SOURCES
+    Memory/Memory_1D.cpp
+    Memory/Memory_2D.cpp
+    Memory/Memory_3D.cpp
 )
 
 LIST(APPEND CPP_SOURCES
@@ -134,7 +137,7 @@ INCLUDE(${CMAKE_SOURCE_DIR}/doc)
 #########################################################
 #! Compiler Flags
 #########################################################
-set(CMAKE_C_FLAGS " -fpermissive -fPIC -O3 -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
+set(CMAKE_C_FLAGS " -fpermissive -fPIC -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
 #########################################################
@@ -150,8 +153,11 @@ INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/Add_1D_Arrays/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayArrayGL/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/SimpleDisplayImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayGPUArrayGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayImageGL/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/GPUCombineDisplayImageGL/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CombineImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeSlicer/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeRayCaster/CMakeLists.cmake)
 
@@ -185,7 +191,7 @@ INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeRayCaster/CMakeLists.cmake)
 #########################################################
 #! Generating executable
 #########################################################
-CUDA_ADD_EXECUTABLE(run ${CMAKE_SOURCE_DIR}/Visualization/VolumeSlicer_3D/VolumeRenderPyramid.cpp)
+CUDA_ADD_EXECUTABLE(run ${CMAKE_SOURCE_DIR}/Visualization/VolumeSlicerWithShader/VolumeSlicerWithShader.cpp)
 
 #########################################################
 #! Link the executable against the cuYURI library

@@ -18,7 +18,7 @@
  ********************************************************************/
 
 #include "GLUT.h"
-#include "Utilities/MACROS.h"
+#include "MACROS/MACROS.h"
 
 void OpenGL::InitGlut(int argc, char** argv)
 {

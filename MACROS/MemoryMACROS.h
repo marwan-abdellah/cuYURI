@@ -4,9 +4,10 @@
 #include <iostream>
 #include <fstream>
 
-#include "Typedefs.h"
-#include "Utils.h"
-#include "Memory.h"
+#include "Utilities/Utils.h"
+#include "Memory/Memory_1D.h"
+#include "Memory/Memory_2D.h"
+#include "Memory/Memory_3D.h"
 
 /*!
  * Generic allocation of 1D arrays.
