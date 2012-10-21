@@ -29,6 +29,10 @@
 #include <ImageMagick/Magick++.h>
 #include "OpenGL/OpenGL.h"
 #include "Image/Image.h"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 21db638af37c48e9346f6b47378dfd1a79e76b63
 using namespace ExcelFormat;
 
 // Sets the kernel GPU configuration automatically

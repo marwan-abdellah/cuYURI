@@ -76,7 +76,10 @@ Logging/Logging.cpp
 Timers/Boost.cpp
 Timers/CUDA.cpp
 Utilities/Utils.cpp
+<<<<<<< HEAD
 Image/Image.cpp
+=======
+>>>>>>> 21db638af37c48e9346f6b47378dfd1a79e76b63
 OpenGL/OpenGL.cpp
 OpenGL/GLEW.cpp
 OpenGL/GLUT.cpp
@@ -89,6 +92,11 @@ OpenGL/RayCaster_GL.cpp
 OpenGL/VolumeRayCaster.cpp
 OpenGL/SimpleVolumeSlicer.cpp
 
+)
+
+
+LIST(APPEND CPP_SOURCES
+    Image/Image.cpp
 )
 
 LIST(APPEND CPP_SOURCES

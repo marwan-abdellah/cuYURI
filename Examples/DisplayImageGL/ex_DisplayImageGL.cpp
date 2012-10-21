@@ -30,6 +30,10 @@
 
 #include "OpenGL/OpenGL.h"
 #include "Image/Image.h"
+<<<<<<< HEAD
+=======
+using namespace ExcelFormat;
+>>>>>>> 21db638af37c48e9346f6b47378dfd1a79e76b63
 
 void ex_DisplayImageGL::run(int argc, char** argv)
 {
