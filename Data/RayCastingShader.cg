@@ -1,82 +1,161 @@
-// Define interface between the application and the vertex program
-struct app_vertex
- {
-   float4 Position     : POSITION;
-   float4 TexCoord     : TEXCOORD1; 
-   float4 Color	       : COLOR0;
+/*********************************************************************
+ * Copyright © 2007-2012,
+ * Marwan Abdellah: <abdellah.marwan@gmail.com>
+ *
+ * This code is part of the Ray Casting Tutorial provided by
+ * Peter Trier <trier@daimi.au.dk>
 
-};
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
 
-// Define the interface between the vertex- and the fragment programs
-struct vertex_fragment
- {
-   float4 Position	  : POSITION; // For the rasterizer
-   float4 TexCoord	  : TEXCOORD0; 
-   float4 Color	          : TEXCOORD1;
-   float4 Pos             : TEXCOORD2;
-};
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
 
-struct fragment_out 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ ********************************************************************/
+
+/****************************************************
+ * ! Define interface between the application
+ * and the vertex program
+ ***************************************************/
+struct interface_ApplicationVertex
 {
-  float4 Color	    : COLOR0;
+    float4 Position     : POSITION;
+    float4 TexCoord     : TEXCOORD1;
+    float4 Color        : COLOR0;
 };
 
-// Raycasting vertex program implementation
-vertex_fragment vertexMain( app_vertex IN )
+/****************************************************
+ *! Define the interface between the vertex-
+ * and the fragment programs
+ ***************************************************/
+struct interface_VertexFragment
+{
+    float4 Position     : POSITION;
+    float4 TexCoord     : TEXCOORD0;
+    float4 Color        : TEXCOORD1;
+    float4 Pos          : TEXCOORD2;
+};
+
+/****************************************************
+ *! Output color from the fragment shader
+ ***************************************************/
+struct outFragment
+{
+    float4 Color        : COLOR0;
+};
+
+/****************************************************
+ *! Raycasting vertex program implementation
+ ***************************************************/
+interface_VertexFragment vertexMain (interface_ApplicationVertex IN)
 {    
-  vertex_fragment OUT;
-  
-  // Get OpenGL state matrices
-  float4x4 ModelView = glstate.matrix.modelview[0];
-  float4x4 ModelViewProj = glstate.matrix.mvp;
- 
-  // Transform vertex
-  OUT.Position = mul( ModelViewProj, IN.Position );
-  OUT.Pos =  mul( ModelViewProj, IN.Position ); 
-  OUT.TexCoord = IN.TexCoord;
-  OUT.Color = IN.Color;
-  return OUT;
+    interface_VertexFragment OUT;
+
+    // Get OpenGL state matrices
+    float4x4 ModelView        = glstate.matrix.modelview[0];
+    float4x4 ModelViewProj    = glstate.matrix.mvp;
+
+    // Transform vertex
+    OUT.Position  = mul( ModelViewProj, IN.Position );
+    OUT.Pos       =  mul( ModelViewProj, IN.Position );
+    OUT.TexCoord  = IN.TexCoord;
+    OUT.Color     = IN.Color;
+
+    return OUT;
 }
 
-// Raycasting fragment program implementation
-fragment_out fragmentMain( vertex_fragment IN,
-			    uniform sampler2D tex, 
-                            uniform sampler3D volTexture,
-			    uniform float samplingStep			  
-			   )
+/****************************************************
+ *! Raycasting fragment program implementation
+ ***************************************************/
+outFragment fragmentMain(interface_VertexFragment IN,
+                         uniform sampler2D sampler_2D,
+                         uniform sampler3D volTexture,
+                         uniform float samplingStep)
 		  
 {
-  fragment_out OUT;
-  float2 texc = ((IN.Pos.xy / IN.Pos.w) + 1) / 2; // find the right place to lookup in the backside buffer
-  float4 start = IN.TexCoord; // the start position of the ray is stored in the texturecoordinate
-  float4 back_position  = tex2D(tex, texc);
-  float3 dir = float3(0,0,0);
-  dir.x = back_position.x - start.x;
-  dir.y = back_position.y - start.y;
-  dir.z = back_position.z - start.z;
-  float len = length(dir.xyz); // the length from front to back is calculated and used to terminate the ray
-  float3 norm_dir = normalize(dir);
-  float delta = samplingStep;
-  float3 delta_dir = norm_dir * delta;
-  float delta_dir_len = length(delta_dir);
-  float3 vec = start;
-  float4 col_acc = float4(0,0,0,0);
-  float alpha_acc = 0;
-  float length_acc = 0;
-  float4 color_sample;
-  float alpha_sample;
+    outFragment OUT;
 
-  for(int i = 0; i < 450; i++)
+    // Find the right place to lookup in the backside buffer
+    float2 texCoord = ((IN.Pos.xy / IN.Pos.w) + 1) / 2;
+
+    // The start position of the ray is stored in the
+    // texture coordinate
+    float4 start = IN.TexCoord;
+
+    // Back position
+    float4 backPosition  = tex2D(sampler_2D, texCoord);
+
+    // Ray direction
+    float3 rayDir = float3(0,0,0);
+    rayDir.x = backPosition.x - start.x;
+    rayDir.y = backPosition.y - start.y;
+    rayDir.z = backPosition.z - start.z;
+
+    // Length from front to back is calculated and used
+    // to terminate the ray
+    float fronToBackLen = length(rayDir.xyz);
+
+    // Normal in the ray direction
+    float3 normRayDir = normalize(rayDir);
+
+    // Sampling step
+    float delta = samplingStep;
+
+    // Step in the direction of the ray
+    float3 deltaRayDir = normRayDir * delta;
+    float deltaRayLen = length(deltaRayDir);
+
+    // Vector start
+    float3 vecRay = start;
+
+    // Color accumulation
+    float4 colorAccValue = float4(0, 0, 0, 0);
+
+    // Aplpha accumulation
+    float alphaAccValue = 0;
+
+    // Ray length
+    float rayLengthAcc = 0;
+
+    // Color sample
+    float4 colorSample;
+
+    // Alpha sample
+    float alphaSample;
+
+    // Accumulation and eraly ray termination
+    for(int i = 0; i < 450; i++)
     {
-      color_sample = tex3D(volTexture,vec);
-      alpha_sample = color_sample.a * samplingStep;
-      col_acc   += (1.0 - alpha_acc) * color_sample * alpha_sample * 3;
-      alpha_acc += alpha_sample;
-      vec += delta_dir;
-      length_acc += delta_dir_len;
-      if(length_acc >= len || alpha_acc > 1.0) break; // terminate if opacity > 1 or the ray is outside the volume
+        // Fetch the color sample by texturing
+        colorSample = tex3D(volTexture,vecRay);
+
+        // Fetching the alpha samplec
+        alphaSample = colorSample.a * samplingStep;
+
+        // Color value
+        colorAccValue   += (1.0 - alphaAccValue) * colorSample * alphaSample * 3;
+
+        // Alpha value
+        alphaAccValue += alphaSample;
+
+        // Increment the vectro along the ray direction
+        vecRay += deltaRayDir;
+
+        // Lenght of the ray
+        rayLengthAcc += deltaRayLen;
+
+        // Terminate if opacity > 1 or the ray is outside the volume
+        if(rayLengthAcc >= fronToBackLen || alphaAccValue > 1.0)
+            break;
     }
- 
-  OUT.Color =  col_acc;
-  return OUT;
+
+    OUT.Color =  colorAccValue;
+    return OUT;
 }

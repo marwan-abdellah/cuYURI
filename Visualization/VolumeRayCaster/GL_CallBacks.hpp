@@ -1,8 +1,10 @@
-
 /*********************************************************************
- * Copyright © 2011-2012,
+ * Copyright © 2007-2012,
  * Marwan Abdellah: <abdellah.marwan@gmail.com>
  *
+ * This code is part of the Ray Casting Tutorial provided by
+ * Peter Trier <trier@daimi.au.dk>
+
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -21,8 +23,14 @@
 #ifndef _GL_CALLBACKS_HPP_
 #define _GL_CALLBACKS_HPP_
 
-
+/*!
+ * @ Interfaces
+ */
 #include "VolumeRayCaster.h"
+
+/*!
+ * @ Implementations
+ */
 #include "Cg.hpp"
 #include "ColorCube.hpp"
 #include "GL_CallBacks.hpp"
@@ -33,120 +41,117 @@
 #include "Rendering.hpp"
 #include "VolumeData.hpp"
 
-
 namespace RayCaster
 {
-
-
 void Keyboard_GL(unsigned char fKey, int fX, int fY)
 {
-
+    // Dummy
     if (fX | fY | fKey) {}
 
     switch(fKey)
     {
-    // Exit key
     case 27:
-        INFO("EXETING");
+        INFO("EXETING ... ");
         EXIT(0);
         break;
-
-    // Toggling the color cube and the volume
     case ' ':
         ToggleColorCube = !ToggleColorCube;
+        INFO("Toggling the color cube and the volume");
+        break;
+    case 'x':
+        rotationActive = !rotationActive;
+        INFO("Auto rotation is active");
         break;
 
-    // Increase the sampling step
-    case '1':
+    case '[':
         samplingStep += 1.0 / 2048.0;
-        if(samplingStep > 0.25)
-            samplingStep = 0.25;
+        INFO("Sampling step : " + FTS(samplingStep));
         break;
-
-    // Decrease the sampling step
-    case '0':
+    case ']':
         samplingStep -= 1.0 / 2048.0;
-        if(samplingStep <= 1.0 / 200.0)
-            samplingStep= 1.0 / 200.0;
+        INFO("Sampling step : " + FTS(samplingStep));
         break;
-
     case 'q':
         rValueTF -= 0.05;
-        INFO("R : " + FTS(rValueTF));
+        INFO("Red : " + FTS(rValueTF));
     UpdateScene();
         break;
     case 'Q':
         rValueTF += 0.05;
-        INFO("R : " + FTS(rValueTF));
+        INFO("Red : " + FTS(rValueTF));
     UpdateScene();
         break;
     case 'w':
         gValueTF -= 0.05;
-        INFO("G : " + FTS(gValueTF));
+        INFO("Green : " + FTS(gValueTF));
     UpdateScene();
         break;
     case 'W':
         gValueTF += 0.05;
-        INFO("G : " + FTS(gValueTF));
+        INFO("Green : " + FTS(gValueTF));
     UpdateScene();
         break;
     case 'e':
         bValueTF -= 0.05;
-        INFO("B : " + FTS(bValueTF));
+        INFO("Blue : " + FTS(bValueTF));
     UpdateScene();
         break;
     case 'E':
         bValueTF += 0.05;
-        INFO("B : " + FTS(bValueTF));
+        INFO("Blue : " + FTS(bValueTF));
     UpdateScene();
         break;
     case 'r':
         aValueTF -= 0.05;
-        INFO("A : " + FTS(aValueTF));
+        INFO("Alpha : " + FTS(aValueTF));
     UpdateScene();
         break;
     case 'R':
         aValueTF += 0.05;
-        INFO("A : " + FTS(aValueTF));
+        INFO("Alpha : " + FTS(aValueTF));
     UpdateScene();
         break;
     case 't':
         desityThresholdTF -= 1;
-        INFO("A : " + FTS(desityThresholdTF));
+        INFO("Threshold : " + FTS(desityThresholdTF));
     UpdateScene();
         break;
     case 'T':
         desityThresholdTF += 1;
-        INFO("A : " + FTS(desityThresholdTF));
+        INFO("Threshold : " + FTS(desityThresholdTF));
     UpdateScene();
         break;
-
-    // Increase the scaling value
-    case 'm':
+    case 'z':
         zoomValue *= 1.1;
+        INFO("Zoom : " + FTS(zoomValue));
         break;
-
-    // Decrease the scaling value
-    case 'M':
+    case 'Z':
         zoomValue /= 1.1;
+        INFO("Zoom : " + FTS(zoomValue));
         break;
-
-    // X-axis rotation
-    case 'l': rotateX += 5;
+    case 'a':
+        rotateX += 5;
+        INFO("rotateX : " + FTS(rotateX));
         break;
-    case 'L': rotateX -= 5;
+    case 'A':
+        rotateX -= 5;
+        INFO("rotateX : " + FTS(rotateX));
         break;
-
-    // Y-axis rotation
-    case 'k': rotateY += 5;
+    case 's':
+        rotateY += 5;
+        INFO("rotateY : " + FTS(rotateY));
         break;
-    case 'K': rotateY -= 5;
+    case 'S':
+        rotateY -= 5;
+        INFO("rotateY : " + FTS(rotateY));
         break;
-
-    // Z-axis rotation
-    case 'j': rotateZ += 5;
+    case 'd':
+        rotateZ += 5;
+        INFO("rotateZ : " + FTS(rotateZ));
         break;
-    case 'J': rotateZ -= 5;
+    case 'D':
+        rotateZ -= 5;
+        INFO("rotateZ : " + FTS(rotateZ));
         break;
 
     // Default case
@@ -194,10 +199,13 @@ void Resize_GL(int windowWidth, int windowHeight)
 
 void Display_GL()
 {
-    // Increment rotation
-    rotateX += 0.25;
-    rotateY += 0.25;
-    rotateZ += 0.25;
+    if (rotationActive)
+    {
+        // Increment rotation
+        rotateX += 0.25;
+        rotateY += 0.25;
+        rotateZ += 0.25;
+    }
 
     // Resize window
     Resize_GL(WINDOW_SIZE,WINDOW_SIZE);

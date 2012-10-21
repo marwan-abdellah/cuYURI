@@ -1,8 +1,10 @@
-
 /*********************************************************************
- * Copyright © 2011-2012,
+ * Copyright © 2007-2012,
  * Marwan Abdellah: <abdellah.marwan@gmail.com>
  *
+ * This code is part of the Ray Casting Tutorial provided by
+ * Peter Trier <trier@daimi.au.dk>
+
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -21,7 +23,14 @@
 #ifndef _GL_BUFFERS_HPP_
 #define _GL_BUFFERS_HPP_
 
+/*!
+ * @ Interfaces
+ */
 #include "VolumeRayCaster.h"
+
+/*!
+ * @ Implementations
+ */
 #include "Cg.hpp"
 #include "ColorCube.hpp"
 #include "GL_CallBacks.hpp"
@@ -34,25 +43,22 @@
 
 namespace RayCaster
 {
-
-
-
-
-
 void EnableRenderBuffers()
 {
+    // Binding the frame and render buffers
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, frameBuffer);
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderBuffer);
 }
 
 void DisableRenderBuffers()
 {
+    // Unbinding the frame buffer
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
 void CreateFrameBuffer()
 {
-    // Create buffers
+    // Create frame buffer and attache 2D texture to it
     glGenFramebuffersEXT(1, &frameBuffer);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,frameBuffer);
 
@@ -63,15 +69,16 @@ void CreateFrameBuffer()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
     glTexImage2D(GL_TEXTURE_2D, 0,GL_RGBA16F_ARB, WINDOW_SIZE, WINDOW_SIZE,
                  0, GL_RGBA, GL_FLOAT, NULL);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
                               GL_TEXTURE_2D, backfaceBuffer, 0);
 }
 
-
 void CreateColorMapTexture()
 {
+    // Creating color map texture
     glGenTextures(1, &imageTex_ID);
     glBindTexture(GL_TEXTURE_2D, imageTex_ID);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -85,6 +92,7 @@ void CreateColorMapTexture()
 
 void CreateRenderBuffer()
 {
+    // Creating render buffer
     glGenRenderbuffersEXT(1, &renderBuffer);
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderBuffer);
     glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT,
@@ -93,7 +101,5 @@ void CreateRenderBuffer()
                                  GL_RENDERBUFFER_EXT, renderBuffer);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
-
-
 }
 #endif // _GL_BUFFERS_HPP_

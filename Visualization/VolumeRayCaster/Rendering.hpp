@@ -1,9 +1,10 @@
-
-
 /*********************************************************************
- * Copyright © 2011-2012,
+ * Copyright © 2007-2012,
  * Marwan Abdellah: <abdellah.marwan@gmail.com>
  *
+ * This code is part of the Ray Casting Tutorial provided by
+ * Peter Trier <trier@daimi.au.dk>
+
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -22,10 +23,14 @@
 #ifndef _RENDERING_HPP_
 #define _RENDERING_HPP_
 
-
-
+/*!
+ * @ Interfaces
+ */
 #include "VolumeRayCaster.h"
 
+/*!
+ * @ Implementations
+ */
 #include "Cg.hpp"
 #include "ColorCube.hpp"
 #include "GL_CallBacks.hpp"
@@ -36,15 +41,23 @@
 #include "Rendering.hpp"
 #include "VolumeData.hpp"
 
+
 namespace RayCaster
 {
 void UpdateScene()
 {
+    // Updating the volume according to the parameter changes
     UpdateVolume();
+
+    // Update the texture on the GPU
     glTexSubImage3D(GL_TEXTURE_3D, 0, 0, 0, 0,
-                    iWidth, iHeight, iDepth, GL_RGBA, GL_UNSIGNED_BYTE, rgbaImage);
+                    iWidth, iHeight, iDepth,
+                    GL_RGBA, GL_UNSIGNED_BYTE, rgbaImage);
+
+    // Re-display
     glutPostRedisplay();
 }
+
 void RenderFinalImage()
 {
     // Disable depth testing
@@ -62,7 +75,6 @@ void RenderFinalImage()
     glEnable(GL_DEPTH_TEST);
 }
 
-// display the final image on the screen
 void RenderBufferToScreen()
 {
     // Clearing buffers
@@ -90,11 +102,11 @@ void RenderBufferToScreen()
     glDisable(GL_TEXTURE_2D);
 }
 
-// render the backface to the offscreen buffer backfaceBuffer
 void RenderBackface()
 {
     // Attach texture to buffer
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,
+                              GL_COLOR_ATTACHMENT0_EXT,
                               GL_TEXTURE_2D, backfaceBuffer, 0);
 
     // Clear buffers
@@ -116,7 +128,8 @@ void RenderBackface()
 void RayCastingPass()
 {
     // Attach texture to buffer
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,
+                              GL_COLOR_ATTACHMENT0_EXT,
                               GL_TEXTURE_2D,
                               imageTex_ID, 0);
 
@@ -134,8 +147,10 @@ void RayCastingPass()
     // Update the shader parameters
     cgGLSetParameter1f(cgGetNamedParameter
                        (fragmentProgram, "samplingStep"), samplingStep);
-    SetUnformTexParameter("tex", backfaceBuffer, fragmentProgram, cgParam_1);
-    SetUnformTexParameter("volTexture", volumeTex_ID, fragmentProgram, cgVolumeTexture);
+    SetUnformTexParameter("sampler_2D", backfaceBuffer,
+                          fragmentProgram, cgParam_1);
+    SetUnformTexParameter("volTexture", volumeTex_ID,
+                          fragmentProgram, cgVolumeTexture);
 
     // Enable culling
     glEnable(GL_CULL_FACE);
