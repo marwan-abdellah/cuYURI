@@ -46,10 +46,6 @@ void ex_DisplayImageGL::run(int argc, char** argv)
     const int NY = imgPtr->size().height();
     const int NXY = NX * NY;
 
-    // Writing the image to the disk with a different name
-    INFO("Writing the image");
-    Img::WriteImage("../Data/LenaModified", imgPtr);
-
     // Convert the image to a char array to be displayed with OpenGL
     INFO("Converting the image to unsigned char array");
     unsigned char* uCharPixels;

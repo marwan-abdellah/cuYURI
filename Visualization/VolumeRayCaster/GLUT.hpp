@@ -1,8 +1,10 @@
-
 /*********************************************************************
- * Copyright © 2011-2012,
+ * Copyright © 2007-2012,
  * Marwan Abdellah: <abdellah.marwan@gmail.com>
  *
+ * This code is part of the Ray Casting Tutorial provided by
+ * Peter Trier <trier@daimi.au.dk>
+
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -21,9 +23,14 @@
 #ifndef _GLUT_HPP_
 #define _GLUT_HPP_
 
-
+/*!
+ * @ Interfaces
+ */
 #include "VolumeRayCaster.h"
 
+/*!
+ * @ Implementations
+ */
 #include "Cg.hpp"
 #include "ColorCube.hpp"
 #include "GL_CallBacks.hpp"
@@ -36,10 +43,6 @@
 
 namespace RayCaster
 {
-
-
-
-
 void InitGlut(int argc, char** argv)
 {
     // Initialize GLUT context

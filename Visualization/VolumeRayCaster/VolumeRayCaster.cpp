@@ -1,7 +1,10 @@
 /*********************************************************************
- * Copyright © 2011-2012,
+ * Copyright © 2007-2012,
  * Marwan Abdellah: <abdellah.marwan@gmail.com>
  *
+ * This code is part of the Ray Casting Tutorial provided by
+ * Peter Trier <trier@daimi.au.dk>
+
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation.
@@ -17,8 +20,14 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
+/*!
+ * @ Interfaces
+ */
 #include "VolumeRayCaster.h"
 
+/*!
+ * @ Implementations
+ */
 #include "Cg.hpp"
 #include "ColorCube.hpp"
 #include "GL_CallBacks.hpp"
@@ -29,10 +38,9 @@
 #include "Rendering.hpp"
 #include "VolumeData.hpp"
 
+
 namespace RayCaster
 {
-
-
 void Init()
 {
     INFO("Initializing Data & compiling shaders");
@@ -51,22 +59,15 @@ void Init()
     // Creating volume texture and uploading it to the GPU
     CreateVolumeTexture();
 
+    // Creating the frame buffer
     CreateFrameBuffer();
+
+    // Creating the color map texture
     CreateColorMapTexture();
+
+    // Creating the render buffer
     CreateRenderBuffer();
-
 }
-
-
-
-
-
-
-
-
-
-
-
 
 int VolRayCaster(int argc, char** argv)
 {
