@@ -156,6 +156,7 @@ SET_PROPERTY(TARGET cuYURI PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIRECTORY}/
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/FillArrayRND/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CreateXLDocument/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/Add_1D_Arrays/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/GPUConstantOperations/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayArrayGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/SimpleDisplayImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayGPUArrayGL/CMakeLists.cmake)

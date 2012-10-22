@@ -18,8 +18,8 @@
  ********************************************************************/
 
 
-#ifndef _COPY_1D_ARRAY_DEVICE_IMPL_CU_
-#define _COPY_1D_ARRAY_DEVICE_IMPL_CU_
+#ifndef _CU_ADD_1D_ARRAYS_DEVICE_IMPL_CU_
+#define _CU_ADD_1D_ARRAYS_DEVICE_IMPL_CU_
 
 #include "cuGlobals.h"
 #include "Timers/Boost.h"
@@ -92,4 +92,4 @@ void cu_Add_1D_Arrays_Impl <double>
 double *devArrayInput_1, double *devArrayInput_2, double* devArrayOutput, int N,
 cuProfile* profile);
 
-#endif // _COPY_1D_ARRAY_DEVICE_IMPL_CU_
+#endif // _CU_ADD_1D_ARRAYS_DEVICE_IMPL_CU_

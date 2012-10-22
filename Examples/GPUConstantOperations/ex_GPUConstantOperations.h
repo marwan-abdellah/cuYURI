@@ -16,25 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  ********************************************************************/
+#ifndef _EX_GPU_CONSTANT_OPERATIONS_H_
+#define _EX_GPU_CONSTANT_OPERATIONS_H_
 
-#ifndef _CUYURI_INTERFACES_H_
-#define _CUYURI_INTERFACES_H_
+namespace ex_GPUConstantOperations
+{
+    void run(int argc, char* argv[]);
+    void Add(int argc, char* argv[]);
+    void Subtract(int argc, char* argv[]);
+    void Multiply(int argc, char* argv[]);
+    void Divide(int argc, char* argv[]);
+}
 
-#include "cuGlobals.h"
-#include "CUDA/Utilities/cuUtilities.h"
-
-// Adding all the interfaces to a single interface
-#include "Interfaces/Fill_1D_Array.h"
-#include "Interfaces/Fill_1D_Array_Normalized.h"
-#include "Interfaces/Fill_1D_Array_RND.h"
-#include "Interfaces/Copy_1D_Array.h"
-#include "Interfaces/Add_1D_Arrays.h"
-#include "Interfaces/Multiply_1D_Arrays.h"
-#include "Interfaces/Subtract_1D_Arrays.h"
-#include "Interfaces/Divide_1D_Arrays.h"
-#include "Interfaces/Constant_Add_1D_Array.h"
-#include "Interfaces/Constant_Subtract_1D_Array.h"
-#include "Interfaces/Constant_Multiply_1D_Array.h"
-#include "Interfaces/Constant_Divide_1D_Array.h"
-
-#endif // _CUYURI_INTERFACES_H_
+#endif // _EX_GPU_CONSTANT_OPERATIONS_H_

@@ -1,22 +1,3 @@
-/*********************************************************************
- * Copyright © 2011-2012,
- * Marwan Abdellah: <abdellah.marwan@gmail.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation.
-
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
-
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- ********************************************************************/
-
 #include "ex_GPUCombineDisplayImageGL.h"
 #include "CUDA/cuGlobals.h"
 #include "CUDA/Utilities/cuUtilities.h"
@@ -26,7 +7,6 @@
 #include "MACROS/MACROS.h"
 #include "MACROS/MemoryMACROS.h"
 #include "Dependencies/Excel/ExcelFormat.h"
-#include <ImageMagick/Magick++.h>
 #include "OpenGL/OpenGL.h"
 #include "Image/Image.h"
 
@@ -42,7 +22,7 @@ void ex_GPUCombineDisplayImageGL::run(int argc, char** argv)
 
     // Load images into float arrays
     floatImage* fImage_1 = Img::LoadImageInFloatArray("../Data/Lena");
-    floatImage* fImage_2 = Img::LoadImageInFloatArray("../Data/Lena");
+    floatImage* fImage_2 = Img::LoadImageInFloatArray("../Data/Lady");
 
     if (fImage_1->size_X == fImage_2->size_X &&
             fImage_1->size_Y == fImage_2->size_Y)
@@ -110,7 +90,7 @@ void ex_GPUCombineDisplayImageGL::run(int argc, char** argv)
 
     // Display profiling data
     INFO("Profiling data")
-    cuUtils::DisplayKernelProfilingData("@cu_Add_1D_Arrays", &profile);
+    cuUtils::DisplayKernelProfilingData("cu_Add_1D_Arrays", &profile);
 
     // Download the final image to the host side
     INFO("Downloading resulting image to the HOST side")
