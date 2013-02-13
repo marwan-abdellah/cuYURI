@@ -36,7 +36,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 #! Find packages
 #########################################################
 # @FFTW
-INCLUDE(Find_FFTW)
+# INCLUDE(Find_FFTW)
 
 # @CUDA
 INCLUDE(Find_CUDA)
@@ -141,7 +141,7 @@ INCLUDE(${CMAKE_SOURCE_DIR}/doc)
 #########################################################
 #! Compiler Flags
 #########################################################
-set(CMAKE_C_FLAGS " -fpermissive -fPIC -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
+set(CMAKE_C_FLAGS " -DUSE_EXPORT_KEYWORD -fpermissive -fPIC -pthread -pipe -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -Wno-deprecated -fno-gnu-keywords -w")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
 #########################################################
@@ -202,3 +202,21 @@ CUDA_ADD_EXECUTABLE(run ${CMAKE_SOURCE_DIR}/Visualization/VolumeSlicerWithShader
 #! Link the executable against the cuYURI library
 #########################################################
 TARGET_LINK_LIBRARIES(run cuYURI)
+
+
+#########################################################
+#! Example source files
+#########################################################
+#SET(Test_SOURCES
+#    ${CMAKE_SOURCE_DIR}/CUDA/RayTracer.cpp
+#    ${CMAKE_CURRENT_LIST_DIR}/CUDA/RayTracer.cu)
+
+#########################################################
+#! Generating executable
+#########################################################
+#CUDA_ADD_EXECUTABLE(cudaRayTracer ${Test_SOURCES})
+
+#########################################################
+#! Link the executable against the cuYURI library
+#########################################################
+#TARGET_LINK_LIBRARIES(cudaRayTracer cuYURI)

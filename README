@@ -1,1 +1,114 @@
-cuYURI is an image processing library accelerated on the GPU. 
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+import glob
+import configobj
+import os
+import re
+import subprocess
+import random
+from random import Random
+import fileinput
+import re
+
+
+
+"""
+-----------------------------------------------------------------------
+Type				Bit Width	Typical Range
+-----------------------------------------------------------------------
+char				1byte		-127 to 127 or 0 to 255
+unsigned char		1byte		0 to 255
+signed char			1byte		-127 to 127
+int					4bytes		-2147483648 to 2147483647
+unsigned int		4bytes		0 to 4294967295
+signed int			4bytes		-2147483648 to 2147483647
+short int			2bytes		-32768 to 32767
+unsigned short int	2bytes		0 to 65,535
+signed short int	2bytes		-32768 to 32767
+long int			4bytes		-2,147,483,647 to 2,147,483,647
+signed long int		4bytes		same as long int
+unsigned long int	4bytes		0 to 4,294,967,295
+float				4bytes		+/- 3.4e +/- 38 (~7 digits)
+double				8bytes		+/- 1.7e +/- 308 (~15 digits)
+long double			8bytes		+/- 1.7e +/- 308 (~15 digits)
+wchar_t				2/4 bytes	1 wide character
+"""
+
+data_types = [	"char",
+                                "unsigned char",
+                                "signed char",
+                                "int",
+                                "unsigned int",
+                                "signed int",
+                                "short int",
+                                "unsigned short int",
+                                "signed short int",
+                                "signed short int",
+                                "long int",
+                                "signed long int",
+                                "unsigned long int",
+                                "float",
+                                "double",
+                                "long double",
+                                "complex_single_FFTW",
+                                "complex_double_FFTW",
+                                "complex_single_CUFFT",
+                                "complex_double_CUFFT"
+
+
+
+                         ]
+
+namespace = ""
+function_name = "function"
+function_signature_variables = ["var_1", "var_2", "var_3"]
+function_signature_types = ["int", "TEMPLATED", "float"]
+function_return_type = "TEMPLATED"
+
+for eachdatatype in data_types:
+
+        stringx = "template \n"
+        if (function_return_type == "TEMPLATED"):
+                stringx += eachdatatype + " "
+        else:
+                stringx = 	function_return_type + " "
+
+        if (namespace != ""):
+                stringx += namespace + "::"
+
+
+        stringx += function_name + 	"<" + eachdatatype + ">" + "( "
+
+
+
+
+
+        for eachType, eachvar in zip(function_signature_types, function_signature_variables):
+                if (eachType == "TEMPLATED"):
+                        stringx += eachdatatype + " "
+                else:
+                        stringx += eachType + " "
+                stringx += eachvar + " "
+
+                if eachType != function_signature_types[-1]:
+                        stringx += ", "
+
+        stringx += "); \n"
+
+
+
+        print stringx
+
+
+
+yuri::vector
+yuri::image
+yuri::volume
+yuri::flat_image
+yuri::flat_volume
+
+
+
+

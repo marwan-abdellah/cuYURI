@@ -46,7 +46,7 @@ namespace RayCaster
 void CreateVolumeTexture()
 {
     // Load volume
-    ReadVolume("../Data/CTData/CTData");
+    ReadVolume("../Data/NEIG/NEIG");
 
 
     INFO("Uploading volume texture to the GPU");

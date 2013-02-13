@@ -174,6 +174,11 @@ void ReadVolume(char *prefix)
     // Read the image byte by byte
     inputFileStream.read((char *)luminanceImage, numVoxels);
 
+    for (int i = 0; i < iWidth * iDepth * iHeight; i++)
+        std::cout << (int)(luminanceImage[i]) << " ";
+
+    printf("\n");
+
     // Closing the input volume stream
     inputFileStream.close();
 
