@@ -1,3 +1,22 @@
+/*********************************************************************
+ * Copyright © 2011-2013,
+ * Marwan Abdellah: <abdellah.marwan@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ ********************************************************************/
+
 #include "Memory_3D.h"
 
 template <typename T>
@@ -23,10 +42,16 @@ void Memory::Free_3D_Array(T*** ptrData, const int NX, const int NY, int NZ)
     for(int i = 0; i < NY; i++)
     {
         for(int j = 0; j < NZ; j++)
-                free(ptrData[i][j]);
+        {
+            // Z
+            free(ptrData[i][j]);
+        }
+
+        // Y
         free(ptrData[i]);
     }
 
+    // X
     free(ptrData);
     ptrData = NULL;
 }
