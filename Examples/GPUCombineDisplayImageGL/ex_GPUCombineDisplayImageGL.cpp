@@ -42,7 +42,7 @@ void ex_GPUCombineDisplayImageGL::run(int argc, char** argv)
 
     // Load images into float arrays
     floatImage* fImage_1 = Img::LoadImageInFloatArray("../Data/Lena");
-    floatImage* fImage_2 = Img::LoadImageInFloatArray("../Data/Lena");
+    floatImage* fImage_2 = Img::LoadImageInFloatArray("../Data/Lady");
 
     if (fImage_1->size_X == fImage_2->size_X &&
             fImage_1->size_Y == fImage_2->size_Y)

@@ -27,6 +27,7 @@
  * @ Interfaces
  */
 #include "VolumeRayCaster.h"
+#include "Parameters.h"
 
 /*!
  * @ Implementations
@@ -38,7 +39,6 @@
 #include "GLEW.hpp"
 #include "GLUT.hpp"
 #include "LoadingVolume.hpp"
-#include "Rendering.hpp"
 #include "VolumeData.hpp"
 
 

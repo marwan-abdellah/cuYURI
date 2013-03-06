@@ -23,7 +23,6 @@
 #ifndef _PARAMETERS_H_
 #define _PARAMETERS_H_
 
-#include "VolumeRayCaster.h"
 
 /*! \param OpenGL window size */
 #define WINDOW_SIZE 512

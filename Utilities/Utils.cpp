@@ -15,11 +15,6 @@
 
 #include "Utils.h"
 
-
-
-
-
-
 int Utils::stringToInt(string_t string)
 {
 	return atoi(string.c_str());

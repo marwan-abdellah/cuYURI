@@ -53,6 +53,25 @@ void cu_Copy_1D_Array_Device
     cu_Copy_1D_Array_Impl(cuBlock, cuGrid, devArray_Src, devArray_Dist, N, profile);
 }
 
+/*! Instantiates cu_Fill_1D_Array_RND() with the explicitly specified template for
+ * input vector of type char.
+ *
+ * @param cuBlock
+ *          Kernel block configuration.
+ *
+ * @param cuGrid
+ *          Kernel grid configuration.
+ *
+ * @param devArray
+ *          Input device vector to the kernel.
+ *
+ * @param N
+ *          Length of the input vector.
+ *
+ * @param profile
+ *          GPU profiling structure.
+ *
+ */
 template
 void cu_Copy_1D_Array_Device <char>
 (dim3 cuBlock, dim3 cuGrid,

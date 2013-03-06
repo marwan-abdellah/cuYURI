@@ -28,6 +28,7 @@
  * @ Interfaces
  */
 #include "VolumeRayCaster.h"
+#include "Parameters.h"
 
 /*!
  * @ Implementations

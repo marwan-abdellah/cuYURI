@@ -19,13 +19,9 @@
 #ifndef _EX_VOLUME_RAY_CASTERH_
 #define _EX_VOLUME_RAY_CASTERH_
 
-namespace ex
+namespace ex_VolumeRayCaster
 {
-    namespace VolumeRayCaster
-    {
-        void run(int argc, char** argv);       
-    }
+    void run(int argc, char** argv);
 }
-
 
 #endif // _EX_VOLUME_SLICER_H_

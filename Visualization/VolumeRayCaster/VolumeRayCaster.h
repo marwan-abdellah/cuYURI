@@ -20,8 +20,8 @@
  * MA 02110-1301, USA.
  ********************************************************************/
 
-#ifndef RAYCASTER_H
-#define RAYCASTER_H
+#ifndef _RAY_CASTER_H_
+#define _RAY_CASTER_H_
 
 #include <GL/glew.h>
 #include <Cg/cg.h>
@@ -39,8 +39,6 @@
 #include "Volume/Volume.h"
 #include "Volume/Loader.h"
 #include "MACROS/MACROS.h"
-
-#include "Parameters.h"
 
 using namespace std;
 
@@ -80,4 +78,4 @@ void RegisterOpenGLCallBacks();
 }
 
 
-#endif // VOLUMERAYCASTER_H
+#endif // _RAY_CASTER_H_

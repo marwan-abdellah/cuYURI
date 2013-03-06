@@ -110,6 +110,7 @@ LIST(APPEND CPP_SOURCES
     CUDA/Memory/cuMemory_1D_Array.cpp
     CUDA/Memory/cuDataTransfer_1D_Array.cpp
     CUDA/Utilities/cuKernelConf.cpp
+    CUDA/Utilities/cuGPUConf.cpp
     CUDA/Utilities/cuUtilities.cpp
 )
 
@@ -161,6 +162,7 @@ INCLUDE(${CMAKE_SOURCE_DIR}/Examples/SimpleDisplayImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayGPUArrayGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/DisplayImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/GPUCombineDisplayImageGL/CMakeLists.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/Examples/GPUConfig/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/CombineImageGL/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeSlicer/CMakeLists.cmake)
 INCLUDE(${CMAKE_SOURCE_DIR}/Examples/VolumeRayCaster/CMakeLists.cmake)
